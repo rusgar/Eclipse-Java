@@ -19,6 +19,21 @@ public class intercambioValores {
         System.out.println("Después del Intercambio:");
         System.out.println("n1 = " + n1);
         System.out.println("n2 = " + n2);
+        
+        //*******************************
+        
+        int pi =  (int)3.14;
+    	System.out.println(pi);
+    	
+    	//****************************************
+    	
+    	Boolean adivina=(97=='a');
+    	System.out.println(adivina);
+    	
+    	//*****************************************
+    	
+    	
+    			
     }
     
     
