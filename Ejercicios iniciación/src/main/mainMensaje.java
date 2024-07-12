@@ -10,7 +10,7 @@ public class mainMensaje {
 		// TODO Auto-generated method stub
 
 	
-		        System.out.println("Programar, no!!!!"+"\n"+"\n");
+		        System.out.println("Programar, no!!!!"+"\r\n");
 		        System.out.println("Corred insensatos!!!");
 		    }
 		
