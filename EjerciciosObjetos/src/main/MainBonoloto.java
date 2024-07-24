@@ -36,7 +36,11 @@ public class MainBonoloto {
 			}
 
 
+<<<<<<< HEAD
 			System.out.print("\n"+"Línea " + (i + 1) + ":");
+=======
+			ayudaHelpers.imprimirSalto("\n"+"Línea " + (i + 1) + ":");
+>>>>>>> main
 			for (int numero : numerosSet) { // VARIABLE DE ITERACION Y EL ARRAY QUE ITERAMOS
 				ayudaHelpers.imprimirContinuo("  "+numero + " ");
 			}

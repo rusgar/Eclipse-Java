@@ -1,5 +1,6 @@
 package modelo;
 
+<<<<<<< HEAD
 import java.util.Arrays;
 import java.util.Random;
 
@@ -69,6 +70,14 @@ public class aleatorio {
 	}
 	public static boolean yaExiste( int[] array,  int numero) {
         for (  int elemento : array) { // ITERA CADA ELEMENTO EN UN ARRAY
+=======
+import java.util.Random;
+
+public class aleatorio {
+
+	public static boolean yaExiste( int[] array,  int numero) {
+        for (int elemento : array) { // ITERA CADA ELEMENTO EN UN ARRAY
+>>>>>>> main
             if (elemento == numero) { // CADA ELEMENTO ES UN NUMERO
                 return true; 
             }

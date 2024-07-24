@@ -10,10 +10,16 @@ public class mainSemanaMes {
 
     public static void main(String[] args) {
       
+<<<<<<< HEAD
+=======
+    	// DELARACION DE LAS VARIABLES
+    	boolean datosValidos = false;
+>>>>>>> main
     	int numeroDiaSemana = 0;
     	int numeroMes = 0;
     	String diaSemanaTexto ="";
     	String mesTexto = "";
+<<<<<<< HEAD
 
         System.out.print("Introduce el número de día de la semana (1-7): ");
          numeroDiaSemana = Integer.parseInt(leerTeclado());
@@ -30,6 +36,37 @@ public class mainSemanaMes {
         } else {
             System.out.println("Error: Datos introducidos no válidos.");
         }
+=======
+       
+    	
+    	// CREAMOS UN BUCLE PARA SI LOS DATOS SON INCORRECTOS ME LOS VUELVA A PEDIR
+    	while (true) {
+    		try {
+    	            System.out.print("Introduce el número de día de la semana (1-7): "); // NO ADMITE NI CERO NI INTROS EN LAS PREGUNTAS
+                    numeroDiaSemana = Integer.parseInt(leerTeclado());
+
+                    System.out.print("Introduce el número de mes (1-12): ");
+                     numeroMes = Integer.parseInt(leerTeclado());
+
+    
+
+        if (numeroDiaSemana >= 1 && numeroDiaSemana <= 7 && numeroMes >= 1 && numeroMes <= 12 ) {
+        	  
+        	diaSemanaTexto = obtenerDiaSemana(numeroDiaSemana);
+              mesTexto = obtenerMes(numeroMes);
+        	
+        	System.out.println("Día de la semana  "+ numeroDiaSemana+" -> "+ diaSemanaTexto);
+            System.out.println("Mes  "+ numeroMes+" -> "+ mesTexto);
+            datosValidos=true;
+            break;
+        } else {
+            System.out.println("Error: Datos introducidos no válidos.");
+        }
+    }  catch (NumberFormatException e) {
+        System.out.println("Error: El formato del dato introducido no es válido. Debe ser un número entero.");
+    }
+    	}
+>>>>>>> main
     }
 
 	private static String leerTeclado() {

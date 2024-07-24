@@ -6,7 +6,11 @@ public class mainNumeroAleatorio {
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
+<<<<<<< HEAD
 		    Random random = new Random();
+=======
+		Random random = new Random();
+>>>>>>> main
 		    int min = 1;
 	        int max = 49;	       
 	        int numeroAleatorio = random.nextInt(max - min + 1) + min;
