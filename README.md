@@ -35,7 +35,5 @@ To install Eclipse, follow these steps:
 
 ![JAVA](https://img.shields.io/badge/Java-JDK%2022-orange)
 ![ECLIPSE](https://img.shields.io/badge/Eclipse%20IDE-blue?logo=eclipseide)
-<<<<<<< HEAD
-=======
 ![Dicampus](https://img.shields.io/badge/Dicampus-orange)
->>>>>>> main
+
