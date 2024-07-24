@@ -1,28 +1,29 @@
-package Main;
+package main;
 import java.util.Random;
 
-
-public class Main_Ejer9_Rol_Trucado {
+public class mainRolOnline {
 
     public static void main(String[] args) {
-        // Definimos las variables
-    	 int tirada1;
-         int tirada2;
-         int tirada3;
-         int tirada4;
+        // Definir los nombres de los jugadores como variables individuales
+        String jugador1 = "T1";
+        String jugador2 = "T2";
+        String jugador3 = "T3";
+        String jugador4 = "T4";
 
-        Random aleatorio = new Random();
+           
+        
+
+        // Generar tiradas aleatorias para cada jugador y encontrar al ganador
+        Random random = new Random();
         int TiradaGanadora = 0;
         String JugadorGanador = "";
-        String jugador1 = "Jugador 1";
-        String jugador2 = "Jugador 2";
-        String jugador3 = "Jugador 3";
-        String jugador4 = "Jugador 4";
+        int tirada1 = random.nextInt((20-1) + 1)+1;
+        int tirada2 = random.nextInt((20-1) + 1)+1;
+        int tirada3 = random.nextInt((20-1) + 1)+1;
+        int tirada4 = random.nextInt((20-1) + 1)+1;
+
         
-        tirada1 = (aleatorio.nextInt((20-1) + 1)+1)+1;
-        tirada2 = (aleatorio.nextInt((20-1) + 1)+1)+2;
-        tirada3 = (aleatorio.nextInt((20-1) + 1)+1)+3;
-        tirada4 = (aleatorio.nextInt((20-1) + 1)+1)+4;
+        
         if (tirada1 > TiradaGanadora) {
             TiradaGanadora = tirada1;
             JugadorGanador = jugador1;
@@ -54,7 +55,9 @@ public class Main_Ejer9_Rol_Trucado {
         System.out.println("\t"+jugador4 + ": " + tirada4);
 
         // Mostrar al jugador ganador
-        System.out.println("******************"+"\n"+"El jugador ganador de la partida trucada es: " + JugadorGanador + " con un tiro de " + TiradaGanadora + ".");
+        System.out.println("******************"+"\n"+"El jugador ganador de la partida es: " + JugadorGanador + " con un tiro de " + TiradaGanadora + ".");
     }
 
 }
+
+

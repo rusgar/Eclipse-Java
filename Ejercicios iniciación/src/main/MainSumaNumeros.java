@@ -1,4 +1,4 @@
-package Main;
+package main;
 import java.util.Scanner;
 //Realiza un programa que haga la suma de 3 números enteros y lo muestre por pantalla.
 

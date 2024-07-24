@@ -1,4 +1,4 @@
-package Main;
+package main;
 import java.util.Scanner;
 
 public class MainMonedas {
@@ -6,7 +6,9 @@ public class MainMonedas {
     public static void main(String[] args) {
        
         Scanner scanner = new Scanner(System.in);
-    	 
+        boolean continuar = true;
+        
+        while (continuar) {
     	int cantidad = 0; 
         int billete500 = 0;
         int billete200 = 0;
@@ -23,6 +25,11 @@ public class MainMonedas {
         
         System.out.print("Introduzca la cantidad en euros: ");       
         cantidad = scanner.nextInt();
+    	 
+        if (cantidad == 0) {
+            continuar = false;
+            break;
+        }
         
         System.out.println("Cuantos Billetes o monedas hay en la cantidad:");
         while (cantidad > 0) {
@@ -75,10 +82,18 @@ public class MainMonedas {
             }
         }
 
-        System.out.println("\nTotal billetes: " + totalBilletes+(totalBilletes == 1 ? " moneda" : " monedas"));
-        System.out.println("Total monedas:"+ totalMonedas +(totalMonedas == 1 ? " moneda" : " monedas"));
+        System.out.println("******************"+"\nTotal billetes:  " + totalBilletes+(totalBilletes == 1 ? " billete" : " billetes"));
+        System.out.println("Total monedas: "+ totalMonedas +(totalMonedas == 1 ? " moneda" : " monedas"));
      
+        System.out.print("******************"+"\n¿Desea introducir otra cantidad? (S/N): ");
+        String respuesta = scanner.next().toUpperCase();
+
+        if (!respuesta.equals("S")) {
+            continuar = false;
+        }
  
+    }
+        System.out.println("\nFin del Programa.");
     }
 }
         
