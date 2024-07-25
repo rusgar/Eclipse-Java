@@ -13,6 +13,12 @@ public class mainSemanaMes {
 <<<<<<< HEAD
 =======
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+    	// DELARACION DE LAS VARIABLES
+    	boolean datosValidos = false;
+>>>>>>> main
+>>>>>>> main
 =======
     	// DELARACION DE LAS VARIABLES
     	boolean datosValidos = false;
@@ -23,8 +29,11 @@ public class mainSemanaMes {
     	String diaSemanaTexto ="";
     	String mesTexto = "";
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 <<<<<<< HEAD
+>>>>>>> main
+=======
 >>>>>>> main
 
         System.out.print("Introduce el número de día de la semana (1-7): ");
@@ -37,7 +46,11 @@ public class mainSemanaMes {
         mesTexto = obtenerMes(numeroMes);
 
 <<<<<<< HEAD
+<<<<<<< HEAD
         if (!diaSemanaTexto.equals("") && !mesTexto.equals("")) {
+=======
+        if (!diaSemanaTexto.equals("") && !mesTexto.equalsIgnoreCase("")) {
+>>>>>>> main
 =======
         if (!diaSemanaTexto.equals("") && !mesTexto.equalsIgnoreCase("")) {
 >>>>>>> main
@@ -47,7 +60,10 @@ public class mainSemanaMes {
             System.out.println("Error: Datos introducidos no válidos.");
         }
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
+=======
+>>>>>>> main
 =======
        
     	
@@ -79,6 +95,9 @@ public class mainSemanaMes {
     }
     	}
 >>>>>>> main
+<<<<<<< HEAD
+>>>>>>> main
+=======
 >>>>>>> main
     }
 
@@ -89,7 +108,11 @@ public class mainSemanaMes {
 		return retorno;
 	}
 <<<<<<< HEAD
+<<<<<<< HEAD
  
+=======
+
+>>>>>>> main
 =======
 
 >>>>>>> main
@@ -111,8 +134,12 @@ public class mainSemanaMes {
                 return "DOMINGO";
             default:
 <<<<<<< HEAD
+<<<<<<< HEAD
             	return "Día de la semana inválido tiene que ser dentro de los parametros 1 al 7";
                
+=======
+                return null;
+>>>>>>> main
 =======
                 return null;
 >>>>>>> main
@@ -122,9 +149,15 @@ public class mainSemanaMes {
     private static String obtenerMes(int numeroMes) {
         if (numeroMes >= 1 && numeroMes <= 12) {
 <<<<<<< HEAD
+<<<<<<< HEAD
             return meses[numeroMes - 1].toLowerCase();
         } else {
             return "Dia de mes incorrecto solo entre 1 al 12 ";
+=======
+            return meses[numeroMes - 1];
+        } else {
+            return null;
+>>>>>>> main
 =======
             return meses[numeroMes - 1];
         } else {

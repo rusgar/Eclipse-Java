@@ -10,7 +10,12 @@ public class mainNumeroAleatorio {
 		    Random random = new Random();
 =======
 <<<<<<< HEAD
+<<<<<<< HEAD
 		    Random random = new Random();
+=======
+		Random random = new Random();
+>>>>>>> main
+>>>>>>> main
 =======
 		Random random = new Random();
 >>>>>>> main

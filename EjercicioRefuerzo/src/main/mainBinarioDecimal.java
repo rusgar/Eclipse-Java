@@ -7,8 +7,11 @@ public class mainBinarioDecimal {
 
 	public static void main(String[] args) {
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 <<<<<<< HEAD
+>>>>>>> main
+=======
 >>>>>>> main
         int numeroDecimal = 0;
         char digito;
@@ -38,7 +41,10 @@ public class mainBinarioDecimal {
         return retorno;
     }
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
+=======
+>>>>>>> main
 =======
 		// TODO Auto-generated method stub
             
@@ -73,5 +79,8 @@ public class mainBinarioDecimal {
 		return retorno;
 	}
 >>>>>>> main
+<<<<<<< HEAD
+>>>>>>> main
+=======
 >>>>>>> main
 }

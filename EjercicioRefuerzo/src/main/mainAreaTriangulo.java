@@ -15,7 +15,12 @@ public class mainAreaTriangulo {
         double area= 0;
 =======
 <<<<<<< HEAD
+<<<<<<< HEAD
         double area= 0;
+=======
+        int area= 0;
+>>>>>>> main
+>>>>>>> main
 =======
         int area= 0;
 >>>>>>> main

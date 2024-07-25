@@ -13,12 +13,18 @@ From the beginning you practice in Java
 > [<img src="https://cdn.worldvectorlogo.com/logos/java.svg" width="50" height="50" alt="W3Schools Logo">](https://www.java.com/es/download/help/whatis_java.html)
 =======
 <<<<<<< HEAD
+<<<<<<< HEAD
 > [<img src="https://cdn.worldvectorlogo.com/logos/java.svg" width="50" height="50" alt="W3Schools Logo">](https://www.java.com/es/download/help/whatis_java.html)
 =======
+=======
+>>>>>>> main
 > [<img src="https://cdn.worldvectorlogo.com/logos/java.svg" width="50" height="50" >](https://www.java.com/es/download/help/whatis_java.html)
 >
 > [<img src="https://www.manualweb.net/img/curso.png"  width="50" height="50" >](https://www.manualweb.net/)
 >>>>>>> main
+<<<<<<< HEAD
+>>>>>>> main
+=======
 >>>>>>> main
 
 ## Java Pages to program :shipit:
@@ -40,6 +46,11 @@ To install Eclipse, follow these steps:
 ![JAVA](https://img.shields.io/badge/Java-JDK%2022-orange)
 ![ECLIPSE](https://img.shields.io/badge/Eclipse%20IDE-blue?logo=eclipseide)
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+![Dicampus](https://img.shields.io/badge/Dicampus-orange)
+
+>>>>>>> main
 =======
 ![Dicampus](https://img.shields.io/badge/Dicampus-orange)
 

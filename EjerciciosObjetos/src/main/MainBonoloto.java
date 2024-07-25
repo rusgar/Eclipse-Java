@@ -40,7 +40,12 @@ public class MainBonoloto {
 			System.out.print("\n"+"Línea " + (i + 1) + ":");
 =======
 <<<<<<< HEAD
+<<<<<<< HEAD
 			System.out.print("\n"+"Línea " + (i + 1) + ":");
+=======
+			ayudaHelpers.imprimirSalto("\n"+"Línea " + (i + 1) + ":");
+>>>>>>> main
+>>>>>>> main
 =======
 			ayudaHelpers.imprimirSalto("\n"+"Línea " + (i + 1) + ":");
 >>>>>>> main

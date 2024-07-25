@@ -8,9 +8,15 @@ public class MainFibonacci {
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 <<<<<<< HEAD
+<<<<<<< HEAD
        int cadena =0;       
        int primerNumero= 0;
        int segundoNumero= 1;
+=======
+       int numero =0;       
+       int numero0= 0;
+       int numero1= 1;
+>>>>>>> main
 =======
        int numero =0;       
        int numero0= 0;
@@ -20,6 +26,7 @@ public class MainFibonacci {
        
        
        System.out.print("Introduzca el numero entero: ");
+<<<<<<< HEAD
 <<<<<<< HEAD
 	    cadena = Integer.parseInt(leerTeclado()); 
 	    
@@ -39,6 +46,8 @@ public class MainFibonacci {
                primerNumero = segundoNumero;
                 segundoNumero= Fibonacci;
 =======
+=======
+>>>>>>> main
 	    numero = Integer.parseInt(leerTeclado()); 
 	    
 	    if (numero< 0) {
@@ -56,6 +65,9 @@ public class MainFibonacci {
                 System.out.print(Fibonacci + " ");
                 numero0 = numero1;
                 numero1= Fibonacci;
+<<<<<<< HEAD
+>>>>>>> main
+=======
 >>>>>>> main
         }
     }
