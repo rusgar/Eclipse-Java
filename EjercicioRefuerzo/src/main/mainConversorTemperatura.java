@@ -12,9 +12,18 @@ public class mainConversorTemperatura {
         int unidadSalida = 0;
         double temperatura = 0.0;
         boolean ejecutar = true;
+<<<<<<< HEAD
         double resultado = convertirTemperatura(unidadEntrada, unidadSalida, temperatura);
         String parametroEntrada = "";
         String parametroSalida= "";;
+=======
+<<<<<<< HEAD
+        double resultado = convertirTemperatura(unidadEntrada, unidadSalida, temperatura);
+        String parametroEntrada = "";
+        String parametroSalida= "";;
+=======
+>>>>>>> main
+>>>>>>> main
         // boolean respuestaValida = false;
 
         while (ejecutar) {
@@ -28,6 +37,10 @@ public class mainConversorTemperatura {
             System.out.print("\nIntroduzca el valor de la temperatura: ");
             temperatura = leerTecladoDouble();
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> main
        
             switch (unidadEntrada) {
             case 1:
@@ -61,6 +74,14 @@ public class mainConversorTemperatura {
             
             // %2.F PARA SACAR DOS DECIMALES DEL FLOAT %S PARA INSERTAR UN VALOR EN LA CADENA(ESPICIFICADOR DE FORMATO) Y PRINTTF PARA DAR FORMATOS DE SALIDA
             System.out.printf("Resultado: %.2f %s equivalen a %.2f %s\n", temperatura,parametroEntrada,resultado, parametroSalida);
+<<<<<<< HEAD
+=======
+=======
+            double resultado = convertirTemperatura(unidadEntrada, unidadSalida, temperatura);
+            // %2.F PARA SACAR DOS DECIMALES DEL FLOAT %S PARA INSERTAR UN VALOR EN LA CADENA(ESPICIFICADOR DE FORMATO) Y PRINTTF PARA DAR FORMATOS DE SALIDA
+            System.out.printf("Resultado: %.2f %s equivalen a %.2f %s\n", temperatura, getUnidadNombre(unidadEntrada), resultado, getUnidadNombre(unidadSalida));
+>>>>>>> main
+>>>>>>> main
 
             System.out.print("\n¿Desea realizar otra conversión? (S/N): ");
             String respuesta = leerTecladoString().toLowerCase(); 
@@ -105,6 +126,10 @@ public class mainConversorTemperatura {
         System.out.println("\tCONVERSOR DE TEMPERATURA");
         System.out.println("----------------------------------------");
         System.out.println("****Opciones de unidad de entrada:****");
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> main
         System.out.println("\n\t1. \tCelsius");
         System.out.println("\t2. \tFahrenheit");
         System.out.println("\t3. \tKelvin");
@@ -112,6 +137,18 @@ public class mainConversorTemperatura {
         System.out.println("\n\t1. \tCelsius");
         System.out.println("\t2. \tFahrenheit");
         System.out.println("\t3. \tKelvin");
+<<<<<<< HEAD
+=======
+=======
+        System.out.println("\n1. Celsius");
+        System.out.println("2. Fahrenheit");
+        System.out.println("3. Kelvin");
+        System.out.println("\n****Opciones de unidad de salida:****");
+        System.out.println("\n1. Celsius");
+        System.out.println("2. Fahrenheit");
+        System.out.println("3. Kelvin");
+>>>>>>> main
+>>>>>>> main
     }
 
     private static double convertirTemperatura(int unidadEntrada, int unidadSalida, double temperatura) {
@@ -170,6 +207,25 @@ public class mainConversorTemperatura {
         return resultadoConversion;
     }
 
+<<<<<<< HEAD
 
+=======
+<<<<<<< HEAD
+
+=======
+    private static String getUnidadNombre(int unidad) {
+        switch (unidad) {
+            case 1:
+                return "Celsius";
+            case 2:
+                return "Fahrenheit";
+            case 3:
+                return "Kelvin";
+            default:
+                return "Unidad desconocida";
+        }
+    }
+>>>>>>> main
+>>>>>>> main
 }
 
