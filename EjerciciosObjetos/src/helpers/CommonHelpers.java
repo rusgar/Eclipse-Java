@@ -24,6 +24,33 @@ public class CommonHelpers {
 		public void imprimirContinuo(String mensaje) {
 			 System.out.print(mensaje);
 		}
+		
+		public int obtenerEntero(String cadena) {
+			int retorno=0;
+			retorno = Integer.parseInt(cadena);
+			return retorno;
+		}
+		public double obtenerDouble(String cadena) {
+			double retorno=0;
+			retorno =Double.parseDouble(cadena);
+			return retorno;
+		}
+		
+		public String obtenerString(int entrada) {
+			String retorno= "";
+			retorno = String.valueOf(retorno);
+			return retorno;
+		}
+		public String obtenerString(double entrada) {
+			String retorno= "";
+			retorno = String.valueOf(retorno);
+			return retorno;
+		}
+		public String obtenerString(float entrada) {
+			String retorno= "";
+			retorno = String.valueOf(retorno);
+			return retorno;
+		}
 	}
 
 
