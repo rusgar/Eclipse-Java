@@ -1,5 +1,6 @@
 package main;
 
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 // DESARROLLA UN CONVERSOR DE TEMPERATURAS (C, F, K)
@@ -12,12 +13,17 @@ public class mainConversorTemperatura {
         int unidadSalida = 0;
         double temperatura = 0.0;
         boolean ejecutar = true;
-        double resultado = convertirTemperatura(unidadEntrada, unidadSalida, temperatura);
+        double resultado = 0.0;
         String parametroEntrada = "";
         String parametroSalida= "";;
-        // boolean respuestaValida = false;
+        boolean respuestaValida = false;
 
         while (ejecutar) {
+        	respuestaValida = false;
+			boolean checkValor= true;
+			do {
+				checkValor=true;
+			try {
             mostrarMenu();
             System.out.print("\nIntroduzca la opción de unidad de entrada: ");
             unidadEntrada = leerTeclado();
@@ -27,8 +33,16 @@ public class mainConversorTemperatura {
 
             System.out.print("\nIntroduzca el valor de la temperatura: ");
             temperatura = leerTecladoDouble();
+			}catch (InputMismatchException inputEx) {
+				checkValor=false;
+			// TODO: handle exception
+		    }catch(Exception e) {
+			checkValor=false;
+			e.printStackTrace();
+		}
+		}while(!checkValor);
 
-       
+			// ELECCION DE UNIDADES DE ENTRADA
             switch (unidadEntrada) {
             case 1:
             	parametroEntrada = "Celsius";
@@ -43,7 +57,8 @@ public class mainConversorTemperatura {
             	parametroEntrada = "Unidad desconocida";
                 break;
         }
-            switch (unidadEntrada) {
+          //ELECCION DE UNIDADES DE SALIDA
+            switch (unidadSalida) {
             case 1:
             	parametroSalida = "Celsius";
                 break;
@@ -58,23 +73,28 @@ public class mainConversorTemperatura {
                 break;
         }
             
+            resultado=convertirTemperatura(unidadEntrada, unidadSalida, temperatura);
             
             // %2.F PARA SACAR DOS DECIMALES DEL FLOAT %S PARA INSERTAR UN VALOR EN LA CADENA(ESPICIFICADOR DE FORMATO) Y PRINTTF PARA DAR FORMATOS DE SALIDA
             System.out.printf("Resultado: %.2f %s equivalen a %.2f %s\n", temperatura,parametroEntrada,resultado, parametroSalida);
 
+            
+            while(!respuestaValida) {
             System.out.print("\n¿Desea realizar otra conversión? (S/N): ");
             String respuesta = leerTecladoString().toLowerCase(); 
 
-            if (respuesta.isEmpty()) { 
+            if (respuesta.equalsIgnoreCase("")) { 
             	System.out.println("Entrada no válida. Ingrese solo el caracter de  'S ' para sí o ' N ' para no.");
             }  else if(respuesta.charAt(0) == 's') {
-                 ejecutar = true; 
+            	respuestaValida= true; 
             } else if (respuesta.charAt(0) == 'n') {
-                ejecutar = false; 
+                ejecutar = false;
+                respuestaValida= true;
             } else {
                 System.out.println("Entrada no válida. Ingrese 'S' para sí o 'N' para no.");
             }
             System.out.println("\nSaliendo de la Conversion.");
+        }
         }
 
         

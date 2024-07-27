@@ -6,13 +6,8 @@ import java.util.Scanner;
 public class mainBinarioDecimal {
 
 	public static void main(String[] args) {
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> main
-=======
->>>>>>> main
+
+
         int numeroDecimal = 0;
         char digito;
         String binario = "";
@@ -40,12 +35,7 @@ public class mainBinarioDecimal {
         retorno = sca.nextLine();
         return retorno;
     }
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
-=======
->>>>>>> main
-=======
+
 		// TODO Auto-generated method stub
             
 		int numeroDecimal = 0;
@@ -78,9 +68,5 @@ public class mainBinarioDecimal {
 		retorno=sca.nextLine();
 		return retorno;
 	}
->>>>>>> main
-<<<<<<< HEAD
->>>>>>> main
-=======
->>>>>>> main
+
 }

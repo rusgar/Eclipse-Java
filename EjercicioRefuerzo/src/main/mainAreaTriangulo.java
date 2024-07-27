@@ -11,20 +11,13 @@ public class mainAreaTriangulo {
 		// Definimos las variables
 		int base = 0;
 		int altura = 0;
-<<<<<<< HEAD
+
         double area= 0;
-=======
-<<<<<<< HEAD
-<<<<<<< HEAD
-        double area= 0;
-=======
-        int area= 0;
->>>>>>> main
->>>>>>> main
-=======
-        int area= 0;
->>>>>>> main
->>>>>>> main
+
+      
+
+
+
         
         System.out.print("Introduce  la base del triangulo: ");
         base = leerTeclado();

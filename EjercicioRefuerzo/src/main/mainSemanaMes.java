@@ -10,31 +10,16 @@ public class mainSemanaMes {
 
     public static void main(String[] args) {
       
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
+
     	// DELARACION DE LAS VARIABLES
     	boolean datosValidos = false;
->>>>>>> main
->>>>>>> main
-=======
-    	// DELARACION DE LAS VARIABLES
-    	boolean datosValidos = false;
->>>>>>> main
->>>>>>> main
+
+
     	int numeroDiaSemana = 0;
     	int numeroMes = 0;
     	String diaSemanaTexto ="";
     	String mesTexto = "";
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> main
-=======
->>>>>>> main
+
 
         System.out.print("Introduce el número de día de la semana (1-7): ");
          numeroDiaSemana = Integer.parseInt(leerTeclado());
@@ -45,27 +30,19 @@ public class mainSemanaMes {
         diaSemanaTexto = obtenerDiaSemana(numeroDiaSemana);
         mesTexto = obtenerMes(numeroMes);
 
-<<<<<<< HEAD
-<<<<<<< HEAD
+
         if (!diaSemanaTexto.equals("") && !mesTexto.equals("")) {
-=======
+
+       
+
         if (!diaSemanaTexto.equals("") && !mesTexto.equalsIgnoreCase("")) {
->>>>>>> main
-=======
-        if (!diaSemanaTexto.equals("") && !mesTexto.equalsIgnoreCase("")) {
->>>>>>> main
+
             System.out.println("Día de la semana  "+ numeroDiaSemana+" -> "+ diaSemanaTexto);
             System.out.println("Mes  "+ numeroMes+" -> "+ mesTexto);
         } else {
             System.out.println("Error: Datos introducidos no válidos.");
         }
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
-=======
->>>>>>> main
-=======
-       
+
     	
     	// CREAMOS UN BUCLE PARA SI LOS DATOS SON INCORRECTOS ME LOS VUELVA A PEDIR
     	while (true) {
@@ -94,11 +71,8 @@ public class mainSemanaMes {
         System.out.println("Error: El formato del dato introducido no es válido. Debe ser un número entero.");
     }
     	}
->>>>>>> main
-<<<<<<< HEAD
->>>>>>> main
-=======
->>>>>>> main
+
+    }
     }
 
 	private static String leerTeclado() {
@@ -107,15 +81,7 @@ public class mainSemanaMes {
 		retorno=sca.nextLine();
 		return retorno;
 	}
-<<<<<<< HEAD
-<<<<<<< HEAD
- 
-=======
 
->>>>>>> main
-=======
-
->>>>>>> main
     private static String obtenerDiaSemana(int numeroDiaSemana) {
         switch (numeroDiaSemana) {
             case 1:
@@ -133,36 +99,25 @@ public class mainSemanaMes {
             case 7:
                 return "DOMINGO";
             default:
-<<<<<<< HEAD
-<<<<<<< HEAD
+
             	return "Día de la semana inválido tiene que ser dentro de los parametros 1 al 7";
                
-=======
-                return null;
->>>>>>> main
-=======
-                return null;
->>>>>>> main
+
+          
+
+
+
         }
     }
 
     private static String obtenerMes(int numeroMes) {
         if (numeroMes >= 1 && numeroMes <= 12) {
-<<<<<<< HEAD
-<<<<<<< HEAD
+
             return meses[numeroMes - 1].toLowerCase();
         } else {
             return "Dia de mes incorrecto solo entre 1 al 12 ";
-=======
-            return meses[numeroMes - 1];
-        } else {
-            return null;
->>>>>>> main
-=======
-            return meses[numeroMes - 1];
-        } else {
-            return null;
->>>>>>> main
+
+           
         }
     }
 
