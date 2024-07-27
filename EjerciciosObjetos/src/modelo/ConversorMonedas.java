@@ -22,7 +22,7 @@ public class ConversorMonedas {
         return euros * tasaCambio;
     }
 	
-	public double dolaresAEuros() {
+	public double dolaresAEuros(double tasaCambio) {
         return dolares / tasaCambio;
     }
 	
@@ -44,7 +44,7 @@ public class ConversorMonedas {
 	}
 	
 	
-	public double convertir(double cantidad, String monedaOrigen, String monedaDestino) {
+	public double monedasConvertir(double cantidad, String monedaOrigen, String monedaDestino) {
         if (monedaOrigen.equalsIgnoreCase("euros") && monedaDestino.equalsIgnoreCase("dolares")) {
             return cantidad * tasaCambio;
         } else if (monedaOrigen.equalsIgnoreCase("dolares") && monedaDestino.equalsIgnoreCase("euros")) {
@@ -55,7 +55,7 @@ public class ConversorMonedas {
     }
 
 
-	  public String FormatearDecimales(double value) {
+	  public String formatearDecimales(double value) {
 		    return String.format("%.2f", value);
 		}
 	}
