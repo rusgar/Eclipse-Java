@@ -2,7 +2,7 @@ package main;
 
 
 import helpers.CommonHelpers;
-import modelo.Aleatorio1;
+import model.Aleatorio1;
 
 public class MainSorteo {
 

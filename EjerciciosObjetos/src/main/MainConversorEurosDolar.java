@@ -2,7 +2,7 @@ package main;
 
 
 import helpers.CommonHelpers;
-import modelo.ConversorMonedas;
+import model.ConversorMonedas;
 
 
 public class MainConversorEurosDolar {
@@ -40,16 +40,21 @@ public class MainConversorEurosDolar {
 
 			tasasConversor.setDolares(tasasConversor.monedasConvertir
 					(tasasConversor.getEuros(), monedaOrigenStr, monedaDestinoStr));
-
-			ayudaHelpers.imprimirSalto(tasasConversor.toString());		
-
+			ayudaHelpers.imprimirSalto(tasasConversor.toString());	
 
 			String resultadoEuros = tasasConversor.formatearDecimales
 					(tasasConversor.monedasConvertir
 							(tasasConversor.getEuros(), monedaOrigenStr, monedaDestinoStr));
+
+
+			tasasConversor.setEuros(tasasConversor.monedasConvertir
+					(tasasConversor.getDolares(),monedaDestinoStr, monedaOrigenStr));
+			ayudaHelpers.imprimirSalto(tasasConversor.toString_1());
+
 			String resultadoDolares= tasasConversor.formatearDecimales
 					(tasasConversor.monedasConvertir
-							(tasasConversor.getDolares(), monedaOrigenStr, monedaDestinoStr));
+							(tasasConversor.getDolares(),monedaDestinoStr, monedaOrigenStr));
+
 			ayudaHelpers.imprimirSalto("La converison del dimero  de "+tasasConversor.getEuros()+"  € " + " euros  a dolares  => son  " + resultadoEuros+ " $");
 			ayudaHelpers.imprimirSalto("La converison del dimero  de "+tasasConversor.getDolares()+"  $ " + " dolares  a euros  => son  " + resultadoDolares+ " €");
 		}

@@ -1,4 +1,5 @@
 package helpers;
+import java.lang.classfile.instruction.ReturnInstruction;
 import java.util.Scanner;
 
 public class CommonHelpers {
@@ -51,6 +52,34 @@ public class CommonHelpers {
 			retorno = String.valueOf(retorno);
 			return retorno;
 		}
+		public float redondearFloat(float numero) {
+			float numeroRedondeado = (float)0.0;
+			String cadenaFormateada=String.format("%.2f", numero);
+			numeroRedondeado = Float.parseFloat(cadenaFormateada);
+			return numeroRedondeado;
+		}
+		public double redondearDouble(double numero) {
+			double numeroRedondeado = 0.0;
+			String cadenaFormateada=String.format("%.2f", numero);
+			numeroRedondeado = Double.parseDouble(cadenaFormateada);
+			return numeroRedondeado;
+		}
+		
+		public double redondearDoubleN(double numero, int numeroDecimales) {
+			double numeroRedondeado = (float)0.0;
+			String cadenaFormateada=String.format("%" +numeroDecimales+".2f", numero);
+			numeroRedondeado = Double.parseDouble(cadenaFormateada);
+			return numeroRedondeado;
+		}
+		 public boolean continuarBucle() {
+			 boolean retorno=true;
+			 imprimirSalto("¿Desea continuar? (y/n)");
+			 String leido= leerTeclado();
+			 if(leido.equalsIgnoreCase("n") ||(leido.equalsIgnoreCase("no"))) {
+				 retorno =false;
+				 imprimirSalto("Recuerdo que Java es molto divertente");
+			 }return retorno;
+		 }
 	}
 
 

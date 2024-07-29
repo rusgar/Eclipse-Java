@@ -1,14 +1,15 @@
 package main;
 
 import helpers.CommonHelpers;
-import modelo.Operacion;
+
+import model.Operacion;
 
 public class MainCalculadora {
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		// creo un objeto de la clase operacion
-		Operacion operaciones=new Operacion();
+		model.Operacion operaciones=new model.Operacion();
 		CommonHelpers helpers= new CommonHelpers();
 		boolean ejecutar=true;
 		

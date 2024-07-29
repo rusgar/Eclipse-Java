@@ -1,7 +1,7 @@
 package main;
 
 import helpers.CommonHelpers;
-import modelo.ConversorBD;
+import model.ConversorBD;
 
 public class MainConversorBD {
 

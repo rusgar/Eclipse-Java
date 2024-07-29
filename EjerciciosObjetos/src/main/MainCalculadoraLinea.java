@@ -1,7 +1,7 @@
 package main;
 
 import helpers.CommonHelpers;
-import modelo.Operacion;
+import model.Operacion;
 
 public class MainCalculadoraLinea {
 

@@ -1,6 +1,6 @@
 package main;
 import helpers.CommonHelpers;
-import modelo.Operacion1;
+import model.Operacion1;
 
 public class MainCalLinea {
 

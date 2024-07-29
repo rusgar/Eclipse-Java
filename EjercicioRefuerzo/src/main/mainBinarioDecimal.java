@@ -27,22 +27,16 @@ public class mainBinarioDecimal {
         }
 
         System.out.println("El número decimal equivalente es: " + numeroDecimal);
-    }
+    
 
-    private static String leerTeclado() {
-        String retorno = "";
-        Scanner sca = new Scanner(System.in);
-        retorno = sca.nextLine();
-        return retorno;
-    }
+    
 
 		// TODO Auto-generated method stub
             
-		int numeroDecimal = 0;
+		
 		int base = 1;
 		int numeroEntero=0;
-		char digito =0;
-		String binario="";
+		
 		
 			  
 		System.out.print("Introduce el número binario: ");
@@ -60,6 +54,7 @@ public class mainBinarioDecimal {
 	 System.out.println("El número decimal equivalente es: " + numeroDecimal);
 		    
 	}
+
 
 
 	private static String leerTeclado() {

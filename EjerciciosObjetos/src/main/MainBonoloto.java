@@ -2,7 +2,7 @@ package main;
 
 import java.util.Random;
 import helpers.CommonHelpers;
-import modelo.aleatorio;
+import model.aleatorio;
 
 public class MainBonoloto {
 
@@ -14,13 +14,13 @@ public class MainBonoloto {
 		double costoPorLinea = 0.5;
 		int[] numerosSet= new int[6];
 		double apuestaTotal = 0.0;
-		
+
 		ayudaHelpers.imprimirSalto("Ingrese la cantidad que desea apostar en euros: ");
 		apuestaTotal = ayudaHelpers.leerTecladoDouble();
 		int numeroLineas = (int) Math.floor(apuestaTotal / costoPorLinea);
-		
-		
-		
+
+
+
 		ayudaHelpers.imprimirSalto("\nSu apuesta total es de " + apuestaTotal + " euros.");
 		ayudaHelpers.imprimirSalto("Puede generar " + numeroLineas + " líneas de números.");
 
@@ -37,16 +37,17 @@ public class MainBonoloto {
 
 
 
-		
 
-			
+
+
 
 			ayudaHelpers.imprimirSalto("\n"+"Línea " + (i + 1) + ":");
 
- (int numero : numerosSet) { // VARIABLE DE ITERACION Y EL ARRAY QUE ITERAMOS
+
+			for  (int numero : numerosSet) { // VARIABLE DE ITERACION Y EL ARRAY QUE ITERAMOS
 				ayudaHelpers.imprimirContinuo("  "+numero + " ");
 			}
-			
+
 		}
 
 		int numeroComplementario = aleatorio.generarNumeroComplementario(random);
