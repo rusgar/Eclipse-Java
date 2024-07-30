@@ -1,42 +1,53 @@
 package model;
 
+import helpers.CommonHelpers;
 
 public class MiNumero {
-    private int numero;
+	// ATRIBUTOS
+	private double numero;
 
-    
-    // GETTER Y SETTER
-       public int getDoble() {
-        return numero * 2;
-    }
-         public int getTriple() {
-           return numero * 3;
-       }
-       public int getCuadruple() {
-           return numero * 4;
-       }
+	// GETTER(OBTENER) Y SETTER(ESTABLECER)
 
-       public MiNumero() {
-    	   super();          
-       }
-  
-
-    public MiNumero(int numero) {
-    	  super();
-        this.numero = numero;
-    }
-     
-    @Override
-	public String toString() {
-		return "MiNumero [numero=" + numero + "]";
+	public double getNumero() {
+		return numero;
 	}
-    
-    
-	public void mostrarResultados() {
-        System.out.println("El número es: " + numero);
-        System.out.println("El doble es: " + getDoble());
-        System.out.println("El triple es: " + getTriple());
-        System.out.println("El cuádruple es: " + getCuadruple());
-    }
+
+	public void setNumero(double numero) {
+		this.numero = numero;				
+	}
+	
+	
+	// CONSTRUCTORES
+	public MiNumero() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+
+	public MiNumero(double numero) {
+		super();
+		this.numero = numero;
+	}
+
+	@Override
+	public String toString() {
+		return String.format("Número original: %.2f\n" +
+                                        "Doble: %.2f\n" +
+                                       "Triple: %.2f\n" +
+                                       "Cuádruple: %.2f",
+                                        numero, 
+                                        numero * 2,
+                                        numero * 3, 
+                                        numero * 4);
+	}
+
+ 
+	public void DetallesMiNumero( ) {
+		 CommonHelpers ayudaHelpers = new CommonHelpers();
+		     		ayudaHelpers.imprimirContinuo(toString());
+	}
 }
+
+
+
+
 

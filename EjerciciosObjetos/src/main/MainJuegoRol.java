@@ -3,6 +3,7 @@ package main;
 import helpers.CommonHelpers;
 import model.Jugador;
 
+
 public class MainJuegoRol {
 	public static void main(String[] args) {
 		
@@ -17,6 +18,9 @@ public class MainJuegoRol {
 
 		// INICIALIZAMOS LA CANTIDAD DE JUGADORES SEGUN LA CANTIDAD PEDIDA
 		Jugador[] jugadores = new Jugador[cantidadJugadores];
+		
+		// INICIALIAMOS CON 4 JUGADORES
+		//Jugador[] jugadores = new Jugador[4];
 
 		// INICIALIZAR CADA JUGADOR
 		for (int i = 0; i < jugadores.length; i++) {
@@ -33,6 +37,7 @@ public class MainJuegoRol {
 			}
 		}
 
-		System.out.println("El jugador que inicia es el jugador " + (indiceJugadorMax + 1) + " con una tirada de " + maxTirada);
+		System.out.println("El jugador que inicia es " + jugadores[indiceJugadorMax].getNombre() +
+                " con una tirada de " + maxTirada);
 	}
 }
