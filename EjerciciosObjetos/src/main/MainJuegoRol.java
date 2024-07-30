@@ -1,27 +1,38 @@
 package main;
 
+import helpers.CommonHelpers;
 import model.Jugador;
 
 public class MainJuegoRol {
-    public static void main(String[] args) {
-    	// CREAR UN ARREGLO DE 5 JUGADORES
-        Jugador[] jugadores = new Jugador[5];
+	public static void main(String[] args) {
+		
+		CommonHelpers ayudaHelpers = new CommonHelpers();
+		int maxTirada = 0;
+		int indiceJugadorMax = 0;
+		int cantidadJugadores =0;
+		
+		// PEDIDOS LA CANTIDAD DE JUGADORES  A PEDIR
+		ayudaHelpers.imprimirContinuo("¿Cuántos jugadores participarán en la partida? ");
+        cantidadJugadores = ayudaHelpers.obtenerEntero(ayudaHelpers.leerTeclado());
 
-     // INICIALIZAR CADA JUGADOR
-        for (int i = 0; i < jugadores.length; i++) {
-            jugadores[i] = new Jugador();
-        }
+		// INICIALIZAMOS LA CANTIDAD DE JUGADORES SEGUN LA CANTIDAD PEDIDA
+		Jugador[] jugadores = new Jugador[cantidadJugadores];
 
-        // ENCONTRAR AL JUGADOR CON LA TIRADA MÁS ALTA (SIN ORDENAMIENTO)
-        int maxTirada = Integer.MIN_VALUE;
-        int indiceJugadorMax = -1;
-        for (int i = 0; i < jugadores.length; i++) {
-            if (jugadores[i].getTirada() > maxTirada) {
-                maxTirada = jugadores[i].getTirada();
-                indiceJugadorMax = i;
-            }
-        }
+		// INICIALIZAR CADA JUGADOR
+		for (int i = 0; i < jugadores.length; i++) {
+			jugadores[i] = new Jugador();
+		}
 
-        System.out.println("El jugador que inicia es el jugador " + (indiceJugadorMax + 1) + " con una tirada de " + maxTirada);
-    }
+		// ENCONTRAR AL JUGADOR CON LA TIRADA MÁS ALTA 
+		maxTirada = jugadores[0].getTirada();
+
+		for (int i = 1; i < jugadores.length; i++) {
+			if (jugadores[i].getTirada() > maxTirada) {
+				maxTirada = jugadores[i].getTirada();
+				indiceJugadorMax = i;
+			}
+		}
+
+		System.out.println("El jugador que inicia es el jugador " + (indiceJugadorMax + 1) + " con una tirada de " + maxTirada);
+	}
 }

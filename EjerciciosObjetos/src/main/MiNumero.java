@@ -1,20 +1,14 @@
 package main;
 
 import helpers.CommonHelpers;
+import model.Numero;
 
 public class MiNumero {
 
 	public static void main(String[] args) {
 		CommonHelpers ayudaHelpers = new CommonHelpers();
-		 MiNumero miNumero = new MiNumero();
-		 int numeroIngresado =0;
-		 
-		 ayudaHelpers.imprimirContinuo("Ingrese un número: ");
-
-          numeroIngresado = ayudaHelpers.leerTeclado();
-
-        
+        int numero = ayudaHelpers.obtenerEntero(ayudaHelpers.leerTeclado("¿Cual es el numero que desea introducir? "));
+        Numero miNumero = new Numero(numero); // Pasa el valor al constructor
         miNumero.mostrarResultados();
-    }
-
+	    }
 }
