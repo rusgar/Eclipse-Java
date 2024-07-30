@@ -1,61 +1,60 @@
 package model;
 
 public class NumeroEntero {
-    private int valor;
-
-    
-    
- // GETTER(OBTENER) Y SETTER(ESTABLECER)
-
-  // METEDO PARA OBTENER EN VALOR DEL NUMERO
-    public int getValor() {
-        return this.valor;
-    }
-    
-    // METODO PARA OBTENER EL SET VALOR DEL NUMERO
-    public void setValor(int valor) {
-        this.valor = valor;
-    }
-    
-    
-    
-    // CONSTRUCTOT POR DEFECTO CON INICIALIZACION A 0
-    public NumeroEntero() {
-        this.valor = 0;
-    }
-
- 
-    //CONSTRUCTOR QUE PERMITE INICIALIZAR EL NUMERO
-    public NumeroEntero(int numero) {
-        this.valor = numero;
-    }
-
-    //METODO PARA SUMAR UN NUMERO DADO A NUESTRO NUMERO
-    public void sumar(int numero) {
-        this.valor += numero;
-    }
-
-  //METODO PARA RESTAR UN NUMERO DADO A NUESTRO NUMERO
-    public void restar(int numero) {
-        this.valor -= numero;
-    }
-    
-    // METODO PARA OBTENER EL VALOR DOBLE DEL NUMERO
-    public int getDoble() {
-        return this.valor * 2;
-    }
-
-    // METODO PARA OBTENER EL VALOR TRIPLE DEL NUMERO
-    public int getTriple() {
-        return this.valor * 3;
-    }
-    
+	// ATRIBUTOS
+	private int valor;
 
 
-    @Override
-    public String toString() {
-        return "NumeroEntero [numero=" + valor + "]";
-    }
-    
-    
+	// GETTER Y SETTER
+	public int getValor() {
+		return this.valor;
+	}
+
+	public void setValor(int valor) {
+		this.valor = valor;
+	}
+
+
+	// CONSTRUCTOR POR DEFECTO DE INICIO = 0
+	public NumeroEntero() {
+		this.valor = 0;
+	}
+
+	// CONSTRUCTOR QUE PERMITE INICIALIZAR EL NUMERO
+	public NumeroEntero(int numero) {
+		this.valor = numero;
+	}
+
+
+
+	// METODOS  QUE PERMITE SUMAR DE UN NUMERO DADO
+	public void sumar(int numero) {
+		this.valor += numero;
+	}
+
+	// METODOS  QUE PERMITE RESTAR DE UN NUMERO DADO
+	public void restar(int numero) {
+		this.valor -= numero;
+	}
+
+	// METODO QUE PERMITE OBTENER EL VALOR DOBLE DEL NUMERO PEDIDO
+	public int getDoble() {
+		return this.valor * 2;
+	}
+
+	// METODO QUE PERMITE OBTENER EL VALOR TRIPLE DEL NUMERO PEDIDO
+	public int getTriple() {
+		return this.valor * 3;
+	}
+
+	// METODO QUE PERMITE OBTENER EL VALOR CUADRUPLE DEL NUMERO PEDIDO
+	public int getCuadruple() {
+		return this.valor * 4;
+	}
+
+	@Override
+	public String toString() {
+		return "NumeroEntero [numero=" + valor + "]";
+	}
 }
+
