@@ -11,6 +11,12 @@ public class CommonHelpers {
 		retorno=sca.nextLine();
 		return retorno;
 	}
+		public int leerTecladoInt() {
+			Scanner sca = new Scanner(System.in);
+	        String entrada = sca.nextLine();
+	        int valor = Integer.parseInt(entrada);
+	        return valor;
+		}
 		public double leerTecladoDouble() {
 			Scanner sca = new Scanner(System.in);
 	        String entrada = sca.nextLine();
@@ -80,6 +86,7 @@ public class CommonHelpers {
 				 imprimirSalto("Recuerdo que Java es molto divertente");
 			 }return retorno;
 		 }
+		
 	}
 
 

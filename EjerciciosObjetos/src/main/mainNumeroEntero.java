@@ -38,8 +38,8 @@ public class mainNumeroEntero {
         segundoValor.restar(primerValor.getValor());
         ayudaHelpers.imprimirSalto("El resultado de NumberTwo-NumberOne es => " + segundoValor.getValor());
         
-        /*NumeroEntero resultadoResta = new NumeroEntero(numberTwo);
+        NumeroEntero resultadoResta = new NumeroEntero(numberTwo);
         resultadoResta.restar(numberOne);
-        ayudaHelpers.imprimirSalto("El resultado de NumberTwo-NumberOne es => " + resultadoResta.getValor());*/
+        ayudaHelpers.imprimirSalto("El resultado de NumberTwo-NumberOne es => " + resultadoResta.getValor());
     }
 }
