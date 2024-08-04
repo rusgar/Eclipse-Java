@@ -1,5 +1,6 @@
 package helpers;
 
+import java.text.DecimalFormat;
 import java.util.Scanner;
 
 public class CommonHelpers {
@@ -77,6 +78,36 @@ public class CommonHelpers {
 			numeroRedondeado = Double.parseDouble(cadenaFormateada);
 			return numeroRedondeado;
 		}
+		
+		public double redondearND(double numero,
+				int numeroDecimales) {
+			double numeroRedondeado=0.0;
+			String cadenaFormateada=
+					String.format("%."+numeroDecimales+"f",
+							numero);
+			cadenaFormateada=cadenaFormateada.replace(',','.');
+			numeroRedondeado= Double.parseDouble(cadenaFormateada);
+			return numeroRedondeado;
+		}
+		
+		public double redondear2D(double numero) {
+			double numeroRedondeado=0.0;
+			String cadenaFormateada=
+					String.format("%.2f", numero);
+			cadenaFormateada=cadenaFormateada.replace(',','.');
+			numeroRedondeado= Double.parseDouble(cadenaFormateada);
+			return numeroRedondeado;
+		}
+		
+		public float redondear2D(float numero) {
+			float numeroRedondeado=(float)0.0;
+			DecimalFormat df = new DecimalFormat("#.00");
+			String cadenaFormateada= df.format(numero);
+			cadenaFormateada=cadenaFormateada.replace(',','.');
+			numeroRedondeado= Float.parseFloat(cadenaFormateada);
+			return numeroRedondeado;
+		}
+		
 		 public boolean continuarBucle() {
 			 boolean retorno=true;
 			 imprimirSalto("¿Desea continuar? (y/n)");
@@ -86,6 +117,10 @@ public class CommonHelpers {
 				 imprimirSalto("Recuerdo que Java es molto divertente");
 			 }return retorno;
 		 }
+		public void leerTecladoString(String string) {
+			// TODO Auto-generated method stub
+			
+		}
 		
 	}
 

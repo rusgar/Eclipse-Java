@@ -1,50 +1,47 @@
 package model;
+
+import helpers.CommonHelpers;
+
 public class Rectangulo {
-    private double ancho;
-    private double alto;
-       
-    
+    protected double base;
+    protected double altura;
+    protected String tipo;
 
-    public double getAncho() {
-		return ancho;
-	}
-
-	public void setAncho(double ancho) {
-		this.ancho = ancho;
-	}
-
-	public double getAlto() {
-		return alto;
-	}
-
-	public void setAlto(double alto) {
-		this.alto = alto;
-	}
-		
-
-	public Rectangulo() {
-		super();
-		// TODO Auto-generated constructor stub
-	}
-
-	public Rectangulo(double ancho, double alto) {
-        this.ancho = ancho;
-        this.alto = alto;
+    public Rectangulo(double base, double altura, String tipo) {
+        this.base = base;
+        this.altura = altura;
+        this.tipo = tipo;
     }
-	
-	
-	@Override
-	public String toString() {
-		return "Rectangulo [ancho=" + ancho + ", alto=" + alto + "]";
-	}
 
-	public double calcularArea() {
-        return ancho * alto;
+    public double calcularArea() {
+        return base * altura;
     }
 
     public double calcularPerimetro() {
-        return 2 * (ancho + alto);
+        return 2 * (base + altura);
     }
 
-    
+    public static void menuRectangulo(CommonHelpers helpers) {
+    	helpers.imprimirSalto("|********************************************|");
+        helpers.imprimirSalto("| \tSELECCIONE EL TIPO DE RECTÁNGULO     |");
+        helpers.imprimirSalto("| \t1.        Romboide                   |");
+        helpers.imprimirSalto("| \t2.        Trapecio                   |");
+        helpers.imprimirSalto("| \t3.        Trapezoide                 |");
+        helpers.imprimirSalto("|********************************************|");
+        int tipoRectangulo = helpers.leerTecladoInt();
+        switch (tipoRectangulo) {
+            case 1:
+                Romboide.menuRomboide(helpers);
+                break;
+            case 2:
+                Trapecio.menuTrapecio(helpers);
+                break;
+            case 3:
+            	Trapezoide.menuTrapezoide(helpers);
+                break;
+            default:
+                helpers.imprimirSalto("Opción no válida. Por favor, seleccione una opción entre 1 y 3.");
+                break;
+        }
+    }
 }
