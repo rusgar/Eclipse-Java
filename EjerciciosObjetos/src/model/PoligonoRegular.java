@@ -6,7 +6,23 @@ public class PoligonoRegular {
     private int numeroLados;
     private double longitudLado;
 
-    public PoligonoRegular(int numeroLados, double longitudLado) {
+    public int getNumeroLados() {
+		return numeroLados;
+	}
+
+	public void setNumeroLados(int numeroLados) {
+		this.numeroLados = numeroLados;
+	}
+
+	public double getLongitudLado() {
+		return longitudLado;
+	}
+
+	public void setLongitudLado(double longitudLado) {
+		this.longitudLado = longitudLado;
+	}
+
+	public PoligonoRegular(int numeroLados, double longitudLado) {
         this.numeroLados = numeroLados;
         this.longitudLado = longitudLado;
     }
@@ -16,7 +32,9 @@ public class PoligonoRegular {
     }
 
     public double calcularArea() {
-        double apotema = longitudLado / (2 * Math.tan(Math.PI / numeroLados));
+        double apotema = longitudLado / (2 * Math.tan(Math.PI / numeroLados)); 
+        // CALCULA LA TANGENTE DE ESTE ÁNGULO, QUE REPRESENTA LA RELACIÓN ENTRE LA MITAD DEL LADO DEL POLÍGONO
+        // LA APOTEMA EN UNO DE LOS TRIÁNGULOS ISÓSCELES QUE FORMAN EL POLÍGONO.
         return (calcularPerimetro() * apotema) / 2;
     }
 

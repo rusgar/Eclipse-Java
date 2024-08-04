@@ -1,6 +1,6 @@
 package model;
 
-public class Barbacoa {
+public class barbacoa {
 	private double costillasKg;
 	private double ensaladaKg;
 
@@ -23,13 +23,13 @@ public class Barbacoa {
 	}
 
 	// CONSTRUCTORES
-	public Barbacoa() {
+	public barbacoa() {
 		this.costillasKg = 0;
 		this.ensaladaKg = 0;
 	}
 
 
-	public Barbacoa(double costillasKg, double ensaladaKg) {
+	public barbacoa(double costillasKg, double ensaladaKg) {
 		super();
 		this.costillasKg = costillasKg;
 		this.ensaladaKg = ensaladaKg;

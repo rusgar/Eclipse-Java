@@ -1,6 +1,7 @@
 package main;
 import helpers.CommonHelpers;
-import model.Barbacoa;
+
+import model.barbacoa;
 
 public class MainParillaBarbacoa {
 
@@ -9,7 +10,7 @@ public class MainParillaBarbacoa {
 
 	        
 		 // CREAMOS LA INSTANCIA NUEVA DE BARBACOA Y DE COMMONhELPERS
-	        Barbacoa barbacoa = new Barbacoa();
+	        barbacoa barbacoa = new barbacoa();
 	        CommonHelpers ayudaHelpers = new CommonHelpers();
 
 	        // SOLICIARAMOS LA CANTIDAD DE COSTILLAS POR KG
