@@ -14,6 +14,7 @@ import javax.swing.JOptionPane;
 
 import java.awt.Font;
 import java.awt.Image;
+import java.awt.Toolkit;
 
 import javax.swing.SwingConstants;
 import javax.swing.event.ChangeListener;
@@ -23,6 +24,7 @@ import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
+import java.net.URL;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
@@ -36,6 +38,7 @@ public class MainSanyo {
     private JButton btnMostrar;
     private JLabel lblMarca;
     private ImageIcon imagenMarca;
+   
 
     /**
      * Launch the application.
@@ -177,19 +180,25 @@ public class MainSanyo {
         frame.getContentPane().add(btnMostrar);
 
         lblMarca = new JLabel("SANYO");
-        lblMarca.setBackground(new Color(255, 0, 0));
+        lblMarca.setHorizontalAlignment(SwingConstants.CENTER);
+        lblMarca.setBackground(new Color(255, 255, 255));
         lblMarca.setOpaque(true);
         lblMarca.setForeground(new Color(255, 0, 0));
         lblMarca.setFont(new Font("Comic Sans MS", Font.BOLD, 18));
         lblMarca.setBounds(122, 191, 184, 59);
         frame.getContentPane().add(lblMarca);
-        
-        imagenMarca= new ImageIcon("D:\\IFCD0111\\Eclipse-Java\\Interface\\resources\\sanyo.png");
-        imagenMarca = new ImageIcon(imagenMarca.getImage().getScaledInstance(lblMarca.getWidth(), 
-        		                                                             lblMarca.getHeight(),
-        		                                                             Image.SCALE_SMOOTH));
-       
-        
-        lblMarca.setIcon(imagenMarca);
+        try {
+            URL imgURL = new URL("https://github.com/rusgar/Eclipse-Java/blob/main/Interface/resources/sanyo.png");
+            System.out.println("URL de la imagen: " + imgURL);
+            Image img = Toolkit.getDefaultToolkit().getImage(imgURL);
+            System.out.println("Imagen cargada: " + (img != null));
+            ImageIcon imagenMarca = new ImageIcon(img.getScaledInstance(lblMarca.getWidth(), lblMarca.getHeight(), Image.SCALE_SMOOTH));
+            lblMarca.setIcon(imagenMarca);
+        } catch (Exception e) {
+            System.err.println("Error al cargar la imagen: " + e.getMessage());
+            JOptionPane.showMessageDialog(frame, "No se pudo cargar la imagen. Verifica la URL y tu conexión a internet.");
+        }
     }
 }
+
+
