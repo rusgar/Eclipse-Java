@@ -6,6 +6,7 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JRadioButton;
 import javax.swing.JTextArea;
 import javax.swing.JButton;
@@ -28,8 +29,11 @@ public class MainMenuEscogerLetra {
 	private JButton btnReset, btnValidar;
 	private JTextArea textArea;
 	private Color colorSeleccionado = Color.BLACK;
-	private int Tamaño, Fuente;
+	private int Tamaño, Tipo;
 	private Font fuentePredeterminada;
+	private boolean isColorSelected() {
+	    return rdbtnRojo.isSelected() || rdbtnVerde.isSelected() || rdbtnAmarillo.isSelected() || rdbtnPurple.isSelected();
+	}
 
 	/**
 	 * Launch the application.
@@ -156,6 +160,7 @@ public class MainMenuEscogerLetra {
 		frame.getContentPane().add(rdbtnPurple);
 
 		textArea = new JTextArea();
+		textArea.setLineWrap(true);
 		textArea.setFont(new Font("Comic Sans MS", Font.PLAIN, 10));
 		textArea.setBounds(155, 51, 98, 124);
 		frame.getContentPane().add(textArea);
@@ -183,22 +188,23 @@ public class MainMenuEscogerLetra {
 		btnValidar = new JButton(" ✔");
 		btnValidar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				Tamaño= 8;
-				if (!seleccionTamaño.isEmpty()) {
-				    Tamaño = Integer.parseInt(seleccionTamaño);
-				} else {
-				    Tamaño = 10;
-				}
+				if (cbxFuente.getSelectedIndex() == 0 || cbxTamaño.getSelectedIndex() == 0 || cbxTipo.getSelectedIndex() == 0 || !isColorSelected()) {
+					JOptionPane.showMessageDialog(frame, "Debes tener Selecionado todos los apartados", "Advertencia", JOptionPane.WARNING_MESSAGE);
+				return;
+				}				
 				
-				Fuente = Font.PLAIN;
+				Tamaño = Integer.parseInt(seleccionTamaño);
+			
+				
+				Tipo = Font.PLAIN;
 				if (cbxTipo.getSelectedItem().toString().equals("Italic")) {
-					Fuente = Font.ITALIC;
+					Tipo= Font.ITALIC;
 				} else if (cbxTipo.getSelectedItem().toString().equals("Bold")) {
-					Fuente = Font.BOLD;
+					Tipo = Font.BOLD;
 				} else if (cbxTipo.getSelectedItem().toString().equals("Bold Italic")) {
-					Fuente = Font.BOLD + Font.ITALIC;
+					Tipo = Font.BOLD + Font.ITALIC;
 				}
-				Font font = new Font(seleccionTipo, Fuente, Tamaño);
+				Font font = new Font(seleccionFuente, Tipo, Tamaño);
 				textArea.setFont(font);
 
 				
@@ -217,6 +223,7 @@ public class MainMenuEscogerLetra {
 				textArea.setForeground(colorSeleccionado);
 			}
 		});
+		
 		btnValidar.setBounds(320, 214, 89, 23);
 		frame.getContentPane().add(btnValidar);
 
