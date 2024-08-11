@@ -257,6 +257,7 @@ public class MainCalculadoraWindows {
     }
 
     private void realizarOperacion() {
+    	try {
         segundoNumero = Double.parseDouble(textAreaResultado.getText().replace(",", "."));
         double resultado = 0;
 
@@ -275,15 +276,21 @@ public class MainCalculadoraWindows {
                     resultado = primerNumero / segundoNumero;
                 } else {
                 	
-                	textAreaResultado.setText("Error,  division no permitida");
+                	textAreaResultado.setText("Error, un numero no se puede dividir por cero,  division no permitida");
                 	
                     return;
                 }
                 break;
+                
         }
         
         // MOSTRAMOS SOLO LOS NUMERO ENTEROS EN EL RESULTADO SI NDECIMALES CON EL METODO MAS BAJO DESCRITO
         textAreaResultado.setText(formatearResultado(resultado));
+        textAreaResultado.setEditable(false);
+    	} catch (NumberFormatException e) {
+            textAreaResultado.setText("Error: Ingresa solo     números no esta     "
+            		+ "  permetidos las letras.");
+        }
     }
 
     //  METODO PARA AJUSTAR  EL PATRON Y  MOSTRAR SOLO ENTEROS SI LE RESULTADO ES ENTERO
@@ -320,7 +327,7 @@ public class MainCalculadoraWindows {
                     double resultado = Math.sqrt(numero);
                     textAreaResultado.setText(formatearResultado(resultado));
                 } else {
-                	textAreaResultado.setText("No se puede realizar esta operacion");
+                	textAreaResultado.setText("No se puede realizar      la operacion");
                 }
             }
         } catch (NumberFormatException e) {
