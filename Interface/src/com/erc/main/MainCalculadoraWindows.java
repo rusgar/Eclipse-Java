@@ -5,14 +5,17 @@ import javax.swing.JFrame;
 import javax.swing.JButton;
 import javax.swing.JTextField;
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Font;
 import java.security.cert.TrustAnchor;
 import java.text.DecimalFormat;
+import javax.swing.JTextArea;
 
 public class MainCalculadoraWindows {
 
     private JFrame frame;
-    private JTextField textResultado;
+    
+    private JTextArea textAreaResultado;
     private JButton btnNumeroSiete, btnNumeroOcho, btnNumeroNueve, btnNumeroCuatro, btnNumeroCinco,
             btnNumeroSeis, btnNumeroUno, btnNumeroDos, btnNumeroTres, btnPositivoNegativo,
             btnNumeroCero, btnComa, btnMultiplicacion, btnResta, btnSuma, btnIgual, btnDivision;
@@ -46,115 +49,137 @@ public class MainCalculadoraWindows {
         frame.setBounds(100, 100, 450, 550);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.getContentPane().setLayout(null);
+        
+        
+        textAreaResultado = new JTextArea();
+        textAreaResultado.setLineWrap(true);
+        textAreaResultado.setFont(new Font("Comic Sans MS", Font.BOLD, 23));
+        textAreaResultado.setBounds(65, 11, 270, 98);
+        frame.getContentPane().add(textAreaResultado);
+        textAreaResultado.setColumns(10);
 
-        textResultado = new JTextField();
-        textResultado.setFont(new Font("Comic Sans MS", Font.BOLD, 25));
-        textResultado.setBounds(65, 1, 270, 53);
-        frame.getContentPane().add(textResultado);
-        textResultado.setColumns(10);
+       
 
         btnNumeroSiete = new JButton("7");
         btnNumeroSiete.setBackground(new Color(192, 192, 192));
         btnNumeroSiete.setFont(new Font("MV Boli", Font.BOLD, 16));
-        btnNumeroSiete.setBounds(65, 129, 60, 60);
+        btnNumeroSiete.setBounds(65, 196, 60, 60);
         frame.getContentPane().add(btnNumeroSiete);
 
         btnNumeroOcho = new JButton("8");
         btnNumeroOcho.setBackground(new Color(192, 192, 192));
         btnNumeroOcho.setFont(new Font("MV Boli", Font.BOLD, 16));
-        btnNumeroOcho.setBounds(135, 129, 60, 60);
+        btnNumeroOcho.setBounds(135, 196, 60, 60);
         frame.getContentPane().add(btnNumeroOcho);
 
         btnNumeroNueve = new JButton("9");
         btnNumeroNueve.setBackground(new Color(192, 192, 192));
         btnNumeroNueve.setFont(new Font("MV Boli", Font.BOLD, 16));
-        btnNumeroNueve.setBounds(205, 129, 60, 60);
+        btnNumeroNueve.setBounds(205, 196, 60, 60);
         frame.getContentPane().add(btnNumeroNueve);
 
         btnNumeroCuatro = new JButton("4");
         btnNumeroCuatro.setBackground(new Color(192, 192, 192));
         btnNumeroCuatro.setFont(new Font("MV Boli", Font.BOLD, 16));
-        btnNumeroCuatro.setBounds(65, 200, 60, 60);
+        btnNumeroCuatro.setBounds(65, 267, 60, 60);
         frame.getContentPane().add(btnNumeroCuatro);
 
         btnNumeroCinco = new JButton("5");
         btnNumeroCinco.setBackground(new Color(192, 192, 192));
         btnNumeroCinco.setFont(new Font("MV Boli", Font.BOLD, 16));
-        btnNumeroCinco.setBounds(135, 200, 60, 60);
+        btnNumeroCinco.setBounds(135, 267, 60, 60);
         frame.getContentPane().add(btnNumeroCinco);
 
         btnNumeroSeis = new JButton("6");
         btnNumeroSeis.setBackground(new Color(192, 192, 192));
         btnNumeroSeis.setFont(new Font("MV Boli", Font.BOLD, 16));
-        btnNumeroSeis.setBounds(205, 200, 60, 60);
+        btnNumeroSeis.setBounds(205, 267, 60, 60);
         frame.getContentPane().add(btnNumeroSeis);
 
         btnNumeroUno = new JButton("1");
         btnNumeroUno.setBackground(new Color(192, 192, 192));
         btnNumeroUno.setFont(new Font("MV Boli", Font.BOLD, 16));
-        btnNumeroUno.setBounds(65, 269, 60, 60);
+        btnNumeroUno.setBounds(65, 338, 60, 60);
         frame.getContentPane().add(btnNumeroUno);
 
         btnNumeroDos = new JButton("2");
         btnNumeroDos.setBackground(new Color(192, 192, 192));
         btnNumeroDos.setFont(new Font("MV Boli", Font.BOLD, 16));
-        btnNumeroDos.setBounds(135, 271, 60, 60);
+        btnNumeroDos.setBounds(135, 338, 60, 60);
         frame.getContentPane().add(btnNumeroDos);
 
         btnNumeroTres = new JButton("3");
         btnNumeroTres.setBackground(new Color(192, 192, 192));
         btnNumeroTres.setFont(new Font("MV Boli", Font.BOLD, 16));
-        btnNumeroTres.setBounds(205, 269, 60, 60);
+        btnNumeroTres.setBounds(205, 338, 60, 60);
         frame.getContentPane().add(btnNumeroTres);
 
         btnPositivoNegativo = new JButton("+/-");
         btnPositivoNegativo.setFont(new Font("MV Boli", Font.BOLD, 16));
-        btnPositivoNegativo.setBounds(65, 340, 60, 60);
+        btnPositivoNegativo.setBounds(65, 409, 60, 60);
         frame.getContentPane().add(btnPositivoNegativo);
 
         btnNumeroCero = new JButton("0");
         btnNumeroCero.setBackground(new Color(192, 192, 192));
         btnNumeroCero.setFont(new Font("MV Boli", Font.BOLD, 16));
-        btnNumeroCero.setBounds(135, 342, 60, 60);
+        btnNumeroCero.setBounds(135, 409, 60, 60);
         frame.getContentPane().add(btnNumeroCero);
 
         btnComa = new JButton(",");
         btnComa.setFont(new Font("MV Boli", Font.BOLD, 16));
-        btnComa.setBounds(205, 340, 60, 60);
+        btnComa.setBounds(205, 409, 60, 60);
         frame.getContentPane().add(btnComa);
 
         btnMultiplicacion = new JButton("X");
         btnMultiplicacion.setBackground(new Color(233, 233, 233));
         btnMultiplicacion.setFont(new Font("MV Boli", Font.BOLD, 16));
-        btnMultiplicacion.setBounds(275, 129, 60, 60);
+        btnMultiplicacion.setBounds(275, 196, 60, 60);
         btnMultiplicacion.setEnabled(false);
         frame.getContentPane().add(btnMultiplicacion);
 
         btnResta = new JButton("-");
         btnResta.setBackground(new Color(233, 233, 233));
         btnResta.setFont(new Font("MV Boli", Font.BOLD, 20));
-        btnResta.setBounds(275, 200, 60, 60);
+        btnResta.setBounds(275, 266, 60, 60);
         btnResta.setEnabled(false);
         frame.getContentPane().add(btnResta);
 
         btnSuma = new JButton("+");
         btnSuma.setBackground(new Color(233, 233, 233));
         btnSuma.setFont(new Font("MV Boli", Font.BOLD, 16));
-        btnSuma.setBounds(275, 269, 60, 60);
+        btnSuma.setBounds(275, 338, 60, 60);
         btnSuma.setEnabled(false);
         frame.getContentPane().add(btnSuma);
 
         btnIgual = new JButton("=");
         btnIgual.setFont(new Font("MV Boli", Font.BOLD, 20));
-        btnIgual.setBounds(275, 340, 60, 60);
+        btnIgual.setBounds(275, 408, 60, 60);
         frame.getContentPane().add(btnIgual);
 
         btnDivision = new JButton("/");
         btnDivision.setBackground(new Color(233, 233, 233));
         btnDivision.setFont(new Font("MV Boli", Font.BOLD, 16));
-        btnDivision.setBounds(275, 65, 60, 60);
+        btnDivision.setBounds(275, 125, 60, 60);
         btnDivision.setEnabled(false);
         frame.getContentPane().add(btnDivision);
+        
+        btnReset = new JButton("C");
+        btnReset.setFont(new Font("MV Boli", Font.BOLD, 16));
+        btnReset.setBounds(205, 125, 60, 60);
+        btnReset.addActionListener(e -> resetearCalculadora());
+        frame.getContentPane().add(btnReset);
+        
+        btnPorcentaje = new JButton("%");
+        btnPorcentaje.setFont(new Font("MV Boli", Font.BOLD, 16));
+        btnPorcentaje.setBounds(135, 125, 60, 60);
+        btnPorcentaje.addActionListener(e -> calcularPorcentaje());
+        frame.getContentPane().add(btnPorcentaje);
+        
+        btnRaizCuadrada = new JButton("√");
+        btnRaizCuadrada.setFont(new Font("MV Boli", Font.BOLD, 16));
+        btnRaizCuadrada.setBounds(65, 125, 60, 60);
+        btnRaizCuadrada.addActionListener(e -> calcularRaizCuadrada());
+        frame.getContentPane().add(btnRaizCuadrada);
         
         
      // ARRAY CON TODOS LOS NUMEROS DE LA CALCULADORA
@@ -171,8 +196,8 @@ public class MainCalculadoraWindows {
         
         // AÑADIMOS LA FUNCIONALIDAD AL BOTON DE LA COMA
         btnComa.addActionListener(e -> {
-            if (!textResultado.getText().contains(",")) {
-                textResultado.setText(textResultado.getText() + ",");
+            if (!textAreaResultado.getText().contains(",")) {
+            	textAreaResultado.setText(textAreaResultado.getText() + ",");
             }
         });
         
@@ -191,62 +216,48 @@ public class MainCalculadoraWindows {
 
         // FUNCINALODAD DEL BOTON POSITIVO Y NEGATIVO
         btnPositivoNegativo.addActionListener(e -> {
-            String NumeroActual = textResultado.getText();
+            String NumeroActual = textAreaResultado.getText();
             if (!NumeroActual.isEmpty() && !NumeroActual.equals("0")) {
                 if (NumeroActual.startsWith("-")) {
-                    textResultado.setText(NumeroActual.substring(1));
+                	textAreaResultado.setText(NumeroActual.substring(1));
                 } else {
-                    textResultado.setText("-" + NumeroActual);
+                	textAreaResultado.setText("-" + NumeroActual);
                 }
             }
         });
 
        
-        btnReset = new JButton("C");
-        btnReset.setFont(new Font("MV Boli", Font.BOLD, 16));
-        btnReset.setBounds(205, 65, 60, 60);
-        btnReset.addActionListener(e -> resetearCalculadora());
-        frame.getContentPane().add(btnReset);
-        
-        btnPorcentaje = new JButton("%");
-        btnPorcentaje.setFont(new Font("MV Boli", Font.BOLD, 16));
-        btnPorcentaje.setBounds(135, 65, 60, 60);
-        btnPorcentaje.addActionListener(e -> calcularPorcentaje());
-        frame.getContentPane().add(btnPorcentaje);
-        
-        btnRaizCuadrada = new JButton("√");
-        btnRaizCuadrada.setFont(new Font("MV Boli", Font.BOLD, 16));
-        btnRaizCuadrada.setBounds(65, 65, 60, 60);
-        btnRaizCuadrada.addActionListener(e -> calcularRaizCuadrada());
-        frame.getContentPane().add(btnRaizCuadrada);
+
+              
     }
 
     private void agregarNumero(String numero) {
         if (operadorSeleccionado) {
-            textResultado.setText("");
+        	textAreaResultado.setText("");
             operadorSeleccionado = false;
         }
-        textResultado.setText(textResultado.getText() + numero);
+        textAreaResultado.setText(textAreaResultado.getText() + numero);
         habilitarOperadores();
     }
 
     private void habilitarOperadores() {
-        boolean habilitar = !textResultado.getText().isEmpty();
-        btnSuma.setEnabled(habilitar);
-        btnResta.setEnabled(habilitar);
-        btnMultiplicacion.setEnabled(habilitar);
-        btnDivision.setEnabled(habilitar);
+    	boolean habilitar = !textAreaResultado.getText().isEmpty();
+        JButton[] botones = {btnSuma, btnResta, btnMultiplicacion, btnDivision};
+
+        for (int i = 0; i < botones.length; i++) {
+            botones[i].setEnabled(habilitar);
+        }
     }
 
     private void seleccionarOperador(String operadorSeleccionado) {
-        primerNumero = Double.parseDouble(textResultado.getText().replace(",", "."));
+        primerNumero = Double.parseDouble(textAreaResultado.getText().replace(",", "."));
         operador = operadorSeleccionado;
         this.operadorSeleccionado = true;
         habilitarOperadores();
     }
 
     private void realizarOperacion() {
-        segundoNumero = Double.parseDouble(textResultado.getText().replace(",", "."));
+        segundoNumero = Double.parseDouble(textAreaResultado.getText().replace(",", "."));
         double resultado = 0;
 
         switch (operador) {
@@ -263,14 +274,16 @@ public class MainCalculadoraWindows {
                 if (segundoNumero != 0) {
                     resultado = primerNumero / segundoNumero;
                 } else {
-                    textResultado.setText("Error, operacion no disponible");
+                	
+                	textAreaResultado.setText("Error,  division no permitida");
+                	
                     return;
                 }
                 break;
         }
         
         // MOSTRAMOS SOLO LOS NUMERO ENTEROS EN EL RESULTADO SI NDECIMALES CON EL METODO MAS BAJO DESCRITO
-        textResultado.setText(formatearResultado(resultado));
+        textAreaResultado.setText(formatearResultado(resultado));
     }
 
     //  METODO PARA AJUSTAR  EL PATRON Y  MOSTRAR SOLO ENTEROS SI LE RESULTADO ES ENTERO
@@ -281,33 +294,52 @@ public class MainCalculadoraWindows {
 
     private void calcularPorcentaje() {
     	try{
-        if (!textResultado.getText().isEmpty()) {
-            double numero = Double.parseDouble(textResultado.getText().replace(",", "."));
+        if (!textAreaResultado.getText().isEmpty()) {
+            double numero = Double.parseDouble(textAreaResultado.getText().replace(",", "."));
             double resultado = primerNumero * numero / 100;
-            textResultado.setText(formatearResultado(resultado));
-        }
+            if (resultado < 0) {
+                textAreaResultado.setText(formatearResultado(resultado) + " (descuento)");
+            } else {
+                textAreaResultado.setText(formatearResultado(resultado));
+            }
+        } 
         }catch (NumberFormatException e) {
             // CON ESTO MANEJAMOS EL FORMATO DE ERROR DE NUMERO
-            textResultado.setText("Error");
+        	textAreaResultado.setText("Error");
 		}
     }
 
     
 
     private void calcularRaizCuadrada() {
-        if (!textResultado.getText().isEmpty()) {
-            double numero = Double.parseDouble(textResultado.getText().replace(",", "."));
-            double resultado = Math.sqrt(numero);
-            textResultado.setText(formatearResultado(resultado));
+    	
+        try {
+            if (!textAreaResultado.getText().isEmpty()) {
+                double numero = Double.parseDouble(textAreaResultado.getText().replace(",", "."));
+                if (numero >= 0) {
+                    double resultado = Math.sqrt(numero);
+                    textAreaResultado.setText(formatearResultado(resultado));
+                } else {
+                	textAreaResultado.setText("No se puede realizar esta operacion");
+                }
+            }
+        } catch (NumberFormatException e) {
+        	textAreaResultado.setText("Error: Entrada inválida");
         }
     }
 
     private void resetearCalculadora() {
-        textResultado.setText("");
+    	try {
+    	textAreaResultado.setText("");
         primerNumero = 0;
         segundoNumero = 0;
         operador = "";
         operadorSeleccionado = false;
-        habilitarOperadores();  // Deshabilitar los operadores después de resetear
+        habilitarOperadores();
+        textAreaResultado.requestFocus();//  DESHABILITAMOS LOS NUMEROS DESPUES DE RESETEARLOS
+    	} catch (Exception e) {
+            // CONTROL DE ERRORES
+            System.err.println("Error al resetear la calculadora: " + e.getMessage()); //  -- GETMESSAHE =>DEVOLUCION DEL STRING DE UNA CADENA DE CARACTERES
+        }
     }
 }

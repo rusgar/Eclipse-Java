@@ -241,6 +241,7 @@ public class MainCalculadoraBasica {
                 textOperador1.setText("");
                 textOperador2.setText("");
                 textResultado.setText("");
+                chkMostrarResultadoPopup.setSelected(false);
                 comboBoxOperacion.setSelectedIndex(0);
             }
         });
