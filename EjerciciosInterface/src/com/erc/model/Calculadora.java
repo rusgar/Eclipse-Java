@@ -38,12 +38,11 @@ public class Calculadora {
 
 	// CONSTRUCTORES
 
-	public Calculadora(double operador1, double operador2, String operacion) {
-		super();
-		Operador1 = operador1;
-		Operador2 = operador2;
-		Operacion = operacion;
-	}
+	  public Calculadora(double operador1, double operador2, String operacion) {
+	        this.Operador1 = operador1;
+	        this.Operador2 = operador2;
+	        this.Operacion = operacion;
+	    }
 
 
 	public Calculadora() {
@@ -84,23 +83,11 @@ public class Calculadora {
 		}
 	}
 
-	public double resultadoDecimales(double numero) {
-		double numeroRedondeado=0.0;
-		String cadenaFormateada=
-				String.format("%.2f", numero);
-		cadenaFormateada=cadenaFormateada.replace(',','.');
-		numeroRedondeado= Double.parseDouble(cadenaFormateada);
-		return numeroRedondeado;
+	public double formatearResultado(double numero) {
+		return Double.parseDouble(String.format("%.2f", numero).replace(',', '.'));
 	}
 
-	public  void habilitarComponentes(boolean habilitarOperador2, boolean habilitarCombo, boolean habilitarBoton, 
-			javax.swing.JLabel lblOperador2, javax.swing.JTextField textOperador2, 
-			javax.swing.JComboBox<String> comboBoxOperacion, javax.swing.JButton btnEjecutar) {
-		lblOperador2.setEnabled(habilitarOperador2);
-		textOperador2.setEnabled(habilitarOperador2);
-		comboBoxOperacion.setEnabled(habilitarCombo);
-		btnEjecutar.setEnabled(habilitarBoton);
-	}
+
 
 	// METODO PARA VERIFICAR SOLO NUMEROS
 	public static boolean soloNumeros(String valor) {

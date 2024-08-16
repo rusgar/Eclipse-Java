@@ -27,8 +27,8 @@ import com.erc.helpers.CommonHelpers;
 import com.erc.model.Calculadora;
 
 public class MainCalculadorBasic {
-	Calculadora calculadora = new Calculadora();
-	 private JFrame frame;
+	     Calculadora calculadora = new Calculadora();
+	     private JFrame frame;
 	    private JTextField textOperador1;
 	    private JTextField textOperador2;
 	    private JTextField textResultado;
@@ -72,6 +72,8 @@ public class MainCalculadorBasic {
 	     */
 	    private void initialize() {
 	    	CommonHelpers ayudaHelpers = new CommonHelpers();
+	    	
+	    	
 	        frame = new JFrame();
 	        frame.getContentPane().setBackground(Color.CYAN);
 	        frame.setBounds(100, 100, 600, 400);
@@ -134,7 +136,7 @@ public class MainCalculadorBasic {
 	        frame.getContentPane().add(comboBoxOperacion);
 	        
 	        lblImagenOperacion = new JLabel("");
-	        lblImagenOperacion.setBounds(350, 75, 50, 50);  // Ajusta la posición y tamaño según tus necesidades
+	        lblImagenOperacion.setBounds(350, 75, 50, 50); 
 	        frame.getContentPane().add(lblImagenOperacion);
 
 	        // ES UNA LABEL DONDE NOS INDICA DONDE ESTA EL COMBO
@@ -142,16 +144,14 @@ public class MainCalculadorBasic {
 	        lblOperacion.setHorizontalAlignment(SwingConstants.CENTER);
 	        lblOperacion.setBounds(232, 73, 86, 14);
 	        frame.getContentPane().add(lblOperacion);
+	        
 
 	        // REALIZAMOS UN BOTON QUE EJECUTA LA OPERACION DEL COMBO
 	        btnEjecutar = new JButton("");
 	        btnEjecutar.setToolTipText("Calcula la operacion");
-	        Image calculadora = new ImageIcon(MainCalculadorBasic.class.getResource("/images/calcular.png")).getImage();
-	        Image calculadoraScaled = calculadora.getScaledInstance(50, 50, Image.SCALE_SMOOTH);
-	        btnEjecutar.setIcon(new ImageIcon(calculadoraScaled));
+	        btnEjecutar.setIcon(new ImageIcon(MainCalculadorBasic.class.getResource("/images/calcular.png")));
 	        btnEjecutar.setForeground(Color.CYAN);
-	        btnEjecutar.setFont(new Font("MV Boli", Font.BOLD, 14));
-	      
+	        btnEjecutar.setFont(new Font("MV Boli", Font.BOLD, 14));	      
 	        btnEjecutar.setBounds(495, 169, 50, 50);
 	        frame.getContentPane().add(btnEjecutar);
 
@@ -161,9 +161,7 @@ public class MainCalculadorBasic {
 	        
 	        btnReset = new JButton("");
 	        btnReset.setToolTipText("Reinicia el programa");
-	        Image borrar = new ImageIcon(MainCalculadorBasic.class.getResource("/images/reiniciar.png")).getImage();	       
-	        Image borrarScaled = borrar.getScaledInstance(50, 50, Image.SCALE_SMOOTH);
-	        btnReset.setIcon(new ImageIcon(borrarScaled));
+	        btnReset.setIcon(new ImageIcon(MainCalculadorBasic.class.getResource("/images/borrar.png")));
 	        btnReset.setBounds(495, 263, 50, 50);
 	        frame.getContentPane().add(btnReset);
 	        
@@ -280,27 +278,23 @@ public class MainCalculadorBasic {
 
 	        btnEjecutar.addActionListener(new ActionListener() {
 	            public void actionPerformed(ActionEvent e) {
+	            	Calculadora calculadora = new Calculadora();
 	                try {
 	                    // OBTIENE LOS VALORES DE LOS CAMPOS DE TEXTO Y COMBOBOX
-		                    double operador1 =ayudaHelpers.obtenerDouble(textOperador1.getText());
-		                    double operador2 = ayudaHelpers.obtenerDouble(textOperador2.getText());
-		                    String operacion = (String) comboBoxOperacion.getSelectedItem();
+	                	calculadora.setOperador1(ayudaHelpers.obtenerDouble(textOperador1.getText().trim().replaceAll(",", ".")));
+	                	calculadora.setOperador2(ayudaHelpers.obtenerDouble(textOperador2.getText().trim().replaceAll(",", ".")));
+	                	 calculadora.setOperacion(comboBoxOperacion.getSelectedItem().toString());
 
-	                    // CREA UNA INSTANCIA DE LA CLASE CALCULADORA
-	                    Calculadora calculadora = new Calculadora(operador1, operador2, operacion);
-
-	                    // CALCULA EL RESULTADO
-	                    double resultado = calculadora.calcularOperacion();
-
-	                    // FORMATEA EL RESULTADO
-	                    String resultadoFormateado = calculadora.resultadoDecimales(resultado);
+	                	 double resultado = calculadora.ejecutarOperacion(calculadora.getOperador1(), calculadora.getOperador2(), calculadora.getOperacion());
+	                	 resultado = calculadora.formatearResultado(resultado);
+	                	 textResultado.setText(String.valueOf(resultado));
 
 	                    // MUESTRA EL RESULTADO
 	                    if (chkMostrarResultadoPopup.isSelected()) {
 	                        textResultado.setText("");
-	                        JOptionPane.showMessageDialog(frame, "Resultado: " + resultadoFormateado, "Resultado", JOptionPane.INFORMATION_MESSAGE);
+	                        JOptionPane.showMessageDialog(frame, "Resultado: " + resultado, "Resultado", JOptionPane.INFORMATION_MESSAGE);
 	                    } else {
-	                        textResultado.setText(resultadoFormateado);
+	                    	textResultado.setText(String.valueOf(resultado));
 	                    }
 	                } catch (NumberFormatException ex) {
 	                    JOptionPane.showMessageDialog(frame, "Error: Entrada no válida", "Error", JOptionPane.ERROR_MESSAGE);
