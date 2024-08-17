@@ -15,12 +15,12 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
-import com.erc.helpers.CommonHelpers;
-import com.erc.model.Geometria;
-import com.erc.model.Geometria.InputValidator;
 import javax.swing.JRadioButton;
 import javax.swing.ButtonGroup;
+import javax.swing.JComboBox;
 import java.awt.Color;
+import com.erc.helpers.CommonHelpers;
+import com.erc.model.Geometria;
 
 public class MainGeometria {
 
@@ -33,11 +33,14 @@ public class MainGeometria {
     private final ButtonGroup buttonGroup = new ButtonGroup();
     private JTextField textAreaResultado;
     private JTextField textPerimetroResultado;
+    private JComboBox<String> comboBoxTipoTriangulo;
     private JButton btnCalcular;
+    private JButton btnReset;
     private Geometria geometria;
     private CommonHelpers ayudaHelpers;
     private JLabel lblFiguraImagen;
-    private boolean calculado; // Variable para indicar si ya se calculó el resultado
+    private boolean calculado;
+    private Geometria.validacionCampos validacion;
 
     public static void main(String[] args) {
         EventQueue.invokeLater(() -> {
@@ -53,7 +56,7 @@ public class MainGeometria {
     public MainGeometria() {
         geometria = new Geometria();
         ayudaHelpers = new CommonHelpers();
-        calculado = false; // Inicializar como falso
+        calculado = false;
         initialize();
     }
 
@@ -160,24 +163,30 @@ public class MainGeometria {
         buttonGroup.add(radioButtonRectangulo);
         radioButtonRectangulo.setBounds(221, 63, 109, 23);
         frame.getContentPane().add(radioButtonRectangulo);
-        radioButtonRectangulo.addActionListener(e -> onRadioButtonSelected());
+        radioButtonRectangulo.addActionListener(e -> selectorRadioButton());
 
         radioButtonCirculo = new JRadioButton("Círculo");
         radioButtonCirculo.setBackground(Color.CYAN);
         buttonGroup.add(radioButtonCirculo);
         radioButtonCirculo.setBounds(221, 105, 109, 23);
         frame.getContentPane().add(radioButtonCirculo);
-        radioButtonCirculo.addActionListener(e -> onRadioButtonSelected());
+        radioButtonCirculo.addActionListener(e -> selectorRadioButton());
 
         radioButtonTriangulo = new JRadioButton("Triángulo");
         radioButtonTriangulo.setBackground(Color.CYAN);
         buttonGroup.add(radioButtonTriangulo);
         radioButtonTriangulo.setBounds(222, 149, 109, 23);
         frame.getContentPane().add(radioButtonTriangulo);
-        radioButtonTriangulo.addActionListener(e -> onRadioButtonSelected());
+        radioButtonTriangulo.addActionListener(e -> selectorRadioButton());
+
+        comboBoxTipoTriangulo = new JComboBox<>(new String[] {"Escaleno", "Isósceles", "Equilátero"});
+        comboBoxTipoTriangulo.addActionListener(e -> actualizarFiguraImagen());
+        comboBoxTipoTriangulo.setBounds(221, 180, 109, 22);
+        comboBoxTipoTriangulo.setVisible(false);
+        frame.getContentPane().add(comboBoxTipoTriangulo);
 
         lblFiguraImagen = new JLabel();
-        lblFiguraImagen.setBounds(385, 67, 96, 83); 
+        lblFiguraImagen.setBounds(385, 67, 96, 83);
         frame.getContentPane().add(lblFiguraImagen);
 
         btnCalcular = new JButton("");
@@ -186,11 +195,17 @@ public class MainGeometria {
         btnCalcular.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 actualizarResultados();
-                calculado = true; // Marcar que ya se ha calculado
+                calculado = true;
             }
         });
-        btnCalcular.setBounds(261, 224, 89, 23);
+        btnCalcular.setBounds(358, 271, 89, 23);
         frame.getContentPane().add(btnCalcular);
+
+        btnReset = new JButton("");
+        btnReset.setIcon(new ImageIcon(getClass().getResource("/images/borrar.png")));
+        btnReset.addActionListener(e -> resetearCampos());
+        btnReset.setBounds(457, 271, 89, 23);
+        frame.getContentPane().add(btnReset);
 
         JLabel lblFondo = new JLabel("");
         lblFondo.setForeground(Color.WHITE);
@@ -206,20 +221,29 @@ public class MainGeometria {
         textoLeido = ayudaHelpers.soloNumeros(textoLeido, caracterLeido);
         textField.setText(textoLeido);
         e.consume();
-        InputValidator.actualizarCampos(textBaseNumero, textAlturaNumero, textLado1Numero, textLado2Numero, btnCalcular);
+
+        validacion = geometria.new validacionCampos(textBaseNumero, textAlturaNumero, textLado1Numero, textLado2Numero, btnCalcular);
+        validacion.actualizarCampos();
     }
-    
 
-
-    private void onRadioButtonSelected() {
-        if (calculado) { // Solo actualizar si ya se ha calculado previamente
+    private void selectorRadioButton() {
+        if (radioButtonTriangulo.isSelected()) {
+            comboBoxTipoTriangulo.setVisible(true);
+        } else {
+            comboBoxTipoTriangulo.setVisible(false);
+        }
+        if (calculado) {
             actualizarResultados();
         }
+        actualizarFiguraImagen();
     }
 
     private void actualizarFiguraImagen() {
-        String figura = geometria.obtenerNombreFigura(radioButtonRectangulo.isSelected(), radioButtonCirculo.isSelected(), radioButtonTriangulo.isSelected());
-        String imagenPath = geometria.obtenerImagen(figura);
+        String figura = geometria.obtenerNombreFigura(radioButtonRectangulo.isSelected(),
+                                                    radioButtonCirculo.isSelected(),
+                                                    radioButtonTriangulo.isSelected());
+        String tipoTriangulo = radioButtonTriangulo.isSelected() ? (String) comboBoxTipoTriangulo.getSelectedItem() : "";
+        String imagenPath = geometria.obtenerImagen(figura, tipoTriangulo);
 
         if (!imagenPath.isEmpty()) {
             try {
@@ -231,43 +255,37 @@ public class MainGeometria {
                 e.printStackTrace();
                 JOptionPane.showMessageDialog(null, "No se pudo cargar la imagen.");
             }
+        } else {
+            lblFiguraImagen.setIcon(null);
         }
     }
 
     private void actualizarResultados() {
         try {
-            double base = InputValidator.getDoubleFromTextField(textBaseNumero);
-            double altura = InputValidator.getDoubleFromTextField(textAlturaNumero);
-            double lado1 = InputValidator.getDoubleFromTextField(textLado1Numero);
-            double lado2 = InputValidator.getDoubleFromTextField(textLado2Numero);
+            double base = ayudaHelpers.getDoubleFromTextField(textBaseNumero);
+            double altura = ayudaHelpers.getDoubleFromTextField(textAlturaNumero);
+            double lado1 = ayudaHelpers.getDoubleFromTextField(textLado1Numero);
+            double lado2 = ayudaHelpers.getDoubleFromTextField(textLado2Numero);
 
             geometria.setBase(base);
             geometria.setAltura(altura);
             geometria.setLado1(lado1);
             geometria.setLado2(lado2);
 
-            String tipoFigura = "";
-            String tipoOperacion = "";
+            String tipoFigura = geometria.obtenerTipoFiguraSeleccionada(radioButtonRectangulo.isSelected(),
+                                                                        radioButtonCirculo.isSelected(),
+                                                                        radioButtonTriangulo.isSelected());
 
-            if (radioButtonRectangulo.isSelected()) {
-                tipoFigura = "Rectangulo";
-            } else if (radioButtonCirculo.isSelected()) {
-                tipoFigura = "Circulo";
-            } else if (radioButtonTriangulo.isSelected()) {
-                tipoFigura = "Triangulo";
-            } else {
-                return; // Ninguna figura seleccionada, salir del método
+            if (tipoFigura.isEmpty()) {
+                return;
             }
 
-            tipoOperacion = "area"; // Por defecto, calculamos el área
+            if (radioButtonTriangulo.isSelected()) {
+                geometria.setTipoTriangulo((String) comboBoxTipoTriangulo.getSelectedItem());
+            }
 
-            double area = geometria.calcularOperacion(tipoFigura, tipoOperacion);
-            textAreaResultado.setText(String.format("%.2f", area));
-
-            tipoOperacion = "perimetro"; // Ahora calculamos el perímetro
-
-            double perimetro = geometria.calcularOperacion(tipoFigura, tipoOperacion);
-            textPerimetroResultado.setText(String.format("%.2f", perimetro));
+            actualizarCampoOperacion(tipoFigura, "area", textAreaResultado);
+            actualizarCampoOperacion(tipoFigura, "perimetro", textPerimetroResultado);
 
             actualizarFiguraImagen();
 
@@ -278,6 +296,21 @@ public class MainGeometria {
         }
     }
 
+    private void actualizarCampoOperacion(String tipoFigura, String tipoOperacion, JTextField campoResultado) {
+        double resultado = geometria.calcularOperacion(tipoFigura, tipoOperacion);
+        campoResultado.setText(String.format("%.2f", resultado));
+    }
 
-   
+    private void resetearCampos() {
+        textBaseNumero.setText("");
+        textAlturaNumero.setText("");
+        textLado1Numero.setText("");
+        textLado2Numero.setText("");
+        textAreaResultado.setText("");
+        textPerimetroResultado.setText("");
+        buttonGroup.clearSelection();
+        lblFiguraImagen.setIcon(null);
+        btnCalcular.setEnabled(false);
+        calculado = false;
+    }
 }

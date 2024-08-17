@@ -3,6 +3,8 @@ package com.erc.helpers;
 import java.text.DecimalFormat;
 import java.util.Scanner;
 
+import javax.swing.JTextField;
+
 public class CommonHelpers {
 	
 		
@@ -136,6 +138,19 @@ public class CommonHelpers {
 				return retorno;
 			}
 			
+			// METODO PARA LEER EL TEXTOINTRODUCIDO DEN UN jTEXTFILED Y CONVERTIRLO EN UN NUMERO DOUBLE EN ESTE CASO
+	        public double getDoubleFromTextField(JTextField textField) {
+	            String text = textField.getText().trim();
+	            if (text.isEmpty()) {
+	                return 0;  // 
+	            }
+	            try {
+	                return Double.parseDouble(text);
+	            } catch (NumberFormatException e) {
+	                // MANEJAMOS EL ERROR PARA ADMITIR SOLO NUMEROS...TENEMOS OTRO METODO QUE ADMITA SOLO NUMEROS
+	                throw new IllegalArgumentException("El valor ingresado no es un número válido: " + text);
+	            }
+	        }
 		
 	}
 

@@ -3,6 +3,7 @@ package com.erc.model;
 import javax.swing.JButton;
 import javax.swing.JTextField;
 
+
 public class Geometria {
 	
 	//ATRIBUTOS
@@ -10,9 +11,18 @@ public class Geometria {
     private double altura;
     private double lado1;
     private double lado2;
+    private String tipoTriangulo;
 
   
-    //  GETTERS Y SETTERS
+    public String getTipoTriangulo() {
+		return tipoTriangulo;
+	}
+
+	public void setTipoTriangulo(String tipoTriangulo) {
+		this.tipoTriangulo = tipoTriangulo;
+	}
+
+	//  GETTERS Y SETTERS
     public double getBase() {
         return base;
     }
@@ -53,16 +63,18 @@ public class Geometria {
 		this.altura = 0.0;
 		this.lado1 = 0.0;
 		this.lado2 = 0.0;
+		this.tipoTriangulo="";
 	}
     
     
 
-	public Geometria(double base, double altura, double lado1, double lado2) {
+	public Geometria(double base, double altura, double lado1, double lado2,String tipoTriangulo) {
 		super();
 		this.base = base;
 		this.altura = altura;
 		this.lado1 = lado1;
 		this.lado2 = lado2;
+		this.tipoTriangulo=tipoTriangulo;
 	}
 
 	
@@ -75,6 +87,8 @@ public class Geometria {
 	            } else {
 	                return 2 * (base + altura);
 	            }
+	            
+	            
 	        case "Circulo":
 	            if (operacion.equals("area")) {
 	                return Math.PI * base * base;
@@ -82,32 +96,67 @@ public class Geometria {
 	                return 2 * Math.PI * base;
 	            }
 	        case "Triangulo":
-	            if (operacion.equals("area")) {
-	                return (base * altura) / 2;
-	            } else {
-	                return base + lado1 + lado2;
-	            }
+                if (operacion.equals("area")) {
+                    return calcularAreaTriangulo();
+                } else { 
+                    return calcularPerimetroTriangulo();
+                }
 	        default:
 	            throw new IllegalArgumentException("Figura no válida: " + figuraGeometrica);
 	    }
+	    
 	}
+    private double calcularAreaTriangulo() {
+        switch (tipoTriangulo) {
+            case "Equilatero":
+                return (Math.sqrt(3) / 4) * Math.pow(lado1, 2);
+            case "Isosceles":
+                return (base * altura) / 2;
+            case "Escaleno":
+                double s = (lado1 + lado2 + base) / 2;
+                return Math.sqrt(s * (s - lado1) * (s - lado2) * (s - base));
+            default:
+                throw new IllegalArgumentException("Tipo de triángulo no válido: " + tipoTriangulo);
+        }
+    }
 
+    private double calcularPerimetroTriangulo() {
+        switch (tipoTriangulo) {
+            case "Equilatero":
+                return 3 * lado1;
+            case "Isosceles":
+                return 2 * lado1 + base;
+            case "Escaleno":
+                return base + lado1 + lado2;
+            default:
+                throw new IllegalArgumentException("Tipo de triángulo no válido: " + tipoTriangulo);
+        }
+    }
     
     
     
 
 	// METODO PARA OBTENER LA RUTA DE LA IMAGEN SEGUN LA FIGURA GEOMETRICA
-    public String obtenerImagen(String figura) {
+    public String obtenerImagen(String figura, String tipoTriangulo) {
         switch (figura) {
             case "Rectángulo":
                 return "/images/Rectangulo.png";
             case "Círculo":
                 return "/images/Circulo.png";
             case "Triángulo":
-                return "/images/Triangulo.png";
-            default:
-                return "";
-        }
+            	 switch (tipoTriangulo) {
+                 case "Equilátero":
+                     return "/images/TrianguloEquilatero.png";
+                 case "Isósceles":
+                     return "/images/TrianguloIsosceles.png";
+                 case "Escaleno":
+                     return "/images/TrianguloEscaleno.png";
+                 default:
+                     return "/images/Triangulo.png"; // Imagen genérica por defecto
+             }
+         default:
+             return "";
+     }
     }
     
     
@@ -125,29 +174,158 @@ public class Geometria {
         }
     }
     
-    
+    public String obtenerTipoFiguraSeleccionada(boolean esRectangulo, boolean esCirculo, boolean esTriangulo) {
+        if (esRectangulo) {
+            return "Rectangulo";
+        } else if (esCirculo) {
+            return "Circulo";
+        } else if (esTriangulo) {
+            return "Triangulo";
+        } else {
+            return "";
+        }
+    }
     
     // REALIZAMOS OTRA CLASE PARA LAS INVALIDACIONES DE NUMERO O DE LETRAS, PARA DESPUES LLAMARLAS EN EL MAIN
     
-    public class InputValidator {
-
+    public class validacionCampos {
+  
+    	// ATRIBUTOS
+    	    private JTextField textBaseNumero;
+    	    private JTextField textAlturaNumero;
+    	    private JTextField textLado1Numero;
+    	    private JTextField textLado2Numero;
+    	    private JButton btnCalcular;
+    	    
+    	    
       
 
-        // Método para actualizar la habilitación de los campos de texto y el botón
-    	// METODO PARA HABILITAR CADA UNO DE LOS CAMPOS QUE VAMOS A UTILIZAR SI TIENEN ALGUN VALOR, PERMITESEGUIR AL SIGUIENTE
+        
+    	public JTextField getTextBaseNumero() {
+				return textBaseNumero;
+			}
+
+
+
+
+
+			public void setTextBaseNumero(JTextField textBaseNumero) {
+				this.textBaseNumero = textBaseNumero;
+			}
+
+
+
+
+
+			public JTextField getTextAlturaNumero() {
+				return textAlturaNumero;
+			}
+
+
+
+
+
+			public void setTextAlturaNumero(JTextField textAlturaNumero) {
+				this.textAlturaNumero = textAlturaNumero;
+			}
+
+
+
+
+
+			public JTextField getTextLado1Numero() {
+				return textLado1Numero;
+			}
+
+
+
+
+
+			public void setTextLado1Numero(JTextField textLado1Numero) {
+				this.textLado1Numero = textLado1Numero;
+			}
+
+
+
+
+
+			public JTextField getTextLado2Numero() {
+				return textLado2Numero;
+			}
+
+
+
+
+
+			public void setTextLado2Numero(JTextField textLado2Numero) {
+				this.textLado2Numero = textLado2Numero;
+			}
+
+
+
+
+
+			public JButton getBtnCalcular() {
+				return btnCalcular;
+			}
+
+
+
+
+
+			public void setBtnCalcular(JButton btnCalcular) {
+				this.btnCalcular = btnCalcular;
+			}
+
+
+            
+
+
+		public validacionCampos(JTextField textBaseNumero, JTextField textAlturaNumero, JTextField textLado1Numero,
+					JTextField textLado2Numero, JButton btnCalcular) {
+				super();
+				this.textBaseNumero = textBaseNumero;
+				this.textAlturaNumero = textAlturaNumero;
+				this.textLado1Numero = textLado1Numero;
+				this.textLado2Numero = textLado2Numero;
+				this.btnCalcular = btnCalcular;
+			}
+
+
+
+
+
+		public validacionCampos() {
+			// TODO Auto-generated constructor stub
+		}
+
+
+
+
+
+		@Override
+		public String toString() {
+			return "validacionCampos [textBaseNumero=" + textBaseNumero + ", textAlturaNumero=" + textAlturaNumero
+					+ ", textLado1Numero=" + textLado1Numero + ", textLado2Numero=" + textLado2Numero + ", btnCalcular="
+					+ btnCalcular + "]";
+		}
+
+
+
+
+
+		// METODO PARA HABILITAR CADA UNO DE LOS CAMPOS QUE VAMOS A UTILIZAR SI TIENEN ALGUN VALOR, PERMITE SEGUIR AL SIGUIENTE
     	// SEGUIR AL SIGUEINTE, 
-        public static void actualizarCampos(JTextField textBaseNumero, JTextField textAlturaNumero, JTextField textLado1Numero, JTextField textLado2Numero, JButton btnCalcular) {
-            textAlturaNumero.setEditable(!textBaseNumero.getText().isEmpty());
-            textLado1Numero.setEditable(!textAlturaNumero.getText().isEmpty());
-            textLado2Numero.setEditable(!textLado1Numero.getText().isEmpty());
-            btnCalcular.setEnabled(!textLado2Numero.getText().isEmpty());
+        public  void actualizarCampos() {
+            textAlturaNumero.setEditable(!textBaseNumero.getText().isEmpty()); // SE HABILITA EL CAMPO CORRESPONDIENTE SI LA BASE NO ESTA VACIA
+            textLado1Numero.setEditable(!textAlturaNumero.getText().isEmpty()); // SE HABILITA EL CAMPO CORRESPONDIENTE SI LA ALTURA NO ESTA VACIA
+            textLado2Numero.setEditable(!textLado1Numero.getText().isEmpty()); // SE HABILITA EL CAMPO CORRESPONDIENTE SI LA LADO1 NO ESTA VACIA
+            btnCalcular.setEnabled(!textLado2Numero.getText().isEmpty()); // // SE HABILITA EL CAMPO CORRESPONDIENTE SI LA LADO2 NO ESTA VACIA
         }
 
-        // Método para convertir el texto de un campo de texto en un valor double
-        public static double getDoubleFromTextField(JTextField textField) {
-            String text = textField.getText().trim();
-            return text.isEmpty() ? 0 : Double.parseDouble(text);
-        }
+      
+     
+        
     }
     
     
