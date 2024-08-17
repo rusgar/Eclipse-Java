@@ -17,7 +17,6 @@ import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.JRadioButton;
 import javax.swing.ButtonGroup;
-import javax.swing.JComboBox;
 import java.awt.Color;
 import com.erc.helpers.CommonHelpers;
 import com.erc.model.Geometria;
@@ -33,7 +32,6 @@ public class MainGeometria {
     private final ButtonGroup buttonGroup = new ButtonGroup();
     private JTextField textAreaResultado;
     private JTextField textPerimetroResultado;
-    private JComboBox<String> comboBoxTipoTriangulo;
     private JButton btnCalcular;
     private JButton btnReset;
     private Geometria geometria;
@@ -149,7 +147,7 @@ public class MainGeometria {
         textPerimetroResultado = new JTextField();
         textPerimetroResultado.setEditable(false);
         textPerimetroResultado.setColumns(10);
-        textPerimetroResultado.setBounds(460, 307, 86, 20);
+        textPerimetroResultado.setBounds(408, 307, 86, 20);
         frame.getContentPane().add(textPerimetroResultado);
 
         textAreaResultado = new JTextField();
@@ -179,11 +177,7 @@ public class MainGeometria {
         frame.getContentPane().add(radioButtonTriangulo);
         radioButtonTriangulo.addActionListener(e -> selectorRadioButton());
 
-        comboBoxTipoTriangulo = new JComboBox<>(new String[] {"Escaleno", "Isósceles", "Equilátero"});
-        comboBoxTipoTriangulo.addActionListener(e -> actualizarFiguraImagen());
-        comboBoxTipoTriangulo.setBounds(221, 180, 109, 22);
-        comboBoxTipoTriangulo.setVisible(false);
-        frame.getContentPane().add(comboBoxTipoTriangulo);
+       
 
         lblFiguraImagen = new JLabel();
         lblFiguraImagen.setBounds(385, 67, 96, 83);
@@ -191,20 +185,20 @@ public class MainGeometria {
 
         btnCalcular = new JButton("");
         btnCalcular.setEnabled(false);
-        btnCalcular.setIcon(new ImageIcon(getClass().getResource("/images/Regla.png")));
+        btnCalcular.setIcon(new ImageIcon(MainGeometria.class.getResource("/images/Regla.png")));
         btnCalcular.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 actualizarResultados();
                 calculado = true;
             }
         });
-        btnCalcular.setBounds(358, 271, 89, 23);
+        btnCalcular.setBounds(416, 212, 65, 65);
         frame.getContentPane().add(btnCalcular);
 
         btnReset = new JButton("");
-        btnReset.setIcon(new ImageIcon(getClass().getResource("/images/borrar.png")));
+        btnReset.setIcon(new ImageIcon(MainGeometria.class.getResource("/images/borrar.png")));
         btnReset.addActionListener(e -> resetearCampos());
-        btnReset.setBounds(457, 271, 89, 23);
+        btnReset.setBounds(521, 289, 35, 35);
         frame.getContentPane().add(btnReset);
 
         JLabel lblFondo = new JLabel("");
@@ -227,23 +221,16 @@ public class MainGeometria {
     }
 
     private void selectorRadioButton() {
-        if (radioButtonTriangulo.isSelected()) {
-            comboBoxTipoTriangulo.setVisible(true);
-        } else {
-            comboBoxTipoTriangulo.setVisible(false);
-        }
-        if (calculado) {
-            actualizarResultados();
-        }
-        actualizarFiguraImagen();
+    	   if (calculado) { 
+    	        actualizarResultados();
+    	    }
     }
-
     private void actualizarFiguraImagen() {
         String figura = geometria.obtenerNombreFigura(radioButtonRectangulo.isSelected(),
                                                     radioButtonCirculo.isSelected(),
                                                     radioButtonTriangulo.isSelected());
-        String tipoTriangulo = radioButtonTriangulo.isSelected() ? (String) comboBoxTipoTriangulo.getSelectedItem() : "";
-        String imagenPath = geometria.obtenerImagen(figura, tipoTriangulo);
+       
+        String imagenPath = geometria.obtenerImagen(figura);
 
         if (!imagenPath.isEmpty()) {
             try {
@@ -262,6 +249,13 @@ public class MainGeometria {
 
     private void actualizarResultados() {
         try {
+            // Verifica si los campos necesarios tienen valores antes de continuar
+            if (textBaseNumero.getText().isEmpty() || textAlturaNumero.getText().isEmpty() || 
+                textLado1Numero.getText().isEmpty() || textLado2Numero.getText().isEmpty()) {
+                // Si faltan campos, no calculamos nada y no mostramos la imagen
+                return;
+            }
+
             double base = ayudaHelpers.getDoubleFromTextField(textBaseNumero);
             double altura = ayudaHelpers.getDoubleFromTextField(textAlturaNumero);
             double lado1 = ayudaHelpers.getDoubleFromTextField(textLado1Numero);
@@ -272,21 +266,21 @@ public class MainGeometria {
             geometria.setLado1(lado1);
             geometria.setLado2(lado2);
 
-            String tipoFigura = geometria.obtenerTipoFiguraSeleccionada(radioButtonRectangulo.isSelected(),
-                                                                        radioButtonCirculo.isSelected(),
-                                                                        radioButtonTriangulo.isSelected());
+            String tipoFigura = geometria.obtenerTipoFiguraSeleccionada(
+                radioButtonRectangulo.isSelected(),
+                radioButtonCirculo.isSelected(),
+                radioButtonTriangulo.isSelected()
+            );
 
             if (tipoFigura.isEmpty()) {
                 return;
             }
 
-            if (radioButtonTriangulo.isSelected()) {
-                geometria.setTipoTriangulo((String) comboBoxTipoTriangulo.getSelectedItem());
-            }
-
+            // Actualizar campos con los resultados
             actualizarCampoOperacion(tipoFigura, "area", textAreaResultado);
             actualizarCampoOperacion(tipoFigura, "perimetro", textPerimetroResultado);
 
+            // Actualizar la imagen de la figura después de que los cálculos se hayan realizado correctamente
             actualizarFiguraImagen();
 
         } catch (NumberFormatException ex) {
@@ -295,6 +289,7 @@ public class MainGeometria {
             JOptionPane.showMessageDialog(null, "Ocurrió un error: " + ex.getMessage());
         }
     }
+
 
     private void actualizarCampoOperacion(String tipoFigura, String tipoOperacion, JTextField campoResultado) {
         double resultado = geometria.calcularOperacion(tipoFigura, tipoOperacion);

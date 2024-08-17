@@ -97,47 +97,23 @@ public class Geometria {
 	            }
 	        case "Triangulo":
                 if (operacion.equals("area")) {
-                    return calcularAreaTriangulo();
+                	double s = (base + lado1 + lado2) / 2;
+                	return Math.sqrt(s * (s - base) * (s - lado1) * (s - lado2));
                 } else { 
-                    return calcularPerimetroTriangulo();
+                	return base + lado1 + lado2;
                 }
 	        default:
 	            throw new IllegalArgumentException("Figura no válida: " + figuraGeometrica);
 	    }
 	    
 	}
-    private double calcularAreaTriangulo() {
-        switch (tipoTriangulo) {
-            case "Equilatero":
-                return (Math.sqrt(3) / 4) * Math.pow(lado1, 2);
-            case "Isosceles":
-                return (base * altura) / 2;
-            case "Escaleno":
-                double s = (lado1 + lado2 + base) / 2;
-                return Math.sqrt(s * (s - lado1) * (s - lado2) * (s - base));
-            default:
-                throw new IllegalArgumentException("Tipo de triángulo no válido: " + tipoTriangulo);
-        }
-    }
 
-    private double calcularPerimetroTriangulo() {
-        switch (tipoTriangulo) {
-            case "Equilatero":
-                return 3 * lado1;
-            case "Isosceles":
-                return 2 * lado1 + base;
-            case "Escaleno":
-                return base + lado1 + lado2;
-            default:
-                throw new IllegalArgumentException("Tipo de triángulo no válido: " + tipoTriangulo);
-        }
-    }
     
     
     
 
 	// METODO PARA OBTENER LA RUTA DE LA IMAGEN SEGUN LA FIGURA GEOMETRICA
-    public String obtenerImagen(String figura, String tipoTriangulo) {
+    public String obtenerImagen(String figura ) {
         switch (figura) {
             case "Rectángulo":
                 return "/images/Rectangulo.png";
@@ -323,6 +299,11 @@ public class Geometria {
             btnCalcular.setEnabled(!textLado2Numero.getText().isEmpty()); // // SE HABILITA EL CAMPO CORRESPONDIENTE SI LA LADO2 NO ESTA VACIA
         }
 
+
+
+
+
+	
       
      
         
