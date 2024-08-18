@@ -3,6 +3,7 @@ package com.erc.helpers;
 import java.text.DecimalFormat;
 import java.util.Scanner;
 
+
 import javax.swing.JTextField;
 
 public class CommonHelpers {
@@ -151,7 +152,9 @@ public class CommonHelpers {
 	                throw new IllegalArgumentException("El valor ingresado no es un número válido: " + text);
 	            }
 	        }
+	        
+	       
+}
 		
-	}
 
 
