@@ -3,7 +3,8 @@ package com.erc.helpers;
 import java.text.DecimalFormat;
 import java.util.Scanner;
 
-
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 
 public class CommonHelpers {
@@ -152,9 +153,35 @@ public class CommonHelpers {
 	                throw new IllegalArgumentException("El valor ingresado no es un número válido: " + text);
 	            }
 	        }
-	        
-	       
-}
-		
+	        public void mostrarMensaje(JFrame marco,
+	        		String mensaje,
+	        		String tipo) {
+	        	int recursoIcono=0;
+	        	String titulo="";
+	        	switch (tipo) {
+	        	case "informacion": {
+	        		recursoIcono=JOptionPane.INFORMATION_MESSAGE;
+	        		titulo="Información";
+	        		break;
+	        	}
+	        	case "aviso": {
+	        		recursoIcono=JOptionPane.WARNING_MESSAGE;
+	        		titulo="Aviso";
+	        		break;
+	        	}
+	        	case "error": {
+	        		recursoIcono=JOptionPane.ERROR_MESSAGE;
+	        		titulo="Error";
+	        		break;
+	        	}
+	        	}
+	        	
+	        	JOptionPane.showMessageDialog(marco, 
+	        			mensaje,titulo,recursoIcono);
+	        	
+	        	
+	        	
+	        }
+	}
 
 
