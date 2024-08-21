@@ -95,7 +95,7 @@ public class MainConexionInterfaz {
 	        @Override
 	        public void focusGained(FocusEvent e) {
 	            txtHost.setBackground(Color.WHITE);
-	            if (txtHost.getText().equals("localhost")) {
+	            if (txtHost.getText().equals(bd.getHost())) {
 	                txtHost.setText("");
 	            }
 	        }
@@ -104,7 +104,7 @@ public class MainConexionInterfaz {
 	        public void focusLost(FocusEvent e) {
 	            if (txtHost.getText().isEmpty()) {
 	                txtHost.setBackground(Color.LIGHT_GRAY);
-	                txtHost.setText("localhost");
+	                txtHost.setText(bd.getHost());
 	            }
 	        }
 	    });
@@ -124,7 +124,7 @@ public class MainConexionInterfaz {
 	        @Override
 	        public void focusGained(FocusEvent e) {
 	            txtPuerto.setBackground(Color.WHITE);
-	            if (txtPuerto.getText().equals("3306")) {
+	            if (txtPuerto.getText().equals(bd.getHost())) {
 	                txtPuerto.setText("");
 	            }
 	        }
@@ -133,7 +133,7 @@ public class MainConexionInterfaz {
 	        public void focusLost(FocusEvent e) {
 	            if (txtPuerto.getText().isEmpty()) {
 	                txtPuerto.setBackground(Color.LIGHT_GRAY);
-	                txtPuerto.setText("3306");
+	                txtPuerto.setText(bd.getHost());
 	            }
 	        }
 	    });
@@ -185,7 +185,7 @@ public class MainConexionInterfaz {
 	            bd.setUsuario(usuario);
 	            bd.setPassword(password);
 	            try (Connection conexion = bd.generarConexion()) {
-	                bd.generarConexion();
+	               
 	                lblImagen.setVisible(true);
 	                lblImagen.setIcon(new ImageIcon(MainConexionInterfaz.class.getResource("/images/pulgar-arriba-64.png")));
 	            } catch (SQLException sqlE) {
