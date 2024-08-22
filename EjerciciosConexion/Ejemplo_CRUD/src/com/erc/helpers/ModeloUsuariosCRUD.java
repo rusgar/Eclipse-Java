@@ -6,64 +6,19 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 
-public class ModeloCRUD {
+public class ModeloUsuariosCRUD {
 
-    public static CommonHelpers helpers;
-    public static ConexionBd bd;
-    public static Connection conexion;
-    
-    public ModeloCRUD() {
-        helpers = new CommonHelpers();
-        bd = new ConexionBd();
+    private CommonHelpers helpers;
+    private Connection conexion;
+
+    public ModeloUsuariosCRUD(Connection conexion, CommonHelpers helpers) {
+        this.conexion = conexion;
+        this.helpers = helpers;
     }
-
-    public  void inicializar() {
     	 
         
-        String baseDatos = "", usuario = "", password = "";
+       
 
-        
-        helpers.imprimirContinuo("Introduce Base de datos: ");
-        baseDatos = helpers.leerTeclado();
-        helpers.imprimirSalto("");
-
-        helpers.imprimirContinuo("Introduce el usuario: ");
-        usuario = helpers.leerTeclado();
-        helpers.imprimirSalto("");
-
-        helpers.imprimirContinuo("Introduce la contraseña: ");
-        password = helpers.leerTeclado();
-        helpers.imprimirSalto("");
-
-        // PASO LOS DATOS A LA AYUDA DE CONEXION
-        bd.setBaseDatos(baseDatos);
-        bd.setUsuario(usuario);
-        bd.setPassword(password);
-
-        try {
-            conexion = bd.generarConexion();
-            helpers.imprimirContinuo("Conexion realizada.");
-        } catch (SQLException e) {
-            bd.muestraErrorSQL(e);
-            throw new RuntimeException("Error al establecer la conexión con la base de datos.");
-        }catch (Exception exception) {
-            exception.printStackTrace();
-        }
-        
-    }
-
-    public  void cerrarConexion() {
-        try {
-            if (conexion != null && !conexion.isClosed()) {
-                conexion.close();
-                helpers.imprimirContinuo("Conexión cerrada.");
-            }
-        } catch (SQLException e) {
-            bd.muestraErrorSQL(e);
-        }catch (Exception exception) {
-            exception.printStackTrace();
-        }
-    }
     
     
     private void mostrarMenu() {
