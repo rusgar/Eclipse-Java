@@ -25,6 +25,7 @@ public class MainCRUDinterface {
     private JPanel panelCRUD;
     private JComboBox<String> comboBoxGestiones;
     private JButton btnEjecutar;
+    private JButton btnConectar;
 
     public static void main(String[] args) {
         EventQueue.invokeLater(() -> {
@@ -50,37 +51,45 @@ public class MainCRUDinterface {
         frmCrud.getContentPane().setLayout(null);
 
         JLabel lblBaseDatos = new JLabel("Base de datos:");
+        lblBaseDatos.setForeground(Color.WHITE);
         lblBaseDatos.setFont(new Font("Comic Sans MS", Font.BOLD, 14));
         lblBaseDatos.setBounds(10, 11, 120, 14);
         frmCrud.getContentPane().add(lblBaseDatos);
 
         txtBaseDatos = new JTextField();
-        txtBaseDatos.setBounds(130, 8, 180, 20);
+        txtBaseDatos.setFont(new Font("Comic Sans MS", Font.BOLD, 14));
+        txtBaseDatos.setForeground(Color.BLACK);
+        txtBaseDatos.setBackground(Color.WHITE);
+        txtBaseDatos.setBounds(130, 8, 150, 20);
         frmCrud.getContentPane().add(txtBaseDatos);
         txtBaseDatos.setColumns(10);
 
         JLabel lblUsuario = new JLabel("Usuario:");
+        lblUsuario.setForeground(Color.WHITE);
         lblUsuario.setFont(new Font("Comic Sans MS", Font.BOLD, 14));
         lblUsuario.setBounds(10, 42, 120, 14);
         frmCrud.getContentPane().add(lblUsuario);
 
         txtUsuario = new JTextField();
-        txtUsuario.setBounds(130, 39, 180, 20);
+        txtUsuario.setFont(new Font("Comic Sans MS", Font.BOLD, 14));
+        txtUsuario.setBounds(130, 39, 150, 20);
         frmCrud.getContentPane().add(txtUsuario);
         txtUsuario.setColumns(10);
 
         JLabel lblPassword = new JLabel("Contraseña:");
+        lblPassword.setForeground(Color.WHITE);
         lblPassword.setFont(new Font("Comic Sans MS", Font.BOLD, 14));
-        lblPassword.setBounds(323, 42, 120, 14);
+        lblPassword.setBounds(300, 42, 120, 14);
         frmCrud.getContentPane().add(lblPassword);
 
         txtPassword = new JPasswordField();
-        txtPassword.setBounds(430, 39, 180, 20);
+        txtPassword.setFont(new Font("Comic Sans MS", Font.BOLD, 14));
+        txtPassword.setBounds(400, 39, 150, 20);
         frmCrud.getContentPane().add(txtPassword);
 
-        JButton btnConectar = new JButton("Conectar");
+        btnConectar = new JButton("Conectar");
         btnConectar.setFont(new Font("Comic Sans MS", Font.BOLD, 14));
-        btnConectar.setBounds(629, 38, 100, 23);
+        btnConectar.setBounds(580, 35, 100, 23);
         frmCrud.getContentPane().add(btnConectar);
 
         JButton btnDesconectar = new JButton("Desconectar");
@@ -89,18 +98,19 @@ public class MainCRUDinterface {
         frmCrud.getContentPane().add(btnDesconectar);
 
         JLabel lblMenu = new JLabel("Seleccione operación:");
+        lblMenu.setForeground(Color.WHITE);
         lblMenu.setFont(new Font("Comic Sans MS", Font.BOLD, 14));
-        lblMenu.setBounds(10, 74, 150, 14);
+        lblMenu.setBounds(10, 88, 150, 14);
         frmCrud.getContentPane().add(lblMenu);
 
         comboBoxGestiones = new JComboBox<>(new String[]{"Gestionar Usuarios", "Gestionar Clientes", "Gestionar Trabajadores"});
         comboBoxGestiones.setFont(new Font("Comic Sans MS", Font.BOLD, 14));
-        comboBoxGestiones.setBounds(10, 100, 200, 23);
+        comboBoxGestiones.setBounds(10, 113, 200, 23);
         frmCrud.getContentPane().add(comboBoxGestiones);
 
         btnEjecutar = new JButton("Ejecutar");
         btnEjecutar.setFont(new Font("Comic Sans MS", Font.BOLD, 14));
-        btnEjecutar.setBounds(220, 100, 100, 23);
+        btnEjecutar.setBounds(220, 113, 100, 23);
         frmCrud.getContentPane().add(btnEjecutar);
         
         
@@ -126,7 +136,7 @@ public class MainCRUDinterface {
         JLabel lblFondo = new JLabel("");
         lblFondo.setHorizontalAlignment(SwingConstants.TRAILING);
         lblFondo.setVerticalAlignment(SwingConstants.BOTTOM);
-        lblFondo.setIcon(new ImageIcon(MainCRUDinterface.class.getResource("/images/Fondo.png")));
+        lblFondo.setIcon(new ImageIcon(MainCRUDinterface.class.getResource("/images/Fondo2.jpg")));
         lblFondo.setBounds(0, 0, 729, 511);
         frmCrud.getContentPane().add(lblFondo);
 
@@ -149,6 +159,9 @@ public class MainCRUDinterface {
             try {
                 conexion = bd.generarConexion();
                 JOptionPane.showMessageDialog(frmCrud, "Conexión realizada con éxito.", "Conexión", JOptionPane.INFORMATION_MESSAGE);
+                btnConectar.setIcon(new ImageIcon(MainCRUDinterface.class.getResource("/images/Pulgar.png")));
+                btnConectar.setBounds(629, 38, 64, 64);
+                btnConectar.setText("");
                 activarCamposCRUD(true); // ACTIVAMOS LOS CAMPOS SI LA CONEXION ES CORRECTA
             } catch (SQLException ex) {
             	String mensajeError = "Error al conectar a la base de datos. ";
@@ -168,9 +181,33 @@ public class MainCRUDinterface {
                 if (conexion != null && !conexion.isClosed()) {
                     conexion.close();
                     JOptionPane.showMessageDialog(frmCrud, "Desconectado de la base de datos.", "Desconexión", JOptionPane.INFORMATION_MESSAGE);
+                    // RESTABLECEMOS EL TEXTO Y EL ICONO ORIGINAL DEL BOTON CONECTAR
+                    btnConectar.setIcon(null);  // ELIMINAMOS LA IMAGEN
+                    btnConectar.setText("Conectar");
+                 // AJUSTAMOS LAS MEDIDAS AL BTN ORIGIAL
+                    btnConectar.setBounds(629, 38, btnConectar.getPreferredSize().width, btnConectar.getPreferredSize().height);
                     activarCamposCRUD(false); //VUELVE A DESHABILITAR COMO AL INICIO EL PANEL CRUD Y EL COMBOBOX
                     panelCRUD.setVisible(false);
                     limpiarCampos(txtBaseDatos, txtUsuario, txtPassword); // LIMPIA LOS CAMPOS PARA VOLVER AL INICIO, PARA QUE NO QUEDEN REFLEJADOS
+                    // PPREGUNTAMOS SI DESEAMOS CERRAR EL PROGRAMA O VOLVER A CONECTARSE
+                    int respuesta = JOptionPane.showOptionDialog(frmCrud,
+                            "¿Qué desea hacer ahora?",
+                            "Opciones después de desconectar",
+                            JOptionPane.YES_NO_OPTION,
+                            JOptionPane.QUESTION_MESSAGE,
+                            null,
+                            new String[]{"Cerrar Programa", "Volver a Conectarse"},
+                            "Volver a Conectarse");
+
+                    if (respuesta == JOptionPane.YES_OPTION) {
+                        // CERRAMOS EL PROGRAMA Y NO DEJAMOS NADA ABIERTO
+                    	frmCrud.dispose();
+                        System.exit(0);
+                    } else if (respuesta == JOptionPane.NO_OPTION) {
+                        // LIMPIAMOS TODOS LOS DATOS PARA UNA NUEVA CONEXION Y DESHABILITAMOS EL PANEL CRUD
+                        limpiarCampos(txtBaseDatos, txtUsuario, txtPassword);
+                        panelCRUD.setVisible(false);
+                    }
                 }
             } catch (SQLException ex) {
                 ex.printStackTrace();
