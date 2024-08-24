@@ -16,7 +16,9 @@ public class MainCRUDPruebas {
     	CommonHelpers helpers = new CommonHelpers();
         ConexionBd bd = new ConexionBd();
         Connection conexion = null;
-        boolean ejecutar = false;
+        boolean ejecutar = true;
+        
+        // SOLICITUD DE LOS DATOS DE CONEXION
         
         String baseDatos = "", usuario = "", password = "";
         
@@ -36,6 +38,8 @@ public class MainCRUDPruebas {
         bd.setBaseDatos(baseDatos);
         bd.setUsuario(usuario);
         bd.setPassword(password);
+        
+        //COMPROBAMOS LA CONEXION CON EL TRY- CATCH
 
         try {
             conexion = bd.generarConexion();
@@ -49,8 +53,8 @@ public class MainCRUDPruebas {
         
         
         
-
-        while (!ejecutar) {
+    // CREAMOS EL BUCLE PARA LLAMAR EN CADA CASO AL MODELO QUE NECESITAMOS DE GESTION DE CADA TABLA
+        while (ejecutar) {
             mostrarMenuPrincipal(helpers);
             int opcion = helpers.leerTecladoInt();
 
@@ -65,7 +69,7 @@ public class MainCRUDPruebas {
                 	ejecutarTrabajadoresCRUD(conexion, helpers);
                     break;
                 case 4:
-                    ejecutar = true;
+                    ejecutar = false;
                     helpers.imprimirContinuo("Saliendo del programa...");
                     break;
                 default:
@@ -83,9 +87,11 @@ public class MainCRUDPruebas {
         }catch (Exception exception) {
             exception.printStackTrace();
         }
+        
     }
 
-
+    
+ // CREAMOS UN MENU DONDE SELECCIONAMOS CADA TABLA SEGUN NUESTRAS NECESITADES
     private static void mostrarMenuPrincipal(CommonHelpers helpers) {
         helpers.imprimirSalto("\n|************************************|");
         helpers.imprimirSalto("| \tSELECCIONE UNA OPCIÓN:       |");
@@ -102,6 +108,8 @@ public class MainCRUDPruebas {
             usuariosCRUD.ejecutarCRUD();
         } catch (SQLException e) {
             e.printStackTrace();
+        }catch (Exception exception) {
+            exception.printStackTrace();
         }
     }
 
@@ -111,6 +119,8 @@ public class MainCRUDPruebas {
             clientesCRUD.ejecutarCRUD();
         } catch (SQLException e) {
             e.printStackTrace();
+        }catch (Exception exception) {
+            exception.printStackTrace();
         }
     }
 
@@ -120,6 +130,8 @@ public class MainCRUDPruebas {
             trabajadoresCRUD.ejecutarCRUD();
         } catch (SQLException e) {
             e.printStackTrace();
+        }catch (Exception exception) {
+            exception.printStackTrace();
         }
     }
 }

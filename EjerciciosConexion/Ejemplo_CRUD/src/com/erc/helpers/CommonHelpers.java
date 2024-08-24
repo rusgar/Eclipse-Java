@@ -153,6 +153,21 @@ public class CommonHelpers {
 	                throw new IllegalArgumentException("El valor ingresado no es un número válido: " + text);
 	            }
 	        }
+	        
+	     // METODO PARA LEER EL TEXTOINTRODUCIDO DEN UN jTEXTFILED Y CONVERTIRLO EN UN NUMERO ENTERO EN ESTE CASO
+	        public int getIntFromTextField(JTextField textField) {
+	            String text = textField.getText().trim();
+	            if (text.isEmpty()) {
+	                return 0;  // Retorna un valor por defecto si el campo está vacío
+	            }
+	            try {
+	                return Integer.parseInt(text);
+	            } catch (NumberFormatException e) {
+	                // Manejar el error si el texto no es un número válido
+	                throw new IllegalArgumentException("El valor ingresado no es un número entero válido: " + text);
+	            }
+	        }
+
 	        public void mostrarMensaje(JFrame marco,
 	        		String mensaje,
 	        		String tipo) {
