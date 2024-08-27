@@ -84,8 +84,8 @@ public void mostrarMensaje(JFrame marco,
 
 public String leerTeclado() {
 	String retorno="";
-	Scanner sca= new Scanner(System.in);
-	retorno=sca.nextLine();
+	Scanner sc= new Scanner(System.in);
+	retorno=sc.nextLine();
 	return retorno;
 }
 
@@ -101,6 +101,13 @@ public int stringtoInt(String entrada) {
 	int retorno=0;
 	retorno=Integer.parseInt(entrada);
 	return retorno;
+}
+
+public int leerTecladoInt() {
+	Scanner sca = new Scanner(System.in);
+    String entrada = sca.nextLine();
+    int valor = Integer.parseInt(entrada);
+    return valor;
 }
 
 }
