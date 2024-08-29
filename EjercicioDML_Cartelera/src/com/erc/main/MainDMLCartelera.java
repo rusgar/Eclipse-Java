@@ -15,8 +15,10 @@ import com.erc.model.tablaGeneros;
 import com.erc.model.tablaNacionalidades;
 import com.erc.model.tablaPeguis;
 import com.erc.model.tablaPeliculas;
+import com.erc.model.tablaPeliculas_Generos;
 import com.erc.model.tablaPersonajes;
 import com.erc.model.tablaPersonas;
+import com.erc.model.tablaPremios;
 import com.erc.model.tablaProductores;
 import com.erc.model.tablaTipos;
 
@@ -224,9 +226,8 @@ public class MainDMLCartelera {
 				                    String nombre = ayudaHelpers.leerTeclado();
 				                    ayudaHelpers.imprimirSalto("Introduzca Apellido:");
 				                    String apellido = ayudaHelpers.leerTeclado();
-				                    ayudaHelpers.imprimirSalto("Introduzca Fecha de Nacimiento (yyyy-MM-dd):");
-				                    Date fechaNacimiento = Date.valueOf(ayudaHelpers.leerTeclado());
-				                    
+				                    ayudaHelpers.imprimirSalto("Introduzca Fecha de Nacimiento :");
+				                    Date fechaNacimiento = Date.valueOf(ayudaHelpers.leerTeclado());				                    
 				                    ayudaHelpers.imprimirSalto("Introduzca Id de Nacionalidad:");
 				                    int idNacionalidad = ayudaHelpers.stringtoInt(ayudaHelpers.leerTeclado());
 
@@ -248,9 +249,8 @@ public class MainDMLCartelera {
 				                    String nombre = ayudaHelpers.leerTeclado();
 				                    ayudaHelpers.imprimirSalto("Introduzca Apellido :");
 				                    String apellido = ayudaHelpers.leerTeclado();
-				                    ayudaHelpers.imprimirSalto("Introduzca Fecha de Nacimiento (yyyy-MM-dd):");
-				                    Date fechaNacimiento = Date.valueOf(ayudaHelpers.leerTeclado());
-				                    
+				                    ayudaHelpers.imprimirSalto("Introduzca Fecha de Nacimiento :");
+				                    Date fechaNacimiento = Date.valueOf(ayudaHelpers.leerTeclado());				                    
 				                    ayudaHelpers.imprimirSalto("Introduzca Id de Nacionalidad :");
 				                    int idNacionalidad = ayudaHelpers.stringtoInt(ayudaHelpers.leerTeclado());
 
@@ -1075,9 +1075,214 @@ public class MainDMLCartelera {
 
 				            case "5": {
 				                try {
-				                    ArrayList<tablaPeliculas> listadoPeliculas = bdDao.listarPeliculas(conexion);
-				                    for (tablaPeliculas pelicula : listadoPeliculas) {
-				                        ayudaHelpers.imprimirSalto(pelicula.toString());
+				                    ArrayList<tablaPeliculas> listadoPeliculas = new  ArrayList<tablaPeliculas>();
+				                    listadoPeliculas = bdDao.listarPeliculas(conexion);
+				                    for (int i = 0; i < listadoPeliculas.size(); i++) {
+				                        ayudaHelpers.imprimirSalto(listadoPeliculas.get(i).toString());
+				                    }
+				                } catch (SQLException sqlEx) {
+				                    sqlEx.printStackTrace();
+				                } catch (Exception ex) {
+				                    ex.printStackTrace();
+				                }
+				                break;
+				            }
+
+				            default:
+				                ayudaHelpers.imprimirSalto("Opción no disponible");
+				        }
+				    }
+				    break;
+				}
+				
+				// ********************************* CRUD DE PREMIOS******************************
+				// **************************************************************************************
+				case "11": {  
+				    ejecutarOpciones = true;
+				    while (ejecutarOpciones) {
+				        MenuHelpers.imprimirMenuOpciones(ayudaHelpers);
+				        opcionLeida = ayudaHelpers.leerTeclado();
+				        switch (opcionLeida) {
+
+				            case "0": {
+				                ayudaHelpers.imprimirSalto("Volvemos a la comarca");
+				                ejecutarOpciones = false;
+				                break;
+				            }
+
+				            case "1": {
+				                try {
+				                    ayudaHelpers.imprimirSalto("Introduzca Id del Premio:");
+				                    int id = ayudaHelpers.stringtoInt(ayudaHelpers.leerTeclado());
+				                    tablaPremios auxPremio = bdDao.obtenerPremioPorId(conexion, id);
+				                    ayudaHelpers.imprimirSalto(auxPremio.toString());
+				                } catch (SQLException sqlEx) {
+				                    sqlEx.printStackTrace();
+				                } catch (Exception e) {
+				                    e.printStackTrace();
+				                }
+				                break;
+				            }
+
+				            case "2": {
+				                try {
+				                    ayudaHelpers.imprimirSalto("Introduzca el Nombre del Premio:");
+				                    String nombre = ayudaHelpers.leerTeclado();
+				                    ayudaHelpers.imprimirSalto("Introduzca la Fecha del Premio :");
+				                    Date fecha= Date.valueOf(ayudaHelpers.leerTeclado());
+				                    ayudaHelpers.imprimirSalto("Introduzca Id de la Película:");
+				                    int id_pelicula = ayudaHelpers.stringtoInt(ayudaHelpers.leerTeclado());
+				                    ayudaHelpers.imprimirSalto("Introduzca Id del Tipo de Premio:");
+				                    int id_tipo = ayudaHelpers.stringtoInt(ayudaHelpers.leerTeclado());
+
+				                    bdDao.insertarPremio(conexion, nombre, fecha, id_pelicula, id_tipo);
+				                } catch (SQLException sqlEx) {
+				                    sqlEx.printStackTrace();
+				                } catch (Exception ex) {
+				                    ex.printStackTrace();
+				                }
+				                break;
+				            }
+
+				            case "3": {
+				                try {
+				                    ayudaHelpers.imprimirSalto("Introduzca Id del Premio:");
+				                    int id = ayudaHelpers.stringtoInt(ayudaHelpers.leerTeclado());
+				                    ayudaHelpers.imprimirSalto("Introduzca el Nombre del Premio:");
+				                    String nombre = ayudaHelpers.leerTeclado();
+				                    ayudaHelpers.imprimirSalto("Introduzca la Fecha del Premio :");
+				                    Date fecha= Date.valueOf(ayudaHelpers.leerTeclado());
+				                    ayudaHelpers.imprimirSalto("Introduzca Id de la Película:");
+				                    int id_pelicula = ayudaHelpers.stringtoInt(ayudaHelpers.leerTeclado());
+				                    ayudaHelpers.imprimirSalto("Introduzca Id del Tipo de Premio:");
+				                    int id_tipo = ayudaHelpers.stringtoInt(ayudaHelpers.leerTeclado());
+
+				                    bdDao.actualizarPremio(conexion, id, nombre, fecha, id_pelicula, id_tipo);
+				                } catch (SQLException sqlEx) {
+				                    sqlEx.printStackTrace();
+				                } catch (Exception eX) {
+				                    eX.printStackTrace();
+				                }
+				                break;
+				            }
+
+				            case "4": {
+				                try {
+				                    ayudaHelpers.imprimirSalto("Introduzca la Id del Premio:");
+				                    int id = ayudaHelpers.stringtoInt(ayudaHelpers.leerTeclado());
+				                    bdDao.borrarPremioPorId(conexion, id);
+				                } catch (SQLException sqlEx) {
+				                    sqlEx.printStackTrace();
+				                } catch (Exception ex) {
+				                    ex.printStackTrace();
+				                }
+				                break;
+				            }
+
+				            case "5": {
+				                try {
+				                    ArrayList<tablaPremios> listadoPremios =new ArrayList<tablaPremios>();
+				                    listadoPremios = bdDao.listarPremios(conexion);
+				                    for (int i = 0; i < listadoPremios.size(); i++) {
+				                        ayudaHelpers.imprimirSalto(listadoPremios.get(i).toString());
+				                    }
+				                } catch (SQLException sqlEx) {
+				                    sqlEx.printStackTrace();
+				                } catch (Exception ex) {
+				                    ex.printStackTrace();
+				                }
+				                break;
+				            }
+
+				            default:
+				                ayudaHelpers.imprimirSalto("Opción no disponible");
+				        }
+				    }
+				    break;
+				}
+				// ********************************* CRUD DE PELICULAS_GENEROS******************************
+				// **************************************************************************************
+
+				case "12": {  
+				    ejecutarOpciones = true;
+				    while (ejecutarOpciones) {
+				        MenuHelpers.imprimirMenuOpciones(ayudaHelpers);
+				        opcionLeida = ayudaHelpers.leerTeclado();
+				        switch (opcionLeida) {
+
+				            case "0": {
+				                ayudaHelpers.imprimirSalto("Volvemos a la comarca");
+				                ejecutarOpciones = false;
+				                break;
+				            }
+
+				            case "1": {
+				                try {
+				                    ayudaHelpers.imprimirSalto("Introduzca Id de la tabla Peliculas_Generos:");
+				                    int id = ayudaHelpers.stringtoInt(ayudaHelpers.leerTeclado());
+				                    tablaPeliculas_Generos auxRelacion = bdDao.obtenerPeliculas_GenerosPorId(conexion, id);
+				                    ayudaHelpers.imprimirSalto(auxRelacion.toString());
+				                } catch (SQLException sqlEx) {
+				                    sqlEx.printStackTrace();
+				                } catch (Exception e) {
+				                    e.printStackTrace();
+				                }
+				                break;
+				            }
+
+				            case "2": {
+				                try {
+				                    ayudaHelpers.imprimirSalto("Introduzca Id del Género:");
+				                    int id_genero = ayudaHelpers.stringtoInt(ayudaHelpers.leerTeclado());
+				                    ayudaHelpers.imprimirSalto("Introduzca Id de la Película:");
+				                    int id_pelicula = ayudaHelpers.stringtoInt(ayudaHelpers.leerTeclado());
+
+				                    bdDao.insertarPeliculas_Generos(conexion, id_genero, id_pelicula);
+				                } catch (SQLException sqlEx) {
+				                    sqlEx.printStackTrace();
+				                } catch (Exception ex) {
+				                    ex.printStackTrace();
+				                }
+				                break;
+				            }
+
+				            case "3": {
+				                try {
+				                    ayudaHelpers.imprimirSalto("Introduzca Id de la tabla Peliculas_Generos:");
+				                    int id = ayudaHelpers.stringtoInt(ayudaHelpers.leerTeclado());
+				                    ayudaHelpers.imprimirSalto("Introduzca Id del Género:");
+				                    int id_genero = ayudaHelpers.stringtoInt(ayudaHelpers.leerTeclado());
+				                    ayudaHelpers.imprimirSalto("Introduzca Id de la Película:");
+				                    int id_pelicula = ayudaHelpers.stringtoInt(ayudaHelpers.leerTeclado());
+
+				                    bdDao.actualizarPeliculas_Generos(conexion, id, id_genero, id_pelicula);
+				                } catch (SQLException sqlEx) {
+				                    sqlEx.printStackTrace();
+				                } catch (Exception eX) {
+				                    eX.printStackTrace();
+				                }
+				                break;
+				            }
+
+				            case "4": {
+				                try {
+				                    ayudaHelpers.imprimirSalto("Introduzca la Id de la tabla Peliculas_Generos:");
+				                    int id = ayudaHelpers.stringtoInt(ayudaHelpers.leerTeclado());
+				                    bdDao.borrarPeliculas_GenerosPorId(conexion, id);
+				                } catch (SQLException sqlEx) {
+				                    sqlEx.printStackTrace();
+				                } catch (Exception ex) {
+				                    ex.printStackTrace();
+				                }
+				                break;
+				            }
+
+				            case "5": {
+				                try {
+				                    ArrayList<tablaPeliculas_Generos> listadoPeliculasGeneros =new ArrayList<tablaPeliculas_Generos>();
+				                    listadoPeliculasGeneros = bdDao.listarRelaciones(conexion);
+				                    for (int i = 0; i < listadoPeliculasGeneros.size(); i++) {
+				                        ayudaHelpers.imprimirSalto(listadoPeliculasGeneros.get(i).toString());
 				                    }
 				                } catch (SQLException sqlEx) {
 				                    sqlEx.printStackTrace();

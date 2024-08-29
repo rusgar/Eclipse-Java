@@ -29,6 +29,9 @@ public class MenuHelpers {
 		ayuda.imprimirSalto("\t8.Actores");
 		ayuda.imprimirSalto("\t9.Productores");
 		ayuda.imprimirSalto("\t10.Peliculas");
+		ayuda.imprimirSalto("\t11.Premios");
+		ayuda.imprimirSalto("\t12.Peliculas_Generos");
+		ayuda.imprimirSalto("\t11.Personajes_Peliculas");
 		ayuda.imprimirSalto("\tEscoja una opción:");
 	}
 

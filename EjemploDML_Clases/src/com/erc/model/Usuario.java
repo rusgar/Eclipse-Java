@@ -74,9 +74,16 @@ public class Usuario {
 	}
 	@Override
 	public String toString() {
-		return "Usuario: \n\t id=>  " + id + ", \n\t dni=>  " + dni + ", \n\t nombre=>  " + nombre + ", \n\t apellidos=>  "
-	            + apellidos + ","+ " \n\t direccion=>  "	+ direccion + ", \n\t telefono=>  " 
-				+ telefono + ", \n\t email=>  " + email + "";
+		return "********************************\n"+
+	           " Tabla Usuario: *****************"+
+				"\n\t id==>  " + id +
+				", \n\t dni==>  " + dni + 
+				", \n\t nombre==>  " + nombre + 
+				", \n\t apellidos==>  " + apellidos +
+				","+ " \n\t direccion==>  "	+ direccion +
+				", \n\t telefono==>  " 	+ telefono + 
+				", \n\t email==>  " + email +
+				"\n********************************\n";
 	}
 
 	

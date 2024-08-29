@@ -14,8 +14,11 @@ import com.erc.model.tablaGeneros;
 import com.erc.model.tablaNacionalidades;
 import com.erc.model.tablaPeguis;
 import com.erc.model.tablaPeliculas;
+import com.erc.model.tablaPeliculas_Generos;
 import com.erc.model.tablaPersonajes;
+import com.erc.model.tablaPersonajesPeliculas;
 import com.erc.model.tablaPersonas;
+import com.erc.model.tablaPremios;
 import com.erc.model.tablaProductores;
 import com.erc.model.tablaTipos;
 
@@ -32,6 +35,9 @@ public class BDDAO {
     private static final String TABLA_ACTORES = "actores";
     private static final String TABLA_PRODUCTORES = "actores";
     private static final String TABLA_PELICULAS = "peliculas";
+    private static final String TABLA_PREMIOS = "peliculas";
+    private static final String TABLA_PELICULAS_GENEROS = "peliculas_genero";
+    private static final String TABLA_PERSONAJES_PELICULAS = "personajes_peliculas";
     
 
     // CAMPOS DE DATOS DE LA TABLA NACIONALIDADES
@@ -46,7 +52,7 @@ public class BDDAO {
     private static final String PERSONAS_FECHA_NACIMIENTO = "fecha_nacimiento";
     private static final String PERSONAS_ID_NACIONALIDAD = "id_nacionalidad";
     
-    // CAMPOS DE DATOS DE LA TABLA PERSONAS
+    // CAMPOS DE DATOS DE LA TABLA PERSONAJES
     private static final String PERSONAJES_ID = "id";
     private static final String PERSONAJES_NOMBRE = "nombre";
     private static final String PERSONAJES_EDAD = "edad";
@@ -88,6 +94,25 @@ public class BDDAO {
     private static final String PELICULAS_ID_DIRECTOR = "id_director";
     private static final String PELICULAS_ID_PRODUCTOR= "id_productor";
     private static final String PELICULAS_ID_PEGUI= "id_pegui";
+    
+    // CAMPOS DE DATOS DE LA TABLA PREMIOS
+    private static final String PREMIOS_ID = "id";
+    private static final String PREMIOS_NOMBRE = "nombre";
+    private static final String PREMIOS_FECHA = "fecha";
+    private static final String PREMIOS_ID_PELICULA = "id_pelicula";
+    private static final String PREMIOS_ID_TIPO = "id_tipo";
+    
+    // CAMPOS DE DATOS DE LA TABLA PELICULAS_GENEROS
+    private static final String PELICULAS_GENEROS_ID = "id";
+    private static final String PELICULAS_GENEROS_ID_PELICULA = "id_pelicula";
+    private static final String PELICULAS_GENEROS_ID_GENERO = "id_genero";
+    
+    // CAMPOS DE DATOS DE LA TABLA PERSONAJES_PELICULAS
+    private static final String PERSONAJES_PELICULAS_ID = "id";
+    private static final String PERSONAJES_PELICULAS_ID_PERSONAJE = "id_personaje";
+    private static final String PERSONAJES_PELICULAS_ID_PELICULA = "id_pelicula";
+    private static final String PERSONAJES_PELICULAS_ID_ACTOR = "id_actor";
+    
     
     
     
@@ -568,7 +593,7 @@ public class BDDAO {
             }
 
         
-            // ********************************* CRUD DE EDAD ******************************
+            // ********************************* CRUD DE PEGUIS ******************************
             // ***********************************************************************************
             
             
@@ -1115,8 +1140,334 @@ public class BDDAO {
 
 
 
+            // ********************************* CRUD DE PREMIOS ******************************
+            // ***********************************************************************************
+
+            
+            public tablaPremios obtenerPremioPorId(Connection conexion, int id) throws SQLException {
+                tablaPremios retorno = new tablaPremios();
+                String sqlSeleccion = "SELECT * FROM " + TABLA_PREMIOS + " WHERE " + PREMIOS_ID + " = ?";
+                PreparedStatement prdStat = conexion.prepareStatement(sqlSeleccion);
+                prdStat.setInt(1, id);
+                ResultSet resultado = prdStat.executeQuery();
+                if (resultado.next()) {
+                    retorno.setId(id);
+                    retorno.setNombre(resultado.getString(PREMIOS_NOMBRE));
+                    retorno.setFecha(resultado.getDate(PREMIOS_FECHA));
+                    retorno.setId_pelicula(resultado.getInt(PREMIOS_ID_PELICULA));
+                    retorno.setId_tipo(resultado.getInt(PREMIOS_ID_TIPO));
+                }
+                return retorno;
+            }
+
+            public void insertarPremio(Connection conexion, String nombre, Date fecha, int idPelicula, int idTipo) throws SQLException {
+                CommonHelpers ayudaHelpers = new CommonHelpers();
+                String sqlInsercion = "INSERT INTO " + TABLA_PREMIOS + 
+                                      " (" + PREMIOS_NOMBRE + ", " + PREMIOS_FECHA + ", " 
+                                       + PREMIOS_ID_PELICULA + ", " + PREMIOS_ID_TIPO + ")"
+                                       + " VALUES (?, ?, ?, ?)";
+                PreparedStatement prdstInsercion = conexion.prepareStatement(sqlInsercion);
+                
+                prdstInsercion.setString(1, nombre); 
+                if (fecha != null) {
+                    prdstInsercion.setDate(2, new Date(fecha.getTime()));
+                } else {
+                    prdstInsercion.setNull(2,java.sql.Types.DATE);
+                }
+                prdstInsercion.setInt(3, idPelicula);
+                prdstInsercion.setInt(4, idTipo);
+                
+                int filasAfectadas = prdstInsercion.executeUpdate();
+                if (filasAfectadas > 0) {
+                    ayudaHelpers.imprimirSalto("Inserción Realizada");
+                } else {
+                    ayudaHelpers.imprimirSalto("Inserción no Realizada");
+                }
+            }
+
+            public void actualizarPremio(Connection conexion, int id, String nombre,
+            		                     Date fecha, int idPelicula, int idTipo) throws SQLException {
+                CommonHelpers ayudaHelpers = new CommonHelpers();
+                tablaPremios auxPremio = obtenerPremioPorId(conexion, id);
+                String sqlActualizacion = "UPDATE " + TABLA_PREMIOS + " SET " + PREMIOS_NOMBRE + " = ?, " 
+                        + PREMIOS_FECHA + " = ?, " + PREMIOS_ID_PELICULA + " = ?, " 
+                        + PREMIOS_ID_TIPO + " = ? WHERE " + PREMIOS_ID + " = ?";
+                PreparedStatement prdstActualizacion = conexion.prepareStatement(sqlActualizacion);
+                
+                if (!nombre.equalsIgnoreCase("")) {
+                    prdstActualizacion.setString(1, nombre);
+                } else {
+                    prdstActualizacion.setString(1, auxPremio.getNombre());
+                }
+                
+                if (fecha != null) {
+                    prdstActualizacion.setDate(2, fecha);
+                } else {
+                    prdstActualizacion.setDate(2, auxPremio.getFecha());
+                }
+                
+                if (idPelicula == 0) {
+                    prdstActualizacion.setInt(3, idPelicula);
+                } else {
+                    prdstActualizacion.setInt(3, auxPremio.getId_pelicula());
+                }
+                
+                if (idTipo == 0) {
+                    prdstActualizacion.setInt(4, idTipo);
+                } else {
+                    prdstActualizacion.setInt(4, auxPremio.getId_tipo());
+                }
+                
+                prdstActualizacion.setInt(5, id);
+               
+                int filasAfectadas = prdstActualizacion.executeUpdate();
+                if (filasAfectadas > 0) {
+                    ayudaHelpers.imprimirSalto("Actualización Realizada");
+                } else {
+                    ayudaHelpers.imprimirSalto("Actualización no Realizada");
+                }
+            }
+
+            public void borrarPremioPorId(Connection conexion, int id) throws SQLException {
+                CommonHelpers ayudaHelpers = new CommonHelpers();
+                String sqlBorrado = "DELETE FROM " + TABLA_PREMIOS + " WHERE " + PREMIOS_ID + " = ?";
+                PreparedStatement prdstBorrado = conexion.prepareStatement(sqlBorrado);
+                prdstBorrado.setInt(1, id);
+                int filasAfectadas = prdstBorrado.executeUpdate();
+                if (filasAfectadas > 0) {
+                    ayudaHelpers.imprimirSalto("Borrado Realizado");
+                } else {
+                    ayudaHelpers.imprimirSalto("Borrado no Realizado");
+                }
+            }
+            
+            public ArrayList<tablaPremios> listarPremios(Connection conexion) throws SQLException {
+                ArrayList<tablaPremios> listadoPremios = new ArrayList<>();
+                String sqlListado = "SELECT * FROM " + TABLA_PREMIOS;
+                PreparedStatement prdStat = conexion.prepareStatement(sqlListado);
+                ResultSet resultado = prdStat.executeQuery();
+                while (resultado.next()) {
+                    tablaPremios auxPremios = new tablaPremios();
+                    auxPremios.setId(resultado.getInt(PREMIOS_ID));
+                    auxPremios.setNombre(resultado.getString(PREMIOS_NOMBRE));
+                    auxPremios.setFecha(resultado.getDate(PREMIOS_FECHA));
+                    auxPremios.setId_pelicula(resultado.getInt(PREMIOS_ID_PELICULA));
+                    auxPremios.setId_tipo(resultado.getInt(PREMIOS_ID_TIPO));
+                    listadoPremios.add(auxPremios);
+                }
+                return listadoPremios;
+            }
+
+            
+            // ********************************* CRUD DE PELICULAS_GENEROS ******************************
+            // ***********************************************************************************
+            
+            public tablaPeliculas_Generos obtenerPeliculas_GenerosPorId(Connection conexion, int id) throws SQLException {
+                tablaPeliculas_Generos relacion = new tablaPeliculas_Generos();
+                String sqlSeleccion = "SELECT * FROM " + TABLA_PELICULAS_GENEROS + " WHERE " + PELICULAS_GENEROS_ID + " = ?";
+                PreparedStatement prdStat = conexion.prepareStatement(sqlSeleccion);
+                prdStat.setInt(1, id);
+                ResultSet resultado = prdStat.executeQuery();
+                if (resultado.next()) {
+                    relacion.setId(id);
+                    relacion.setId_genero(resultado.getInt(PELICULAS_GENEROS_ID_GENERO));
+                    relacion.setId_pelicula(resultado.getInt(PELICULAS_GENEROS_ID_PELICULA));
+                }
+                return relacion;
+            }
+            
+            
+            public void insertarPeliculas_Generos(Connection conexion, int id_genero, int id_pelicula) throws SQLException {
+                String sqlInsercion = "INSERT INTO " + TABLA_PELICULAS_GENEROS +
+                		              " (" + PELICULAS_GENEROS_ID_GENERO + ", " + PELICULAS_GENEROS_ID_PELICULA + ")" +
+                                      " VALUES (?, ?)";
+                PreparedStatement prdstInsercion = conexion.prepareStatement(sqlInsercion);
+                prdstInsercion.setInt(1, id_genero);
+                prdstInsercion.setInt(2, id_pelicula);
+                
+                int filasAfectadas = prdstInsercion.executeUpdate();
+                if (filasAfectadas > 0) {
+                    System.out.println("Inserción Realizada");
+                } else {
+                    System.out.println("Inserción no Realizada");
+                }
+            }
+
+            public void actualizarPeliculas_Generos(Connection conexion, int id, int id_genero, int id_pelicula) throws SQLException {
+                tablaPeliculas_Generos auxpeliculasGeneros = obtenerPeliculas_GenerosPorId(conexion, id);
+                String sqlActualizacion = "UPDATE " + TABLA_PELICULAS_GENEROS + " SET " 
+                                        + PELICULAS_GENEROS_ID_GENERO + " = ?, " 
+                                        + PELICULAS_GENEROS_ID_PELICULA + " = ? "
+                                        + "WHERE " + PELICULAS_GENEROS_ID + " = ?";
+
+                PreparedStatement prdstActualizacion = conexion.prepareStatement(sqlActualizacion);
+                if (id==0) {
+                    prdstActualizacion.setInt(1, id);
+                } else {
+                    prdstActualizacion.setInt(1, auxpeliculasGeneros.getId());
+                }
+                if (id_genero==0) {
+                    prdstActualizacion.setInt(2, id);
+                } else {
+                    prdstActualizacion.setInt(2, auxpeliculasGeneros.getId_genero());
+                }
+                if (id_pelicula==0) {
+                    prdstActualizacion.setInt(3, id);
+                } else {
+                    prdstActualizacion.setInt(3, auxpeliculasGeneros.getId_pelicula());
+                }
+                
+               
+                int filasAfectadas = prdstActualizacion.executeUpdate();
+                if (filasAfectadas > 0) {
+                    System.out.println("Actualización Realizada");
+                } else {
+                    System.out.println("Actualización no Realizada");
+                }
+            }
+            
+            public void borrarPeliculas_GenerosPorId(Connection conexion, int id) throws SQLException {
+                String sqlBorrado = "DELETE FROM " + TABLA_PELICULAS_GENEROS + " WHERE " + PELICULAS_GENEROS_ID + " = ?";
+                PreparedStatement prdstBorrado = conexion.prepareStatement(sqlBorrado);
+                prdstBorrado.setInt(1, id);
+                
+                int filasAfectadas = prdstBorrado.executeUpdate();
+                if (filasAfectadas > 0) {
+                    System.out.println("Borrado Realizado");
+                } else {
+                    System.out.println("Borrado no Realizado");
+                }
+            }
 
 
+            public ArrayList<tablaPeliculas_Generos> listarRelaciones(Connection conexion) throws SQLException {
+                ArrayList<tablaPeliculas_Generos> listadoRelaciones = new ArrayList<>();
+                String sqlListado = "SELECT * FROM " + TABLA_PELICULAS_GENEROS;
+                PreparedStatement prdStat = conexion.prepareStatement(sqlListado);
+                ResultSet resultado = prdStat.executeQuery();
+                while (resultado.next()) {
+                    tablaPeliculas_Generos auxRelacion = new tablaPeliculas_Generos();
+                    auxRelacion.setId(resultado.getInt(PELICULAS_GENEROS_ID));
+                    auxRelacion.setId_genero(resultado.getInt(PELICULAS_GENEROS_ID_GENERO));
+                    auxRelacion.setId_pelicula(resultado.getInt(PELICULAS_GENEROS_ID_PELICULA));
+                    listadoRelaciones.add(auxRelacion);
+                }
+                return listadoRelaciones;
+            }
+            
+            
+         // ********************************* CRUD DE PERSONAJES_PELICULAS ******************************
+            // ***********************************************************************************
+            
+            
+      
+            public tablaPersonajesPeliculas obtenerPersonajes_PeliculasPorId(Connection conexion, int id) throws SQLException {
+                tablaPersonajesPeliculas relacion = new tablaPersonajesPeliculas();
+                String sqlSeleccion = "SELECT * FROM " + TABLA_PERSONAJES_PELICULAS + " WHERE " + PERSONAJES_PELICULAS_ID + " = ?";
+                PreparedStatement prdStat = conexion.prepareStatement(sqlSeleccion);
+                prdStat.setInt(1, id);
+                ResultSet resultado = prdStat.executeQuery();
+                if (resultado.next()) {
+                    relacion.setId(id);
+                    relacion.setId_personaje(resultado.getInt(PERSONAJES_PELICULAS_ID_PERSONAJE));
+                    relacion.setId_pelicula(resultado.getInt(PERSONAJES_PELICULAS_ID_PELICULA));
+                    relacion.setId_actor(resultado.getInt(PERSONAJES_PELICULAS_ID_ACTOR));
+                }
+                return relacion;
+            }
+
+        
+            public void insertarPersonajes_Peliculas(Connection conexion, int id_personaje, int id_pelicula, int id_actor) throws SQLException {
+                String sqlInsercion = "INSERT INTO " + TABLA_PERSONAJES_PELICULAS +
+                                      " (" + PERSONAJES_PELICULAS_ID_PERSONAJE + ", " + PERSONAJES_PELICULAS_ID_PELICULA + ", " 
+                		                   + PERSONAJES_PELICULAS_ID_ACTOR + ")" + 
+                                      " VALUES (?, ?, ?)";
+                PreparedStatement prdstInsercion = conexion.prepareStatement(sqlInsercion);
+                prdstInsercion.setInt(1, id_personaje);
+                prdstInsercion.setInt(2, id_pelicula);
+                prdstInsercion.setInt(3, id_actor);
+                
+                int filasAfectadas = prdstInsercion.executeUpdate();
+                if (filasAfectadas > 0) {
+                    System.out.println("Inserción Realizada");
+                } else {
+                    System.out.println("Inserción no Realizada");
+                }
+            }
+
+            // Actualizar un registro en personajes_peliculas
+            public void actualizarPersonajes_Peliculas(Connection conexion, int id, int id_personaje, int id_pelicula, int id_actor) throws SQLException {
+                tablaPersonajesPeliculas auxPersonajesPeliculas = obtenerPersonajes_PeliculasPorId(conexion, id);
+                String sqlActualizacion = "UPDATE " + TABLA_PERSONAJES_PELICULAS + " SET " 
+                                          + PERSONAJES_PELICULAS_ID_PERSONAJE + " = ?, " 
+                                          + PERSONAJES_PELICULAS_ID_PELICULA + " = ?, "
+                                          + PERSONAJES_PELICULAS_ID_ACTOR + " = ? "
+                                          + "WHERE " + PERSONAJES_PELICULAS_ID + " = ?";
+
+                PreparedStatement prdstActualizacion = conexion.prepareStatement(sqlActualizacion);
+                if (id==0) {
+                    prdstActualizacion.setInt(1, id);
+                } else {
+                    prdstActualizacion.setInt(1, auxPersonajesPeliculas.getId());
+                }
+                if (id_personaje==0) {
+                    prdstActualizacion.setInt(2, id);
+                } else {
+                    prdstActualizacion.setInt(2, auxPersonajesPeliculas.getId_personaje());
+                }
+                if (id_pelicula==0) {
+                    prdstActualizacion.setInt(3, id);
+                } else {
+                    prdstActualizacion.setInt(3, auxPersonajesPeliculas.getId_pelicula());
+                }
+                if (id_actor==0) {
+                    prdstActualizacion.setInt(3, id);
+                } else {
+                    prdstActualizacion.setInt(3, auxPersonajesPeliculas.getId_actor());
+                }
+                
+                int filasAfectadas = prdstActualizacion.executeUpdate();
+                if (filasAfectadas > 0) {
+                    System.out.println("Actualización Realizada");
+                } else {
+                    System.out.println("Actualización no Realizada");
+                }
+            }
+
+           
+            public void borrarPersonajes_PeliculasPorId(Connection conexion, int id) throws SQLException {
+                String sqlBorrado = "DELETE FROM " + TABLA_PERSONAJES_PELICULAS + " WHERE " + PERSONAJES_PELICULAS_ID + " = ?";
+                PreparedStatement prdstBorrado = conexion.prepareStatement(sqlBorrado);
+                prdstBorrado.setInt(1, id);
+                
+                int filasAfectadas = prdstBorrado.executeUpdate();
+                if (filasAfectadas > 0) {
+                    System.out.println("Borrado Realizado");
+                } else {
+                    System.out.println("Borrado no Realizado");
+                }
+            }
+
+            // Listar todos los registros de personajes_peliculas
+            public ArrayList<tablaPersonajesPeliculas> listarPersonajes_Peliculas(Connection conexion) throws SQLException {
+                ArrayList<tablaPersonajesPeliculas> listadoRelaciones = new ArrayList<>();
+                String sqlListado = "SELECT * FROM " + TABLA_PERSONAJES_PELICULAS;
+                PreparedStatement prdStat = conexion.prepareStatement(sqlListado);
+                ResultSet resultado = prdStat.executeQuery();
+                while (resultado.next()) {
+                    tablaPersonajesPeliculas auxRelacion = new tablaPersonajesPeliculas();
+                    auxRelacion.setId(resultado.getInt(PERSONAJES_PELICULAS_ID));
+                    auxRelacion.setId_personaje(resultado.getInt(PERSONAJES_PELICULAS_ID_PERSONAJE));
+                    auxRelacion.setId_pelicula(resultado.getInt(PERSONAJES_PELICULAS_ID_PELICULA));
+                    auxRelacion.setId_actor(resultado.getInt(PERSONAJES_PELICULAS_ID_ACTOR));
+                    listadoRelaciones.add(auxRelacion);
+                }
+                return listadoRelaciones;
+            }
+
+            
+            
+            
     }
 
     
