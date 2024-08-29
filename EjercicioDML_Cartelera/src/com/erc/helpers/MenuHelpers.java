@@ -20,6 +20,15 @@ public class MenuHelpers {
 		ayuda.imprimirSalto("\t\tMenú Principal");
 		ayuda.imprimirSalto("\t\t****");
 		ayuda.imprimirSalto("\t1.Nacionalidades");
+		ayuda.imprimirSalto("\t2.Personas");
+		ayuda.imprimirSalto("\t3.Personajes");
+		ayuda.imprimirSalto("\t4.Tipos");
+		ayuda.imprimirSalto("\t5.Generos");
+		ayuda.imprimirSalto("\t6.Peguis");
+		ayuda.imprimirSalto("\t7.Directores");
+		ayuda.imprimirSalto("\t8.Actores");
+		ayuda.imprimirSalto("\t9.Productores");
+		ayuda.imprimirSalto("\t10.Peliculas");
 		ayuda.imprimirSalto("\tEscoja una opción:");
 	}
 

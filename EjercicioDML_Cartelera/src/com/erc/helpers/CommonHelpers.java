@@ -1,5 +1,6 @@
 package com.erc.helpers;
 
+import java.sql.Date;
 import java.util.Scanner;
 
 import javax.swing.JFrame;
@@ -109,6 +110,8 @@ public int leerTecladoInt() {
     int valor = Integer.parseInt(entrada);
     return valor;
 }
+
+
 
 }
 
