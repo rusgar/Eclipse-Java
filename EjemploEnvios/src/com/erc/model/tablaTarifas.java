@@ -37,10 +37,7 @@ public class tablaTarifas {
 		this.precio = precio;
 		this.nombre = nombre;
 	}
-	@Override
-	public String toString() {
-		return "tablaTarifas [id=" + id + ", precio=" + precio + ", nombre=" + nombre + "]";
-	}
+
 
 	public String toString() {
 		return "********************************\n"+
