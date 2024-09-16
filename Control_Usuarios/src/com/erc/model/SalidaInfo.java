@@ -8,15 +8,20 @@ public class SalidaInfo {
     private String nombreUsuario;
     private String enlaceGoogleMaps;
 
-    public SalidaInfo(tablaSalidas salida, String puesto, String localidad, String nombreUsuario, String enlaceGoogleMaps) {
-        this.salida = salida;
-        this.puesto = puesto;
-        this.localidad = localidad;
-        this.nombreUsuario = nombreUsuario;
-        this.enlaceGoogleMaps = enlaceGoogleMaps;
-    }
+    
+    
+ // Getters y setters para los atributos
 
-    // Getters y setters para los atributos
+
+	 public String getEnlaceGoogleMaps() {
+	        return enlaceGoogleMaps;
+	    }
+
+
+	 public void setEnlaceGoogleMaps(String enlaceGoogleMaps) {
+		 this.enlaceGoogleMaps = enlaceGoogleMaps;
+		}
+
     public tablaSalidas getSalida() {
         return salida;
     }
@@ -49,11 +54,14 @@ public class SalidaInfo {
         this.nombreUsuario = nombreUsuario;
     }
 
-    public String getEnlaceGoogleMaps() {
-        return enlaceGoogleMaps;
-    }
-
-    public void setEnlaceGoogleMaps(String enlaceGoogleMaps) {
+   
+  
+    public SalidaInfo(tablaSalidas salida, String puesto, String localidad, String nombreUsuario, String enlaceGoogleMaps) {
+        this.salida = salida;
+        this.puesto = puesto;
+        this.localidad = localidad;
+        this.nombreUsuario = nombreUsuario;
         this.enlaceGoogleMaps = enlaceGoogleMaps;
     }
+
 }

@@ -9,6 +9,7 @@ import com.erc.model.tablaClientes;
 import com.erc.model.tablaDirecciones;
 import com.erc.model.tablaSalidas;
 import com.erc.model.tablaTrabajadores;
+import com.erc.model.SalidaInfo;
 import com.toedter.calendar.JCalendar;
 import com.erc.model.*;
 import java.awt.*;
@@ -19,6 +20,8 @@ import java.sql.Date;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.List;
+
 
 
 public class OpcionesCRUD extends JFrame {
@@ -263,7 +266,7 @@ public class OpcionesCRUD extends JFrame {
 
             modelFechas.setRowCount(0); // Limpiar el modelo antes de agregar nuevas filas
             
-            ArrayList<tablaSalidas> salidasParaPDF = new ArrayList<>();
+            List<SalidaInfo> salidaInfos = new ArrayList<>();
 
             for (tablaSalidas salida : salidas) {
                 LocalDate fechaTarea = salida.getFechaTarea();
@@ -281,21 +284,27 @@ public class OpcionesCRUD extends JFrame {
                     }
                     
                     if (trabajador != null && direccion != null && cliente != null) {
+                        SalidaInfo salidaInfo = new SalidaInfo(
+                            salida,
+                            trabajador.getPuesto(),
+                            direccion.getLocalidad(),
+                            cliente.getNombre(),
+                            "https://www.google.com/maps/?q=" + direccion.getLatitud() + "," + direccion.getLongitud()
+                        );
                         
-                    
-                    	 modelFechas.addFecha(
-                                 salida.getFechaTarea(),
-                                 salida.getId(),
-                                 trabajador.getPuesto(),
-                                 direccion.getLocalidad(),
-                                 cliente.getNombre(),
-                                 "https://www.google.com/maps/?q=" + direccion.getLatitud() + "," + direccion.getLongitud(),
-                                 salida.getDescripcion(),
-                                 salida.isInstalaciones(),
-                                 salida.isIncidencias()
-                             );
+                        modelFechas.addFecha(
+                            salida.getFechaTarea(),
+                            salida.getId(),
+                            trabajador.getPuesto(),
+                            direccion.getLocalidad(),
+                            cliente.getNombre(),
+                            "https://www.google.com/maps/?q=" + direccion.getLatitud() + "," + direccion.getLongitud(),
+                            salida.getDescripcion(),
+                            salida.isInstalaciones(),
+                            salida.isIncidencias()
+                        );
                         
-                        salidasParaPDF.add(salida); // Asegúrate de añadir la salida a la lista para el PDF
+                        salidaInfos.add(salidaInfo); // Añadir a la lista de SalidaInfo para el PDF
                     } else {
                         System.out.println("Datos incompletos para el trabajador con ID: " + idTrabajador);
                     }
@@ -303,11 +312,14 @@ public class OpcionesCRUD extends JFrame {
             }
             // Llamar al método para generar el PDF con las salidas filtradas
             modelPDF pdfGenerator = new modelPDF();
-            pdfGenerator.generarPDF(salidasParaPDF, fechaSeleccionada);
+            pdfGenerator.generarPDF(salidaInfos, fechaSeleccionada);
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(null, "Error al obtener las fechas de las salidas: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
+
+
+
 
 
 
