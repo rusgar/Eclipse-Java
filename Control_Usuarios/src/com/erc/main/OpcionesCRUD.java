@@ -5,6 +5,7 @@ import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 
 import com.erc.bdhelpers.BDDAO;
+import com.erc.dao.URLShortener;
 import com.erc.model.tablaClientes;
 import com.erc.model.tablaDirecciones;
 import com.erc.model.tablaSalidas;
@@ -24,6 +25,7 @@ import java.util.List;
 
 
 
+@SuppressWarnings("serial")
 public class OpcionesCRUD extends JFrame {
 
 	// ATRIBUTOS  O VARIBALES PARA MANEJAR
@@ -38,6 +40,7 @@ public class OpcionesCRUD extends JFrame {
     private JTextField textFieldUrl;
     private JLabel lblEnlaceGoogle;
     private JButton btnVerCalendario;
+    private URLShortener urlShortener = new URLShortener();
 
     public OpcionesCRUD(Connection conexion) {
         this.conexion = conexion;
@@ -711,15 +714,16 @@ public class OpcionesCRUD extends JFrame {
     
     }
     private void generarEnlaceGoogleMaps(double latitud, double longitud) {
-        String enlace = "https://www.google.com/maps?q=" + latitud + "," + longitud;
-        textFieldUrl.setText(enlace); //  MUESTRA EL ENLACE EN EL CAMPO DE TEXTO
+        String originalEnlace = "https://www.google.com/maps?q=" + latitud + "," + longitud;
+        String enlaceCorto = urlShortener.shortenURL(originalEnlace);
+        textFieldUrl.setText("COORDENADAS"); //  MUESTRA EL ENLACE EN EL CAMPO DE TEXTO
 
         //  HACER QUE EL ENLACE SEA CLICABLE
         textFieldUrl.addMouseListener(new java.awt.event.MouseAdapter() {
             @Override
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 try {
-                    Desktop.getDesktop().browse(new java.net.URI(enlace)); // ABRIMOS EL ENLACE EN EL NAVEGADOR
+                    Desktop.getDesktop().browse(new java.net.URI(originalEnlace)); // ABRIMOS EL ENLACE EN EL NAVEGADOR
                 } catch (Exception e) {
                     JOptionPane.showMessageDialog(null, "Error al abrir el enlace: " + e.getMessage());
                 }
