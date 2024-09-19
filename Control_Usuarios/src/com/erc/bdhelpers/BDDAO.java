@@ -564,7 +564,7 @@ public class BDDAO {
 					retorno.setIncidencias(resultado.getBoolean(SALIDAS_INCIDENCIAS));
 					retorno.setSolucion(resultado.getBoolean(SALIDAS_SOLUCION));
 					retorno.setDescripcion(resultado.getString(SALIDAS_DESCRIPCION));	
-					retorno.setCosteCliente(resultado.getString(SALIDAS_COSTE_CLIENTE));					
+					retorno.setCosteCliente(resultado.getDouble(SALIDAS_COSTE_CLIENTE));					
 					// CONVERSION A LOCALDATE
 	                java.sql.Date sqlDate = resultado.getDate(SALIDAS_FECHA_TAREA);
 	                if (sqlDate != null) {
@@ -584,8 +584,9 @@ public class BDDAO {
 
 
 	// INSERTAMOS UN NUEVA SALIDA
+
 	public void insertarSalida(Connection conexion, String tareas, boolean instalaciones, boolean incidencias, 
-			                   boolean solucion,String descripcion, String costeCliente,  Date fechaTarea,  
+			                   boolean solucion,String descripcion, double costeCliente,  Date fechaTarea,  
 			                   int idCliente,int idDireccion,int idTrabajador ) throws SQLException {
 		CommonHelpers ayudaHelpers = new CommonHelpers();
 		String sqlInsercion = "INSERT INTO " + TABLA_SALIDAS + " (" 
@@ -596,10 +597,10 @@ public class BDDAO {
 				+ SALIDAS_DESCRIPCION + ", " 
 				+ SALIDAS_COSTE_CLIENTE + ", " 
 				+ SALIDAS_FECHA_TAREA + ", "
-				+ SALIDAS_ID_CLIENTE + ", "
+				+ SALIDAS_ID_CLIENTE +", "
 				+ SALIDAS_ID_DIRECCION + ", "
 				+ SALIDAS_ID_TRABAJADOR + ") "
-				+ "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+				+ "VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
 		try (PreparedStatement prdstInsercion = conexion.prepareStatement(sqlInsercion)) {
 			prdstInsercion.setString(1, tareas);
@@ -607,8 +608,8 @@ public class BDDAO {
 			prdstInsercion.setBoolean(3, incidencias);
 			prdstInsercion.setBoolean(4, solucion);
 			prdstInsercion.setString(5, descripcion);
-			prdstInsercion.setString(6, costeCliente);			
-			prdstInsercion.setDate(7, new Date(fechaTarea.getTime()));			
+			prdstInsercion.setDouble(6, costeCliente);
+     		prdstInsercion.setDate(7, new Date(fechaTarea.getTime()));			
 			prdstInsercion.setInt(8, idCliente);
 			prdstInsercion.setInt(9, idDireccion);
 			prdstInsercion.setInt(10, idTrabajador);
@@ -623,6 +624,9 @@ public class BDDAO {
 	}
 
 	// ACTUALIZAMOS UNA SALIDA
+	
+
+
 	public void actualizarSalida(Connection conexion, int id, String tarea, String instalaciones, 
 	                     		String incidencias, String solucion,String descripcion, 
 	                     		String costeCliente, String fechaTarea,
@@ -654,20 +658,25 @@ public class BDDAO {
              } else {
             prdstActualizacion.setString(1, auxSalida.getTarea());
             }
-		   if (!instalaciones .equalsIgnoreCase("")) {
-	            prdstActualizacion.setString(2, instalaciones);
+		   if (instalaciones.equalsIgnoreCase("SI")) {
+	            prdstActualizacion.setBoolean(2, true);
+	        } else if (instalaciones.equalsIgnoreCase("NO")) {
+	            prdstActualizacion.setBoolean(2, false);
 	        } else {
 	            prdstActualizacion.setBoolean(2, auxSalida.isInstalaciones());
 	        }
 
-	        if (!incidencias .equalsIgnoreCase("")) {
-	            prdstActualizacion.setString(3, incidencias);
+		   if (incidencias.equalsIgnoreCase("SI")) {
+	            prdstActualizacion.setBoolean(3, true);
+	        } else if (incidencias.equalsIgnoreCase("NO")) {
+	            prdstActualizacion.setBoolean(3, false);
 	        } else {
 	            prdstActualizacion.setBoolean(3, auxSalida.isIncidencias());
 	        }
-
-	        if (solucion != null) {
-	            prdstActualizacion.setString(4, solucion);
+		   if (solucion.equalsIgnoreCase("SI")) {
+	            prdstActualizacion.setBoolean(4, true);
+	        } else if (solucion.equalsIgnoreCase("NO")) {
+	            prdstActualizacion.setBoolean(4, false);
 	        } else {
 	            prdstActualizacion.setBoolean(4, auxSalida.isSolucion());
 	        }
@@ -680,9 +689,12 @@ public class BDDAO {
 
 	      
 	        if (!costeCliente .equalsIgnoreCase("")) {
-	            prdstActualizacion.setString(6, costeCliente);
+	        	prdstActualizacion.setString(6, costeCliente);
 	        } else {
-	            prdstActualizacion.setString(6, auxSalida.getCosteCliente());
+	        	
+	                prdstActualizacion.setDouble(6, auxSalida.getCosteCliente());
+	           
+	            
 	        }
 	        
 	        if (fechaTarea != null) {
@@ -705,7 +717,7 @@ public class BDDAO {
 	        if (idTrabajador != 0) {
 	            prdstActualizacion.setInt(10, idTrabajador);
 	        } else {
-	            prdstActualizacion.setInt(10, auxSalida.getIdTrabajador());
+             prdstActualizacion.setInt(10, auxSalida.getIdTrabajador());
 	        }
 
 	       
@@ -756,7 +768,7 @@ public class BDDAO {
 	            salida.setIncidencias(resultado.getBoolean(SALIDAS_INCIDENCIAS));
 	            salida.setSolucion(resultado.getBoolean(SALIDAS_SOLUCION));
 	            salida.setDescripcion(resultado.getString(SALIDAS_DESCRIPCION));
-	            salida.setCosteCliente(resultado.getString(SALIDAS_COSTE_CLIENTE));           
+	            salida.setCosteCliente(resultado.getDouble(SALIDAS_COSTE_CLIENTE));           
 	            // OBTENMOS LA FECHA Y LA CONVERTIMOS A LOCATEDARE
 	            java.sql.Date sqlDate = resultado.getDate(SALIDAS_FECHA_TAREA);
 	            if (sqlDate != null) {
@@ -795,7 +807,7 @@ public class BDDAO {
 	                retorno.setIdTrabajador(resultado.getInt(TRABAJADORES_SALIDAS_ID_TRABAJADOR)); 
 	                retorno.setIdSalida(resultado.getInt(TRABAJADORES_SALIDAS_ID_SALIDA)); 
 	                
-	                // MENSAJES DE DEPURACION
+	              // MENSAJES DE DEPURACION
 	                System.out.println("TrabajadorSalida recuperado: ID=" + retorno.getId() +
 	                                   ", ID Trabajador=" + retorno.getIdTrabajador() +
 	                                   ", ID Salida=" + retorno.getIdSalida());
@@ -890,6 +902,12 @@ public class BDDAO {
 
 	    return listadoTrabajadoresSalidas;
 	}
+
+
+
+
+
+	
 
 
 	

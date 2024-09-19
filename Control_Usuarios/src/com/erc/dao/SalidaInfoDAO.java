@@ -59,6 +59,36 @@ public class SalidaInfoDAO {
 
         return salidaInfos;
     }
+    public List<SalidaInfo> obtenerSalidasPorCliente(int idCliente) throws SQLException {
+        List<SalidaInfo> salidaInfos = new ArrayList<>();
+        List<tablaSalidas> salidas = listarSalidas(); // Obtén todas las salidas
+
+        for (tablaSalidas salida : salidas) {
+            int idDireccion = salida.getIdDireccion();
+            tablaDirecciones direccion = obtenerDireccionPorId(idDireccion);
+            
+            if (direccion != null) {
+                if (direccion.getIdCliente() == idCliente) {
+                    int idTrabajador = salida.getIdTrabajador();
+                    tablaTrabajadores trabajador = bdDAO.obtenerTrabajadorPorId(conexion, idTrabajador);
+
+                    if (trabajador != null) {
+                        SalidaInfo salidaInfo = new SalidaInfo(
+                            salida,
+                            trabajador.getPuesto(),
+                            direccion.getLocalidad(),
+                            obtenerClientePorId(idCliente).getNombre(),
+                            "https://www.google.com/maps/?q=" + direccion.getLatitud() + "," + direccion.getLongitud()
+                        );
+                        salidaInfos.add(salidaInfo);
+                    }
+                }
+            }
+        }
+
+        return salidaInfos;
+    }
+
 
     // Métodos auxiliares para obtener datos de la BD (deben estar implementados)
     private List<tablaSalidas> listarSalidas() throws SQLException {
