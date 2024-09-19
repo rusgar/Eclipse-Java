@@ -38,6 +38,7 @@ public class BDDAO {
 	private static final String CLIENTES_APELLIDOS = "Apellidos";	
 	private static final String CLIENTES_DNI = "DNI";
 	private static final String CLIENTES_TELEFONO = "Telefono";
+	private static final String CLIENTES_CORREO = "Correo";
 
 
 	// CAMPOS DE LA TABLA DIRECCIONES
@@ -53,6 +54,9 @@ public class BDDAO {
 
 	// CAMPOS DE LA TABLA TRABAJADORES
 	private static final String TRABAJADORES_ID = "id";
+	private static final String TRABAJADORES_NOMBRE = "Nombre";
+	private static final String TRABAJADORES_APELLIDOS = "Apellidos";
+	private static final String TRABAJADORES_TELEFONO = "Telefono";
 	private static final String TRABAJADORES_SS = "SS";
 	private static final String TRABAJADORES_PUESTO = "Puesto";
 	private static final String TRABAJADORES_ID_DIRECCION = "id_direccion";
@@ -98,6 +102,7 @@ public class BDDAO {
 					retorno.setApellidos(resultado.getString(CLIENTES_APELLIDOS));					
 					retorno.setDni(resultado.getString(CLIENTES_DNI));
 					retorno.setTelefono(resultado.getString(CLIENTES_TELEFONO));
+					retorno.setCorreo(resultado.getString(CLIENTES_CORREO));
 				}
 			}
 		}
@@ -107,17 +112,18 @@ public class BDDAO {
 
 
 	public void insertarCliente(Connection conexion, String nombre, String apellidos, 
-			                    String dni, String telefono) throws SQLException {
+			                    String dni, String telefono,String correo) throws SQLException {
 		CommonHelpers ayudaHelpers = new CommonHelpers();
 		String sqlInsercion = "INSERT INTO " + TABLA_CLIENTES + " (" 
 				+ CLIENTES_NOMBRE + ", " + CLIENTES_APELLIDOS + ", " 
-			    + CLIENTES_DNI + ", "    + CLIENTES_TELEFONO + ") VALUES (?, ?, ?, ?)";
+			    + CLIENTES_DNI + ", "    + CLIENTES_TELEFONO + ", " + CLIENTES_CORREO +  ") VALUES (?, ?, ?, ?, ?)";
 
 		PreparedStatement prdstInsercion = conexion.prepareStatement(sqlInsercion);
 		prdstInsercion.setString(1, nombre);
 		prdstInsercion.setString(2, apellidos);
 		prdstInsercion.setString(3, dni);
 		prdstInsercion.setString(4, telefono);
+		prdstInsercion.setString(5, correo);
 
 		int filasAfectadas = prdstInsercion.executeUpdate();
 		if (filasAfectadas > 0) {
@@ -128,7 +134,7 @@ public class BDDAO {
 	}
 
 	public void actualizarCliente(Connection conexion, int id, String nombre, String apellidos, 
-			                      String dni, String telefono) throws SQLException {
+			                      String dni, String telefono,  String correo) throws SQLException {
 		CommonHelpers ayuHelpers = new CommonHelpers();
 		tablaClientes auxClientes = obtenerClientePorId(conexion, id);
 
@@ -136,7 +142,9 @@ public class BDDAO {
 				+ CLIENTES_NOMBRE + " = ?, "
 				+ CLIENTES_APELLIDOS + " = ?, "
 				+ CLIENTES_DNI + " = ?, "
-				+ CLIENTES_TELEFONO + " = ? WHERE " + CLIENTES_ID + " = ?";
+				+ CLIENTES_TELEFONO + " = ?, "
+	            + CLIENTES_CORREO + " = ?"
+	          	+ " WHERE " + CLIENTES_ID + " = ?";
 
 		PreparedStatement prdstActualizacion = conexion.prepareStatement(sqlActualizacion);
 
@@ -160,8 +168,13 @@ public class BDDAO {
 		} else {
 			prdstActualizacion.setString(4, auxClientes.getTelefono());
 		}
+		if (!correo.equalsIgnoreCase("")) {
+			prdstActualizacion.setString(5, correo);
+		} else {
+			prdstActualizacion.setString(5, auxClientes.getCorreo());
+		}
 
-		prdstActualizacion.setInt(5, id);
+		prdstActualizacion.setInt(6, id);
 
 		int filasAfectadas = prdstActualizacion.executeUpdate();
 		if (filasAfectadas > 0) {
@@ -200,6 +213,7 @@ public class BDDAO {
 			auxCliente.setApellidos(resultado.getString(CLIENTES_APELLIDOS));
 			auxCliente.setDni(resultado.getString(CLIENTES_DNI));
 			auxCliente.setTelefono(resultado.getString(CLIENTES_TELEFONO));
+			auxCliente.setCorreo(resultado.getString(CLIENTES_CORREO));
 
 			listadoCliente.add(auxCliente); 
 		}
@@ -378,9 +392,13 @@ public class BDDAO {
 				if (resultado.next()) {
 					retorno = new tablaTrabajadores();
 					retorno.setId(id);
+					retorno.setNombre(resultado.getString(TRABAJADORES_NOMBRE)); 
+	                retorno.setApellidos(resultado.getString(TRABAJADORES_APELLIDOS)); 
+	                retorno.setTelefono(resultado.getString(TRABAJADORES_TELEFONO));
 					retorno.setSs(resultado.getString(TRABAJADORES_SS));
 					retorno.setPuesto(resultado.getString(TRABAJADORES_PUESTO));
 					retorno.setIdDireccion(resultado.getInt(TRABAJADORES_ID_DIRECCION));
+					
 				}
 			}
 		}
@@ -390,18 +408,24 @@ public class BDDAO {
 
 	// INSERTAMOS UN NUEVO TRABAJADOR
 
-	public void insertarTrabajador(Connection conexion, String ss, String puesto,  int idDireccion) throws SQLException {
+	public void insertarTrabajador(Connection conexion,String nombre, String apellidos, String telefono, String ss, String puesto,  int idDireccion) throws SQLException {
 		CommonHelpers ayudaHelpers = new CommonHelpers();
-		String sqlInsercion = "INSERT INTO " + TABLA_TRABAJADORES + " ("                           
+		String sqlInsercion = "INSERT INTO " + TABLA_TRABAJADORES + " ("
+			    + TRABAJADORES_NOMBRE + ", "  
+		        + TRABAJADORES_APELLIDOS + ", " 
+		        + TRABAJADORES_TELEFONO + ", "  
 				+ TRABAJADORES_SS + ", " 
 				+ TRABAJADORES_PUESTO + ", " 
 				+ TRABAJADORES_ID_DIRECCION + ") "
-				+ "VALUES ( ?, ?, ?)";
+				+ "VALUES (?, ?, ?, ?, ?, ?)";
 
 		try (PreparedStatement prdstInsercion = conexion.prepareStatement(sqlInsercion)) {
-			prdstInsercion.setString(1, ss);
-			prdstInsercion.setString(2, puesto);
-			prdstInsercion.setInt(3, idDireccion);
+			prdstInsercion.setString(1, nombre); 
+	        prdstInsercion.setString(2, apellidos);
+	        prdstInsercion.setString(3, telefono); 
+			prdstInsercion.setString(4, ss);
+			prdstInsercion.setString(5, puesto);
+			prdstInsercion.setInt(6, idDireccion);
 
 			int filasAfectadas = prdstInsercion.executeUpdate();
 			if (filasAfectadas > 0) {
@@ -413,7 +437,7 @@ public class BDDAO {
 	}
 
 	// ACTUALIZAMOS UN TRABAJADOR EXISTENTE
-	public void actualizarTrabajador(Connection conexion, int id, String ss, String puesto,  int idDireccion) throws SQLException {
+	public void actualizarTrabajador(Connection conexion,String nombre, String apellidos, String telefono, int id, String ss, String puesto,  int idDireccion) throws SQLException {
 		CommonHelpers ayudaHelpers = new CommonHelpers();
 		tablaTrabajadores auxTrabajador = obtenerTrabajadorPorId(conexion, id);
 
@@ -423,6 +447,9 @@ public class BDDAO {
 		}
 
 		String sqlActualizacion = "UPDATE " + TABLA_TRABAJADORES + " SET " 
+				+ TRABAJADORES_NOMBRE + " = ?, "  
+		        + TRABAJADORES_APELLIDOS + " = ?, " 
+		        + TRABAJADORES_TELEFONO + " = ? " 
 				+ TRABAJADORES_SS + " = ?, " 
 				+ TRABAJADORES_PUESTO + " = ?, " 
 				+ TRABAJADORES_ID_DIRECCION + " = ? WHERE " 
@@ -430,25 +457,41 @@ public class BDDAO {
 
 		PreparedStatement prdstActualizacion = conexion.prepareStatement(sqlActualizacion);
 
-		if (!ss.equalsIgnoreCase("")) {
-			prdstActualizacion.setString(1, ss);
+		if (!nombre.equalsIgnoreCase("")) {
+			prdstActualizacion.setString(1, nombre);
 		} else {
-			prdstActualizacion.setString(1, auxTrabajador.getSs());
+			prdstActualizacion.setString(1, auxTrabajador.getNombre());
+		}
+
+		if (!apellidos.equalsIgnoreCase("")) {
+			prdstActualizacion.setString(2, apellidos);
+		} else {
+			prdstActualizacion.setString(2, auxTrabajador.getApellidos());
+		}
+		if (!telefono.equalsIgnoreCase("")) {
+			prdstActualizacion.setString(3, telefono);
+		} else {
+			prdstActualizacion.setString(3, auxTrabajador.getTelefono());
+		}
+		if (!ss.equalsIgnoreCase("")) {
+			prdstActualizacion.setString(4, ss);
+		} else {
+			prdstActualizacion.setString(4, auxTrabajador.getSs());
 		}
 
 		if (!puesto.equalsIgnoreCase("")) {
-			prdstActualizacion.setString(2, puesto);
+			prdstActualizacion.setString(5, puesto);
 		} else {
-			prdstActualizacion.setString(2, auxTrabajador.getPuesto());
+			prdstActualizacion.setString(5, auxTrabajador.getPuesto());
 		}
 		
 		if (idDireccion != 0) {
-			prdstActualizacion.setInt(3, idDireccion);
+			prdstActualizacion.setInt(6, idDireccion);
 		} else {
-			prdstActualizacion.setInt(3, auxTrabajador.getIdDireccion());
+			prdstActualizacion.setInt(6, auxTrabajador.getIdDireccion());
 		}
 
-		prdstActualizacion.setInt(4, id); 
+		prdstActualizacion.setInt(7, id); 
 
 
 		int filasAfectadas = prdstActualizacion.executeUpdate();
@@ -486,6 +529,9 @@ public class BDDAO {
 			while (resultado.next()) {
 				tablaTrabajadores auxTrabajador = new tablaTrabajadores();
 				auxTrabajador.setId(resultado.getInt(TRABAJADORES_ID));
+				auxTrabajador.setNombre(resultado.getString(TRABAJADORES_NOMBRE)); 
+	            auxTrabajador.setApellidos(resultado.getString(TRABAJADORES_APELLIDOS));
+	            auxTrabajador.setTelefono(resultado.getString(TRABAJADORES_TELEFONO));
 				auxTrabajador.setSs(resultado.getString(TRABAJADORES_SS));
 				auxTrabajador.setPuesto(resultado.getString(TRABAJADORES_PUESTO));
 				auxTrabajador.setIdDireccion(resultado.getInt(TRABAJADORES_ID_DIRECCION));

@@ -43,13 +43,14 @@ public class OpcionesCRUD extends JFrame {
     private URLShortener urlShortener = new URLShortener();
 
     public OpcionesCRUD(Connection conexion) {
+    	setIconImage(Toolkit.getDefaultToolkit().getImage(OpcionesCRUD.class.getResource("/images/Oxon3.png")));
         this.conexion = conexion;
         this.bdDao = new BDDAO();
         inicializar();
     }
 
     private void inicializar() {
-        setTitle("Opciones CRUD");
+        setTitle("TABLAS CLIENTES");
         setBounds(100, 100, 900, 600);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 

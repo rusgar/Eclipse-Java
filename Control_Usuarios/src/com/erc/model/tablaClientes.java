@@ -7,7 +7,7 @@ public class tablaClientes {
     private String apellidos;
     private String dni;
     private String telefono;
-
+    private String correo;  
     // GETTERS Y SETTERS
     public int getId() {
         return id;
@@ -33,7 +33,6 @@ public class tablaClientes {
         this.apellidos = apellidos;
     }
 
-
     public String getDni() {
         return dni;
     }
@@ -50,6 +49,14 @@ public class tablaClientes {
         this.telefono = telefono;
     }
 
+    public String getCorreo() {
+        return correo;
+    }
+
+    public void setCorreo(String correo) {
+        this.correo = correo;
+    }
+
     // CONSTRUCTORES
     public tablaClientes() {
         this.id = 0;
@@ -57,23 +64,21 @@ public class tablaClientes {
         this.apellidos = "";       
         this.dni = "";
         this.telefono = "";
+        this.correo = "";  
     }
 
-    public tablaClientes(int id, String nombre, String apellidos, String dni, String telefono) {
+    public tablaClientes(int id, String nombre, String apellidos, String dni, String telefono, String correo) {
         this.id = id;
         this.nombre = nombre;
         this.apellidos = apellidos;      
         this.dni = dni;
         this.telefono = telefono;
+        this.correo = correo;  
     }
 
-	@Override
-	public String toString() {
-		return "tablaClientes [id=" + id + ", nombre=" + nombre + ", apellidos=" + apellidos + ", dni=" + dni
-				+ ", telefono=" + telefono + "]";
-	}
-
-
-    
+    @Override
+    public String toString() {
+        return "tablaClientes [id=" + id + ", nombre=" + nombre + ", apellidos=" + apellidos + ", dni=" + dni
+                + ", telefono=" + telefono + ", correo=" + correo + "]"; 
+    }
 }
-
