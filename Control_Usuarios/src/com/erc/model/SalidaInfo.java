@@ -64,4 +64,6 @@ public class SalidaInfo {
         this.enlaceGoogleMaps = enlaceGoogleMaps;
     }
 
+
+	
 }

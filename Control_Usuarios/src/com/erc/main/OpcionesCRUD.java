@@ -37,7 +37,8 @@ public class OpcionesCRUD extends JFrame {
 	private JLabel lblEnlaceGoogle;
 	private JButton btnVerCalendario;
 	private URLShortener urlShortener = new URLShortener();
-	private JPanel panelBotonesReportes; 
+	private JButton btnGenerarReporteDiario;
+	private JButton btnGenerarReporteCliente;
 
 	public OpcionesCRUD(Connection conexion) {
 		setIconImage(Toolkit.getDefaultToolkit().getImage(OpcionesCRUD.class.getResource("/images/Oxon3.png")));
@@ -127,13 +128,15 @@ public class OpcionesCRUD extends JFrame {
 	        panelId.add(textFieldUrl);
 
 	        panelSeleccionTabla.add(panelId, BorderLayout.SOUTH);
-	        JButton btnGenerarReporteDiario = new JButton(" Reporte Diario");
+	        btnGenerarReporteDiario = new JButton(" Reporte Diario");
 			btnGenerarReporteDiario.setFont(new Font("Comic Sans MS", Font.PLAIN, 12));
+			btnGenerarReporteDiario.setVisible(false);
 			panelId.add(btnGenerarReporteDiario);
 			
 
-			JButton btnGenerarReporteCliente = new JButton(" Reporte por Cliente");
+		    btnGenerarReporteCliente = new JButton(" Reporte por Cliente");
 			btnGenerarReporteCliente.setFont(new Font("Comic Sans MS", Font.PLAIN, 12));
+			btnGenerarReporteCliente.setVisible(false);
 			panelId.add(btnGenerarReporteCliente);
 			
 			btnGenerarReporteCliente.addActionListener(new ActionListener() {
@@ -359,14 +362,6 @@ public class OpcionesCRUD extends JFrame {
 	}
 
 
-
-
-
-
-
-
-
-
 	private void cambiarTabla() {
 		String tablaSeleccionada = (String) comboBoxTablas.getSelectedItem();
 		// CONFIGURAMOS LAS COLUNNAS DE LA TABLA
@@ -375,26 +370,36 @@ public class OpcionesCRUD extends JFrame {
 			lblEnlaceGoogle.setVisible(false);
 			textFieldUrl.setVisible(false);
 			btnVerCalendario.setVisible(false);
+			btnGenerarReporteDiario.setVisible(true);
+			btnGenerarReporteCliente.setVisible(true);
 		} else if ("DIRECCIONES".equals(tablaSeleccionada)) {
 			modeloTabla.setColumnIdentifiers(new String[]{"ID", "Dirección", "Código Postal", "Localidad", "Latitud", "Longitud", "ID Cliente"});
 			lblEnlaceGoogle.setVisible(true);
 			textFieldUrl.setVisible(true);
 			btnVerCalendario.setVisible(false);
+			btnGenerarReporteDiario.setVisible(false);
+			btnGenerarReporteCliente.setVisible(false);
 		} else if ("TRABAJADORES".equals(tablaSeleccionada)) {
 			modeloTabla.setColumnIdentifiers(new String[]{"ID","Nombre", "Apellidos", "Teléfono","SS", "Puesto", "ID Dirección"});
 			lblEnlaceGoogle.setVisible(false);
 			textFieldUrl.setVisible(false);
 			btnVerCalendario.setVisible(false);
+			btnGenerarReporteDiario.setVisible(false);
+			btnGenerarReporteCliente.setVisible(false);
 		} else if ("SALIDAS".equals(tablaSeleccionada)) {
 			modeloTabla.setColumnIdentifiers(new String[]{"ID", "Tarea", "Instalaciones", "Incidencias", "Solución", "Descripción", "Coste Cliente", "Fecha Tarea", "ID CLIENTE", "ID DIRECCION", "ID TRABAJADOR"});
 			lblEnlaceGoogle.setVisible(false);
 			textFieldUrl.setVisible(false);
 			btnVerCalendario.setVisible(true);
+			btnGenerarReporteDiario.setVisible(false);
+			btnGenerarReporteCliente.setVisible(false);
 		} else if ("TRABAJADORES SALIDAS".equals(tablaSeleccionada)) {
 			modeloTabla.setColumnIdentifiers(new String[]{"ID", "ID Trabajador", "ID Salida"});
 			lblEnlaceGoogle.setVisible(false);
 			textFieldUrl.setVisible(false);
 			btnVerCalendario.setVisible(false);
+			btnGenerarReporteDiario.setVisible(false);
+			btnGenerarReporteCliente.setVisible(false);
 		}
 
 		// LIMPIAMOS Y COULTAMOS LAS COLUNMAS DE LA TABLA AL PASAR DE UNA A OTRA
