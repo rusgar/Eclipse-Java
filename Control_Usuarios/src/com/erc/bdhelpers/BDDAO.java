@@ -14,7 +14,11 @@ import com.erc.model.tablaSalidas;
 import com.erc.model.tablaTrabajadores;
 import com.erc.model.tablaTrabajadoresSalidas;
 
-
+/**
+ * CON ESTA LA CLASE  SE ENCARGARA DE GESTIONAR LAS OPERACIONES DE ACCESO A LA BASE DE DATOS 
+ * * RELACIONADA CON LOS CLIENTES, DIRECCIONES, TRABAJADORES, SALIDAS, Y LA RELACIÓN ENTRE TRABAJADORES Y SALIDAS. 
+ * @author EDU RUS
+ */
 
 public class BDDAO {
 
@@ -87,6 +91,14 @@ public class BDDAO {
 	// ********************************* CRUD DE LA TABLA CLIENTES****************************
 	// ***********************************************************************************
 
+	
+	/**
+	 * CON ESTE METODO OBTENEMOS DE LA BASE DE DATOS EL ID DE UN  CLIENTE
+	 * @param Connection
+	 * @param id
+	 * @return
+	 * @throws SQLException
+	 */
 	public tablaClientes obtenerClientePorId(Connection conexion, int id) throws SQLException {
 		tablaClientes retorno = null; 
 
@@ -111,6 +123,16 @@ public class BDDAO {
 	}
 
 
+	/**
+	 * CON ESTE METODO REALIZAMOS LA INSERCION UN CLIENTE EN LA BBDD
+	 * @param Connection
+	 * @param String NOMBRE
+	 * @param String APELLIDOS
+	 * @param String DNI
+	 * @param String TELEFONO
+	 * @param String CORREO
+	 * @throws SQLException
+	 */
 	public void insertarCliente(Connection conexion, String nombre, String apellidos, 
 			                    String dni, String telefono,String correo) throws SQLException {
 		CommonHelpers ayudaHelpers = new CommonHelpers();
@@ -133,6 +155,16 @@ public class BDDAO {
 		}
 	}
 
+	/**
+	 *  CON ESTE METODO ACTUALIZAMOS DE UN CLIENTE EN LA BBDD
+	 * @param Connection
+	 * @param String NOMBRE
+	 * @param String APELLIDOS
+	 * @param String DNI
+	 * @param String TELEFONO
+	 * @param String CORREO
+	 * @throws SQLExceptionn
+	 */
 	public void actualizarCliente(Connection conexion, int id, String nombre, String apellidos, 
 			                      String dni, String telefono,  String correo) throws SQLException {
 		CommonHelpers ayuHelpers = new CommonHelpers();
@@ -184,6 +216,12 @@ public class BDDAO {
 		}
 	}
 
+	/**
+	 * CON ESTE METODO BORRAMOS A UN CLIENTE DE LA BBDD POR SU ID
+	 * @param Connection
+	 * @param  integer ID
+	 * @throws SQLException
+	 */
 	public void borrarClientePorId(Connection conexion, int id) throws SQLException {
 		CommonHelpers ayudaHelpers = new CommonHelpers();
 		String sqlBorrado = "DELETE FROM " + TABLA_CLIENTES + " WHERE " + CLIENTES_ID + " = ?";
@@ -199,6 +237,12 @@ public class BDDAO {
 		}
 	}
 
+	/**
+	 * CON ESTE METODO DEVOLVEMOS UN LISTADO DE TODOS LOS CLIENTES DE LA BDD
+	 * @param Connection
+	 * @return  list 
+	 * @throws SQLException
+	 */
 	public ArrayList<tablaClientes> listarClientes(Connection conexion) throws SQLException {
 		ArrayList<tablaClientes> listadoCliente = new ArrayList<>();
 		String sqlListado = "SELECT * FROM " + TABLA_CLIENTES;
@@ -228,6 +272,13 @@ public class BDDAO {
 
 
 
+	/**
+	 * CON ESTE METODO OBTENEMOS DE LA BASE DE DATOS EL ID DE UNA DIRECCION
+	 * @param Connection
+	 * @param id
+	 * @return
+	 * @throws SQLException
+	 */
 	public tablaDirecciones obtenerDireccionPorId(Connection conexion, int id) throws SQLException {
 		tablaDirecciones retorno = null;
 
@@ -254,6 +305,17 @@ public class BDDAO {
 	}
 
 
+	/**
+	 * CON ESTE METODO REALIZAMOS LA INSERCION DE UNA DIRECCION EN LA BBDD
+	 * @param Connection
+	 * @param String
+	 * @param String
+	 * @param String
+	 * @param Double
+	 * @param Double
+	 * @param integer
+	 * @throws SQLException
+	 */
 	public void insertarDireccion(Connection conexion, String direccion, String codigoPostal, 
 			String localidad, double latitud, double longitud, int idCliente) throws SQLException {
 		CommonHelpers ayudaHelpers = new CommonHelpers();
@@ -277,7 +339,20 @@ public class BDDAO {
 			ayudaHelpers.imprimirSalto("Inserción no realizada, hay un error");
 		}
 	}
+	
 
+	/**
+	 * CON ESTE METODO ACTUALIZAMOS LA DIRECCION DENTRO DE LA BBDD
+	 * @param Connection
+	 * @param integer
+	 * @param String
+	 * @param String
+	 * @param String
+	 * @param Double
+	 * @param Double
+	 * @param integer
+	 * @throws SQLException
+	 */
 	public void actualizarDireccion(Connection conexion, int id, String direccion, String codigoPostal, 
 			String localidad, String latitud, String longitud, int idCliente) throws SQLException {
 		CommonHelpers ayudaHelpers = new CommonHelpers();
@@ -333,6 +408,13 @@ public class BDDAO {
 		}
 	}
 
+	
+	/**
+	 *  CON ESTE MODELO PODEMOS BORRAR UNA DIRECCION DE UNA BBDD POR SU ID
+	 * @param Connection
+	 * @param integer
+	 * @throws SQLException
+	 */
 	public void borrarDireccionPorId(Connection conexion, int id) throws SQLException {
 		CommonHelpers ayudaHelpers = new CommonHelpers();
 		String sqlBorrado = "DELETE FROM " + TABLA_DIRECCIONES + " WHERE " + DIRECCIONES_ID + " = ?";
@@ -348,6 +430,13 @@ public class BDDAO {
 		}
 	}
 
+	
+	/**
+	 *  CON  ESTE METODO PODREMOS REALIZAR UN LISTADO DE LAS DIRECCIONES DE LA BBDD
+	 * @param Connection
+	 * @return list
+	 * @throws SQLException
+	 */
 	public ArrayList<tablaDirecciones> listarDirecciones(Connection conexion) throws SQLException {
 		ArrayList<tablaDirecciones> listadoDirecciones = new ArrayList<>();
 		String sqlListado = "SELECT * FROM " + TABLA_DIRECCIONES;
@@ -380,7 +469,13 @@ public class BDDAO {
 	// ********************************* CRUD DE LA TABLA TRABAJADORES****************************
 	// ***********************************************************************************
 
-	//  OBTENEMOS UN TRABAJADOR POR ID
+	/**
+	 * CON ESTE METODO PODEMOS OBTENER EL TRABAJADOR DE LA BDDD A TRAVES DE LA ID
+	 * @param Connection 
+	 * @param integer
+	 * @return tablaTrabajadores
+	 * @throws SQLException
+	 */
 	public tablaTrabajadores obtenerTrabajadorPorId(Connection conexion, int id) throws SQLException {
 		tablaTrabajadores retorno = null;
 
@@ -406,8 +501,18 @@ public class BDDAO {
 		return retorno;
 	}
 
-	// INSERTAMOS UN NUEVO TRABAJADOR
 
+/**
+ * CON ESTE METODO PORDEMOS INSERTAR A UN TRABAJADOR EN LA BBDD
+ * @param Connection 
+ * @param String 
+ * @param String 
+ * @param String 
+ * @param String 
+ * @param String 
+ * @param idDireccion
+ * @throws SQLException
+ */
 	public void insertarTrabajador(Connection conexion,String nombre, String apellidos, String telefono, String ss, String puesto,  int idDireccion) throws SQLException {
 		CommonHelpers ayudaHelpers = new CommonHelpers();
 		String sqlInsercion = "INSERT INTO " + TABLA_TRABAJADORES + " ("
@@ -436,8 +541,21 @@ public class BDDAO {
 		}
 	}
 
-	// ACTUALIZAMOS UN TRABAJADOR EXISTENTE
-	public void actualizarTrabajador(Connection conexion,String nombre, String apellidos, String telefono, int id, String ss, String puesto,  int idDireccion) throws SQLException {
+	
+	/**
+	 * CON ESTE METODO PODREMOS ACTUALIZAR UN TRABAJADOR DE LA BBDD
+	 * @param integer
+	 * @param Connection 
+     * @param String 
+     * @param String 
+     * @param String 
+     * @param String 
+     * @param String
+	 * @param idDireccion
+	 * @throws SQLException
+	 */
+	
+	public void actualizarTrabajador(Connection conexion,int id,String nombre, String apellidos, String telefono, String ss, String puesto,  int idDireccion) throws SQLException {
 		CommonHelpers ayudaHelpers = new CommonHelpers();
 		tablaTrabajadores auxTrabajador = obtenerTrabajadorPorId(conexion, id);
 
@@ -503,6 +621,12 @@ public class BDDAO {
 	}
 
 
+	/**
+	 * CON ESTE METODO PODREMOS BORRAR A UN TRABAJADOR DE LA BBDD A TRAVES DE LA ID
+	 * @param Connection
+	 * @param id
+	 * @throws SQLException
+	 */
 	public void borrarTrabajadorPorId(Connection conexion, int id) throws SQLException {
 		CommonHelpers ayudaHelpers = new CommonHelpers();
 		String sqlBorrado = "DELETE FROM " + TABLA_TRABAJADORES + " WHERE " + TRABAJADORES_ID + " = ?";
@@ -519,6 +643,12 @@ public class BDDAO {
 		}
 	}
 
+	/**
+	 * CON ESTE METODO PODREMOS LISTAR TODOS LOS TRABAJADORES DE LA BBDD
+	 * @param Connection
+	 * @return list
+	 * @throws SQLException
+	 */
 	public ArrayList<tablaTrabajadores> listarTrabajadores(Connection conexion) throws SQLException {
 		ArrayList<tablaTrabajadores> listadoTrabajadores = new ArrayList<>();
 		String sqlListado = "SELECT * FROM " + TABLA_TRABAJADORES;
@@ -547,7 +677,13 @@ public class BDDAO {
 	// ********************************* CRUD DE LA TABLA SALIDAS*****************************
 	// ***********************************************************************************
 
-	//  OBTENEMOS UN SALIDA POR ID
+	/**
+	 *  CON ESTE METODO PODREMOS OBTENER LAS SALIDAS DE LA BBDD A TRAVES DE LA ID
+	 * @param Connection
+	 * @param id
+	 * @return tablaSalidas
+	 * @throws SQLException
+	 */
 	public tablaSalidas obtenerSalidaPorId(Connection conexion, int id) throws SQLException {
 		tablaSalidas retorno = null;
 
@@ -583,8 +719,22 @@ public class BDDAO {
 	}
 
 
-	// INSERTAMOS UN NUEVA SALIDA
-
+	
+    /**
+     *  CON ESTE METODO PODREMOS INSERTAR UNA SALIDA EN LA BBDD
+     * @param Connection
+     * @param String
+     * @param boolean
+     * @param boolean
+     * @param boolean
+     * @param String
+     * @param costeCliente
+     * @param fechaTarea
+     * @param idCliente
+     * @param idDireccion
+     * @param idTrabajador
+     * @throws SQLException
+     */
 	public void insertarSalida(Connection conexion, String tareas, boolean instalaciones, boolean incidencias, 
 			                   boolean solucion,String descripcion, double costeCliente,  Date fechaTarea,  
 			                   int idCliente,int idDireccion,int idTrabajador ) throws SQLException {
@@ -623,10 +773,24 @@ public class BDDAO {
 		}
 	}
 
-	// ACTUALIZAMOS UNA SALIDA
 	
 
-
+	/**
+	 * CON ESTE METODO PODREMOS ACTUALIZAR LAS SALIDAS DE UNA BBDD
+	 * @param Connection
+	 * @param id
+	 * @param String
+     * @param boolean
+     * @param boolean
+     * @param boolean
+     * @param String
+     * @param costeCliente
+     * @param fechaTarea
+     * @param idCliente
+     * @param idDireccion
+     * @param idTrabajador
+     * @throws SQLException
+	 */
 	public void actualizarSalida(Connection conexion, int id, String tarea, String instalaciones, 
 	                     		String incidencias, String solucion,String descripcion, 
 	                     		String costeCliente, String fechaTarea,
@@ -690,10 +854,8 @@ public class BDDAO {
 	      
 	        if (!costeCliente .equalsIgnoreCase("")) {
 	        	prdstActualizacion.setString(6, costeCliente);
-	        } else {
-	        	
-	                prdstActualizacion.setDouble(6, auxSalida.getCosteCliente());
-	           
+	        } else {	        	
+	                prdstActualizacion.setDouble(6, auxSalida.getCosteCliente());	           
 	            
 	        }
 	        
@@ -735,6 +897,12 @@ public class BDDAO {
 	
 	
 	
+	/**
+	 * CON ESTE METODO PODREMOS BORRAR LAS SALIDAS DE LA BBDD A TRAVES DE LA ID
+	 * @param Connection 
+	 * @param id
+	 * @throws SQLException
+	 */
 	public void borrarSalidaPorId(Connection conexion, int id) throws SQLException {
 	    String sqlBorrado = "DELETE FROM " + TABLA_SALIDAS + " WHERE " + SALIDAS_ID + " = ?";
 
@@ -752,6 +920,12 @@ public class BDDAO {
 
 	
 	
+	/**
+	 *  CON ESTE METODO PODREMOS LISTAR  O MOSTRAR TODAS LAS SALIDAS DE LA BBDD
+	 * @param Connection
+	 * @return list
+	 * @throws SQLException
+	 */
 	public ArrayList<tablaSalidas> listarSalidas(Connection conexion) throws SQLException {
 	    ArrayList<tablaSalidas> listadoSalidas = new ArrayList<>();
 	    String sqlListado = "SELECT * FROM " + TABLA_SALIDAS;
@@ -794,6 +968,13 @@ public class BDDAO {
 	// ********************************* CRUD DE LA TABLA TRABAJADOR_SALIDAS*****************************
 		// ***********************************************************************************
 
+	/**
+	 * CON ESTE METODO PODREMOS OBTENEMOS POR LA ID QUE TRABAJADOR ESTA POR SALIDA
+	 * @param Connection
+	 * @param idSalida
+	 * @return tablaTrabajadoresSalidas
+	 * @throws SQLException
+	 */
 	public tablaTrabajadoresSalidas obtenerTrabajadorSalidaPorID(Connection conexion, int idSalida) throws SQLException {
 	    tablaTrabajadoresSalidas retorno = null;
 	    
