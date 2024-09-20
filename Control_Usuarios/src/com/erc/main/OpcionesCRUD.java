@@ -21,6 +21,12 @@ import java.util.List;
 
 
 
+
+/**
+ * CON ESTA CLASE  REPRESENTAMOS UNA INTERFAZ GRÁFICA QUE PERMITE A LOS USUARIOS  REALIZAR OPERACIONES CRUD (CREAR, LEER, ACTUALIZAR, ELIMINAR) 
+ * EN DIFERENTES TABLAS  DE UNA BASE DE DATOS. PROPORCIONA FUNCIONALIDAD PARA BUSCAR REGISTROS, GENERAR REPORTES, Y GESTIONAR ENLACES A GOOGLE MAPS.
+ * @author EDU RUS
+ */
 @SuppressWarnings("serial")
 public class OpcionesCRUD extends JFrame {
 
@@ -40,6 +46,10 @@ public class OpcionesCRUD extends JFrame {
 	private JButton btnGenerarReporteDiario;
 	private JButton btnGenerarReporteCliente;
 
+	/**
+	 * 	COSNTRUCTOR QUE INICIALIZA LA INTERFAZ DE USUARIO Y ESTABLECE LA CONEXION A LA BASE DE DATOS
+	 * @param Connection
+	 */
 	public OpcionesCRUD(Connection conexion) {
 		setIconImage(Toolkit.getDefaultToolkit().getImage(OpcionesCRUD.class.getResource("/images/Oxon3.png")));
 		this.conexion = conexion;
@@ -47,6 +57,10 @@ public class OpcionesCRUD extends JFrame {
 		inicializar();
 	}
 
+	
+	/**
+	 * INCILIZAMOS LOS COMPONENTES DE LA VENTANA Y CONFIGURAMOS LA DISPOSION DE TODOS LOS COMPONENTES
+	 */
 	 private void inicializar() {
 	        setTitle("TABLAS CLIENTES");
 	        setBounds(100, 100, 945, 610);
@@ -62,6 +76,7 @@ public class OpcionesCRUD extends JFrame {
 	                cambiarTabla();
 	            }
 	        });
+	        
 
 	        // CONFIGURACION DEL PANEL DE SELECCION
 	        JPanel panelSeleccionTabla = new JPanel();
@@ -72,7 +87,7 @@ public class OpcionesCRUD extends JFrame {
 	        panelSeleccionTabla.add(label, BorderLayout.NORTH);
 	        panelSeleccionTabla.add(comboBoxTablas, BorderLayout.CENTER);
 
-	        // CONFIGURACION DEL JPANEL
+	        // CONFIGURACION DEL JPANEL DEL ID***************************************************************************
 	        JPanel panelId = new JPanel();
 	        panelId.setLayout(new FlowLayout());
 	        JLabel lblId = new JLabel("ID");
@@ -84,6 +99,7 @@ public class OpcionesCRUD extends JFrame {
 	        textFieldId.setColumns(10);
 	        panelId.add(textFieldId);
 
+	        // CREAMO EL BTN PARA BUSCAR
 	        btnBuscar = new JButton("Buscar");
 	        btnBuscar.setFont(new Font("Comic Sans MS", Font.PLAIN, 12));
 	        btnBuscar.addActionListener(new ActionListener() {
@@ -92,10 +108,7 @@ public class OpcionesCRUD extends JFrame {
 	                buscarPorId();
 	            }
 	        });
-	        panelId.add(btnBuscar);
-	        
-
-
+	        panelId.add(btnBuscar);   
 	       
 	        // CREAMOS EL BTN PARA VER CALENDARIO
 	        btnVerCalendario = new JButton("Ver Calendario");
@@ -108,11 +121,7 @@ public class OpcionesCRUD extends JFrame {
 	                mostrarCalendario(null);
 	            }
 	        });
-	        panelId.add(btnVerCalendario);
-	        
-	        
-	        
-	        
+	        panelId.add(btnVerCalendario); 
 
 	        // CONFIGURACION DEL ENLACE DE GOOGLE
 	        lblEnlaceGoogle = new JLabel("Enlace Maps\r\n\r\n");
@@ -133,26 +142,38 @@ public class OpcionesCRUD extends JFrame {
 			btnGenerarReporteDiario.setVisible(false);
 			panelId.add(btnGenerarReporteDiario);
 			
-
+            // CREAMOS EL BTN DE REPORTECLIENTES
 		    btnGenerarReporteCliente = new JButton(" Reporte por Cliente");
 			btnGenerarReporteCliente.setFont(new Font("Comic Sans MS", Font.PLAIN, 12));
 			btnGenerarReporteCliente.setVisible(false);
-			panelId.add(btnGenerarReporteCliente);
-			
+			panelId.add(btnGenerarReporteCliente);			
 			btnGenerarReporteCliente.addActionListener(new ActionListener() {
-				public void actionPerformed(ActionEvent e) {
-					generarReporteCliente(102); // Reemplaza con el ID del cliente deseado o solicita al usuario
-				}
+			    @Override
+			    public void actionPerformed(ActionEvent e) {			        
+			        String idText = textFieldId.getText().trim();			      
+			        if (!idText.isEmpty()) {
+			            try {
+			                int idCliente = Integer.parseInt(idText);
+			                generarReporteCliente(idCliente); 
+			            } catch (NumberFormatException ex) {
+			                JOptionPane.showMessageDialog(null, "Por favor, ingrese un ID válido.", "Error", JOptionPane.ERROR_MESSAGE);
+			            }
+			        } else {
+			            JOptionPane.showMessageDialog(null, "Por favor, ingrese un ID.", "Error", JOptionPane.ERROR_MESSAGE);
+			        }
+			    }
 			});
+            // GENERAMOS EL INFORMEDIARIO ASOCIADO A UN CLIENTE
 			btnGenerarReporteDiario.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					generarReporteDiario();
 				}
 			});
-
 	        getContentPane().add(panelSeleccionTabla);
+	        
+	        
 
-	        // CONFIGURAMOS EL PANEL DE LA TABLA
+	        // CONFIGURAMOS EL PANEL DE LA TABLA PAR MOSTRAR LOS RESULTADOD****************************************************************************
 	        panelTablaResultados = new JPanel(new BorderLayout());
 	        panelTablaResultados.setBounds(0, 83, 940, 445);
 	        modeloTabla = new tablaModeloFechas(); 
@@ -163,14 +184,15 @@ public class OpcionesCRUD extends JFrame {
 	        panelTablaResultados.add(scrollPane, BorderLayout.CENTER);
 	        getContentPane().add(panelTablaResultados);
 
-	        // CREACION DE LOS PANELES CON LOS BOTONES DEL CRUD
+	        // CREACION DE LOS PANELES CON LOS BOTONES DEL CRUD 
 	        JPanel panelBotones = new JPanel();
 	        panelBotones.setBounds(0, 528, 940, 40);
 	        getContentPane().add(panelBotones);
 	        
+	         // CREACION DE UNA LINEA DE SEPARACION MANTENUENDO DISTANCIA CON EL BTN DE DESCONECTAR
 	        Component horizontalStrut_1 = Box.createHorizontalStrut(150);
 	        panelBotones.add(horizontalStrut_1);
-
+            // CREACION DEL BTN LISTAR
 	        JButton btnListar = new JButton("Listar");
 	        panelBotones.add(btnListar);
 	        btnListar.addActionListener(new ActionListener() {
@@ -179,7 +201,7 @@ public class OpcionesCRUD extends JFrame {
 	                listar();
 	            }
 	        });
-
+	        // CREACION DEL BTN INSERTAR
 	        JButton btnInsertar = new JButton("Insertar");
 	        panelBotones.add(btnInsertar);
 	        btnInsertar.addActionListener(new ActionListener() {
@@ -188,7 +210,7 @@ public class OpcionesCRUD extends JFrame {
 	                insertar();
 	            }
 	        });
-
+	        // CREACION DEL BTN ACTUALIZAR
 	        JButton btnActualizar = new JButton("Actualizar");
 	        panelBotones.add(btnActualizar);
 	        btnActualizar.addActionListener(new ActionListener() {
@@ -197,37 +219,41 @@ public class OpcionesCRUD extends JFrame {
 	                actualizar();
 	            }
 	        });
-
+	        // CREACION DEL BTN ELIMINAR
 	        JButton btnEliminar = new JButton("Eliminar");
 	        panelBotones.add(btnEliminar);
-	        
-	        Component horizontalStrut = Box.createHorizontalStrut(250);
-	        panelBotones.add(horizontalStrut);  
 	        btnEliminar.addActionListener(new ActionListener() {
 	            @Override
 	            public void actionPerformed(ActionEvent e) {
 	                eliminar();
 	            }
 	        });
+	         // CREACION DE UNA LINEA DE SEPARACION MANTENUENDO DISTANCIA CON EL BTN DE DESCONECTAR
+	        Component horizontalStrut = Box.createHorizontalStrut(250);
+	        panelBotones.add(horizontalStrut);
+	        // CREACION DEL BTN DESCONECTAR
 	        JButton btnDesconectar = new JButton("Desconectar");
 	        btnDesconectar.setFont(new Font("Comic Sans MS", Font.BOLD, 12));
 	        panelBotones.add(btnDesconectar);
 	        btnDesconectar.addActionListener(new ActionListener() {
 	            @Override
 	            public void actionPerformed(ActionEvent e) {
-	                desconectar();  // Llamamos al método desconectar
+	                desconectar();  // LLAMAMOS AL METODO DESCONETAR CREADO MAS ABAJO
 	            }
 	        });
 
-	        panelBotones.add(btnDesconectar);
-	        
-
+	        panelBotones.add(btnDesconectar);	
 	        // INICIALIZAMOS LA TABLA COMO VACIA
 	        panelTablaResultados.setVisible(true);
 	    }
 
 
 
+	 /**
+	  * MUESTRA UN DIÁLOGO QUE CONTIENE UN CALENDARIO Y UNA TABLA DE DATOS  RELACIONADOS CON LAS FECHAS SELECCIONADAS.
+	  *  PERMITE AL USUARIO SELECCIONAR UNA FECHA DEL CALENDARIO Y VER LA INFORMACIÓN CORRESPONDIENTE EN LA TABLA.
+	  * @param id
+	  */
 	private void mostrarCalendario(Integer id) {
 		JDialog calendarioDialog = new JDialog(this, "Calendario", true);
 		calendarioDialog.getContentPane().setLayout(new BorderLayout());
@@ -300,14 +326,21 @@ public class OpcionesCRUD extends JFrame {
 
 
 
-
+/**
+ *  CON ESTE MÉTODO RECUPERAMOS LAS SALIDAS DE LA BASE DE DATOS Y FILTRA LOS RESULTADOS BASÁNDOSE EN LA FECHA SELECCIONADA
+ *  Y EL ID PROPORCIONADO. LOS RESULTADOS SE MUESTRAN EN EL MODELO DE TABLA CREADA Y SE GENERAN INFORMES EN PDF SI SE 
+ *  ENCUENTRAN  SALIDAS CORRESPONDIENTES
+ * @param modelFechas
+ * @param selectedDate
+ * @param id
+ */
 	private void marcarFechasEnTabla(tablaModeloFechas modelFechas, Date selectedDate, Integer id) {
 		try {
 			ArrayList<tablaSalidas> salidas = bdDao.listarSalidas(conexion);
 			LocalDate fechaSeleccionada = selectedDate.toLocalDate();
 			System.out.println("Número de salidas recuperadas: " + salidas.size());
 
-			modelFechas.setRowCount(0); // Limpiar el modelo antes de agregar nuevas filas
+			modelFechas.setRowCount(0); //  LIMPIAMOS EL MODELO ANTES DE AGREGAR NUEVAS FILAS A LA TABLA
 
 			List<SalidaInfo> salidaInfos = new ArrayList<>();
 
@@ -347,14 +380,13 @@ public class OpcionesCRUD extends JFrame {
 								salida.isIncidencias()
 								);
 
-						salidaInfos.add(salidaInfo); // Añadir a la lista de SalidaInfo para el PDF
+						salidaInfos.add(salidaInfo); // AÑADIMOS A LA LISTA DE SALIDASINFO PARA CREAR EL PDF
 					} else {
 						System.out.println("Datos incompletos para el trabajador con ID: " + idTrabajador);
 					}
 				}
 			}
-			// Llamar al método para generar el PDF con las salidas filtradas
-			modelPDFDiario pdfGenerator = new modelPDFDiario(); // Usa esta clase si es la correcta para generar el PDF diario
+			//  LLAMAMOS AL METODO PARA GENERAR EL PDF CON LAS SALIDDAS FILTRADAS
 			modelPDFDiario.generarPDF(salidaInfos, fechaSeleccionada);
 		} catch (SQLException e) {
 			JOptionPane.showMessageDialog(null, "Error al obtener las fechas de las salidas: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
@@ -362,6 +394,11 @@ public class OpcionesCRUD extends JFrame {
 	}
 
 
+	/**
+	 *  CON ESTE MÉTODO  EL USUARIO SELECCIONA UNA TABLA DIFERENTE  EN EL COMBOBOXTABLAS. 
+	 *  ACTUALIZA LAS COLUMNAS DEL MODELO DE TABLA SEGÚN  LA SELECCIÓN, ASÍ COMO LA VISIBILIDAD DE CIERTOS COMPONENTES DE LA INTERFAZ,
+	 *  COMO BOTONES Y CAMPOS DE TEXTO, QUE SON NECESARIOS PARA LA TABLA SELECCIONADA.
+	 */
 	private void cambiarTabla() {
 		String tablaSeleccionada = (String) comboBoxTablas.getSelectedItem();
 		// CONFIGURAMOS LAS COLUNNAS DE LA TABLA
@@ -401,19 +438,23 @@ public class OpcionesCRUD extends JFrame {
 			btnGenerarReporteDiario.setVisible(false);
 			btnGenerarReporteCliente.setVisible(false);
 		}
-
 		// LIMPIAMOS Y COULTAMOS LAS COLUNMAS DE LA TABLA AL PASAR DE UNA A OTRA
 		panelTablaResultados.setVisible(false);
 	}
 
 
+	/**
+	 *   CON ESTE MÉTODO SE ENCARGA DE LIMPIAR EL MODELO DE TABLA Y LUEGO LLENAR LAS FILAS  CON LOS DATOS CORRESPONDIENTES
+	 *  A LA TABLA SELECCIONADA (CLIENTES, DIRECCIONES,  TRABAJADORES, SALIDAS O TRABAJADORES SALIDAS) 
+	 *  RECUPERANDO LA INFORMACIÓN DE LA BASE DE DATOS A TRAVÉS DE UN OBJETO DE ACCESO A DATOS (BDDAO).
+	 */
 	private void listar() {
 
 		try {
 			String tablaSeleccionada = (String) comboBoxTablas.getSelectedItem();
 			modeloTabla.setRowCount(0); //AL LISTAR LIMPIAMOS LAS TABLAS
 
-			// Lista de datos según la tabla seleccionada
+			//  LISTADO DE DATOS SEGUN LA TABLA SELECCIONADA
 			if ("CLIENTES".equals(tablaSeleccionada)) {
 				ArrayList<tablaClientes> clientes = bdDao.listarClientes(conexion);
 				for (tablaClientes cliente : clientes) {
@@ -489,6 +530,13 @@ public class OpcionesCRUD extends JFrame {
 	}
 
 
+	
+	/**
+	 *  CON ESTE MÉTODO RECUPERA EL ID DESDE EL  CAMPO DE TEXTO Y VERIFICA QUE NO ESTÉ VACÍO.  SI EL ID ES VÁLIDO, 
+	 *  SE INTENTA BUSCAR EL REGISTRO CORRESPONDIENTE EN LA BBDD SEGÚN LA TABLA SELECCIONADA EN EL COMBOBOXTABLAS. 
+	 *  SI SE ENCUENTRA EL REGISTRO, SE AÑADE A LA TABLA VISIBLE; DE LO CONTRARIO, SE MUESTRA UN MENSAJE INFORMANDO 
+	 *  QUE NO SE ENCONTRÓ EL REGISTRO.
+	 */
 	private void buscarPorId() {
 		String idStr = textFieldId.getText();
 		if (idStr.isEmpty()) {
@@ -590,6 +638,13 @@ public class OpcionesCRUD extends JFrame {
 
 	}
 
+	
+	/**
+	 *  CON ESTE MÉTODO PERMITE AL USUARIO INGRESAR INFORMACIÓN PARA CREAR UN NUEVO REGISTRO  EN LA BBDD
+	 *   BASADO EN LA TABLA SELECCIONADA EN EL COMBOBOXTABLAS. 
+	 *   ADEMAS UTILIZAMOS JOPTIONPANE PARA SOLICITAR LOS DATOS NECESARIOS. LOS REGISTROS QUE SE  PUEDEN INSERTAR INCLUYEN
+	 *   LAS TABLAS CREADAS ANTERIORMENTE
+	 */
 	private void insertar() {
 		String tablaSeleccionada = (String) comboBoxTablas.getSelectedItem();
 		try {
@@ -660,6 +715,12 @@ public class OpcionesCRUD extends JFrame {
 		}
 	}
 
+	
+	/**
+	 *  CON ESTE MÉTODO PERMITE AL USUARIO INGRESAR INFORMACIÓN PARA ACTUALIZAR UN REGISTRO  ESPECÍFICO EN LA BBDD,
+	 *  BASADO EN LA TABLA SELECCIONADA EN EL COMBOBOXTABLAS.ADEMAS UTILIZAMOS JOPTIONPANE PARA SOLICITAR LOS DATOS NECESARIOS.
+	 *  LOS REGISTROS QUE SE PUEDEN ACTUALIZAR SON LAS TABLAS CREADAS ANTERIORMENTE
+	 */
 	private void actualizar() {
 		String tablaSeleccionada = (String) comboBoxTablas.getSelectedItem();
 		try {
@@ -697,7 +758,7 @@ public class OpcionesCRUD extends JFrame {
 				String puesto = JOptionPane.showInputDialog("Nuevo Puesto del Trabajador (dejar vacío para no cambiar):");
 				String idDireccionStr = JOptionPane.showInputDialog("Nuevo ID Dirección (0 para no cambiar):");
 				int idDireccion = Integer.parseInt(idDireccionStr);
-				bdDao.actualizarTrabajador(conexion, nombre, apellidos, telefono, id, ss, puesto, idDireccion);
+				bdDao.actualizarTrabajador(conexion, id, nombre, apellidos, telefono, ss, puesto, idDireccion);
 
 			}else if ("SALIDAS".equals(tablaSeleccionada)) {
 				String idStr = JOptionPane.showInputDialog("ID de la Salida a Actualizar:");
@@ -756,6 +817,11 @@ public class OpcionesCRUD extends JFrame {
 	}
 
 
+	/**
+	 * CON ESTE MÉTODO PERMITE AL USUARIO INGRESAR EL ID DE UN REGISTRO QUE DESEA ELIMINAR DE LA BBDD, BASADO EN LA TABLA SELECCIONADA
+	 * EN EL COMBOBOXTABLAS.ADEMAS UTILIZAMOS CUADROS DE DIÁLOGO JOPTIONPANE PARA SOLICITAR EL ID CORRESPONDIENTE. 
+	 * LOS REGISTROS QUE SE PUEDEN ELIMINAR EN LAS TABLAS CREADAS ANTERIORMENTE
+	 */
 	private void eliminar() {
 		String tablaSeleccionada = (String) comboBoxTablas.getSelectedItem();
 		try {
@@ -786,6 +852,14 @@ public class OpcionesCRUD extends JFrame {
 		}
 
 	}
+	
+	/**
+	 * CON ESTE MÉTODO CREAMOS UN ENLACE A GOOGLE MAPS QUE MUESTRA LA UBICACIÓN ESPECIFICADA POR LAS  COORDENADAS. 
+	 * EL ENLACE SE ACORTA UTILIZANDO UN SERVICIO DE ACORTAMIENTO DE URL Y SE MUESTRA EN UN CAMPO DE TEXTO. ADEMÁS, 
+	 * SE AGREGA UN LISTENER PARA QUE EL ENLACE SEA CLICABLE; AL HACER  CLIC, SE ABRE LA UBICACIÓN EN EL NAVEGADOR WEB DEL USUARIO.
+	 * @param  double LATITUD
+	 * @param  double LONGITUD
+	 */
 	private void generarEnlaceGoogleMaps(double latitud, double longitud) {
 		String originalEnlace = "https://www.google.com/maps?q=" + latitud + "," + longitud;
 		String enlaceCorto = urlShortener.shortenURL(originalEnlace);
@@ -804,9 +878,15 @@ public class OpcionesCRUD extends JFrame {
 		});
 	}
 
+	/**
+	 * CON ESTE MÉTODO VERIFICAMOS SI HAY UNA CONEXIÓN ACTIVA A LA BASE DE DATOS. SI LA CONEXIÓN ESTÁ ABIERTA, 
+	 * LA CIERRA PARA LIBERAR RECURSOS. EN CASO DE QUE OCURRA UN ERROR DURANTE EL CIERRE DE LA CONEXIÓN,
+	 * SE MUESTRA UN MENSAJE DE ERROR AL USUARIO. LUEGO, SE CIERRA LA VENTANA ACTUAL Y SE REINICIA 
+	 * LA VENTANA PRINCIPAL DE LA APLICACIÓN.
+	 */
 	private void desconectar() {
 		try {
-			// Cierra la conexión a la base de datos
+			// CERRAMOS LA CONEXION A LA BBDD
 			if (conexion != null && !conexion.isClosed()) {
 				conexion.close();
 			}
@@ -814,32 +894,39 @@ public class OpcionesCRUD extends JFrame {
 			JOptionPane.showMessageDialog(this, "Error al cerrar la conexión: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
 		}
 
-		// Cierra la ventana actual
+		//  CERRAMOS LA VENTANA ACTUAL
 		dispose();
 
-		// Abre la ventana principal
+		// ABRIMOS OTRA VEZ LA VENTANA PRINCIPAL DE INICIO
 		MainInicio.main(new String[0]);
 	}
 
+	
+	/**
+	 *  CON ESTE MÉTODO OBTIENEMOS LA INFORMACIÓN DE SALIDAS DEL DÍA ACTUAL DESDE LA BASE DE DATOS 
+	 *  Y GENERA UN REPORTE EN FORMATO PDF. SI NO SE ENCUENTRAN DATOS PARA EL REPORTE, 
+	 *  SE  MUESTRA UN MENSAJE DE ADVERTENCIA. EN CASO DE ERRORES DURANTE LA OBTENCIÓN DE DATOS  O LA GENERACIÓN DEL PDF, 
+	 *  SE MUESTRA UN MENSAJE DE ERROR CORRESPONDIENTE.
+	 */
 	private void generarReporteDiario() {
 		try {
 			SalidaInfoDAO salidaInfoDAO = new SalidaInfoDAO(conexion, bdDao);
 			List<SalidaInfo> salidaInfos = salidaInfoDAO.obtenerSalidaInfo(LocalDate.now(), null);
-			// Verificar si se obtuvieron datos
+			// VERIFICACION SI SE OBTUVIERON LOS DATOS
 			if (salidaInfos.isEmpty()) {
 				JOptionPane.showMessageDialog(this, "No hay datos para generar el reporte diario.");
 				return;
 			}
 
-			// Generar el PDF usando los datos obtenidos
+			//  GENERAMOS EL PDF USUANDO LOS DATOS OBTENIDOS
 			modelPDFDiario.generarPDF(salidaInfos, LocalDate.now());
 			JOptionPane.showMessageDialog(this, "Reporte diario generado exitosamente.");
 
 		} catch (SQLException e) {
-			// Manejo de excepción en caso de errores con la base de datos
+			
 			JOptionPane.showMessageDialog(this, "Error al obtener datos para el reporte diario: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
 		} catch (Exception e) {
-			// Manejo de cualquier otra excepción
+			
 			JOptionPane.showMessageDialog(this, "Error al generar el reporte diario: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
 		}
 	}
@@ -847,6 +934,11 @@ public class OpcionesCRUD extends JFrame {
 
 
 
+	/**
+	 * CON ESTE MÉTODO UTILIZAMOS EL IDENTIFICADOR DEL CLIENTE PROPORCIONADO PARA GENERAR UN  REPORTE EN FORMATO PDF
+	 *  MEDIANTE EL USO DE LA CLASE  MODELPDFCLIENTE.  UNA VEZ QUE EL REPORTE HA SIDO GENERADO, SE MUESTRA UN MENSAJE DE CONFIRMACIÓN.
+	 * @param idCliente
+	 */
 	private void generarReporteCliente(int idCliente) {
 
 		ModelPDFCliente pdfGenerator = new ModelPDFCliente();

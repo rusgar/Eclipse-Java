@@ -21,6 +21,11 @@ import java.awt.event.ActionEvent;
 import java.awt.Toolkit;
 import java.awt.Font;
 
+
+/**
+ *  ESTA ES LA CLASE PRINCIPAL QUE REPRESENTA LA VENTANA PRINCIPAL DE LA APLICACIÓN DE CONTROL DE USUARIOS. 
+ *  PROPORCIONA UNA INTERFAZ GRÁFICA PARA QUE LOS USUARIOS INGRESEN SUS CREDENCIALES Y SE CONECTEN A UNA BASE DE DATOS.
+ */
 public class MainInicio {
 
     private JFrame frmControlUsuarios;
@@ -84,7 +89,7 @@ public class MainInicio {
         btnConectar.setFont(new Font("Comic Sans MS", Font.PLAIN, 20));
         btnConectar.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                String usuario = textField.getText();
+            	String usuario = textField.getText();
                 String password = new String(passwordField.getPassword());
 
                 ConexionBd conexionBd = new ConexionBd();

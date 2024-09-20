@@ -4,17 +4,26 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
+
+/**
+ *  CLASE QUE SE ENCARGA DE GESTIONAR LA CONEXIÓN A LA BASE DE DATOS MYSQL.
+ *  PROPORCIONA MÉTODOS PARA CONFIGURAR LOS PARÁMETROS DE CONEXIÓN Y PARA GENERAR LA CONEXIÓN A LA BASE DE DATOS.
+ *  @author EDU RUS
+ */
 public class ConexionBd {
 
-	// constante paradic
+	/** PARÁMETRO ADICIONAL UTILIZADO PARA GARANTIZAR LA COMPATIBILIDAD CON LA ZONA HORARIA
+	 *  DEL SERVIDOR Y LA CODIFICACIÓN UNICODE. */
 	public static final String PARADIC="?useUnicode=true&"
     		+ "useJDBCCompliantTimezoneShift"
     		+ "=true&useLegacyDatetimeCode"
     		+ "=false&serverTimezone=UTC";
-	//atributos o propiedades
+	//ATRIBUTOS DEL MODELO
 	private String baseDatos, host, puerto,
 	usuario,password;
-	// getter y setter
+	
+	
+	// GETTER Y SETTER
 	public String getBaseDatos() {
 		return baseDatos;
 	}
@@ -51,7 +60,7 @@ public class ConexionBd {
 	//CONTRUCTOR POR DEFECTO PERO AÑADIMOS DE INICIO LOS DATOSS PARA NO PEDIRLOS
 	public ConexionBd() {
 		super();
-		// TODO Auto-generated constructor stub
+		
 		this.host = "localhost";
 		this.puerto = "3306";
 		this.baseDatos = "oxon3";
@@ -70,7 +79,13 @@ public class ConexionBd {
 	}
 
 	
-	// METODO QUE GENERAQ LA CONEXION
+	// METODO QUE GENERA LA CONEXION
+	/**
+	 * GENERA UNA CONEXIÓN A LA BASE DE DATOS MYSQL UTILIZANDO LOS PARÁMETROS PROPORCIONADOS
+	 * (HOST, PUERTO, BASE DE DATOS, USUARIO Y CONTRASEÑA).
+	 * @return Connection
+	 * @throws SQLException
+	 */
 	public Connection generarConexion()throws SQLException {
 		Connection conexion;
 		String urlConnection = 	"jdbc:mysql://"
