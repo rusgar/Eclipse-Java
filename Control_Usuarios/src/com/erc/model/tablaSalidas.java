@@ -2,8 +2,13 @@ package com.erc.model;
 
 import java.time.LocalDate;
 
+/**
+ * CON ESTA CLASE RECOGEMOS LA INFORMAICON DE LA TABLA SALIDAS, ICLUYENDO LOS ATRIBUTOS DE
+ * TAREA, INSTALACIONES,INCIDENCIAS,SOLUCION,COSTECLIENTES, DESCRIPCION, FECHATAREA
+ */
 public class tablaSalidas {
 
+	// ATRIBUTOS
     private int id, idCliente, idDireccion, idTrabajador;
     private String tarea;
     private boolean instalaciones;
@@ -13,7 +18,7 @@ public class tablaSalidas {
     private String descripcion;
     private LocalDate fechaTarea;
 
-    // Getters y Setters
+    // GETTERS Y SETTERS
     public int getId() {
         return id;
     }
@@ -102,7 +107,7 @@ public class tablaSalidas {
         this.fechaTarea = fechaTarea;
     }
 
-    // Constructor sin parámetros
+    // CONSTRUCTORES INICIALIZADOS
     public tablaSalidas() {
         super();
         this.id = 0;
@@ -118,7 +123,20 @@ public class tablaSalidas {
         this.fechaTarea = LocalDate.now();
     }
 
-    // Constructor con parámetros
+    /**
+     * CONSTRUCTOR QUE INICIALIZA LOS ATRIBUTOS CON LOS VALROES ESPECIFICOS
+     * @param id
+     * @param idCliente
+     * @param idDireccion
+     * @param idTrabajador
+     * @param tarea
+     * @param instalaciones
+     * @param incidencias
+     * @param solucion
+     * @param costeCliente
+     * @param descripcion
+     * @param fechaTarea
+     */
     public tablaSalidas(int id, int idCliente, int idDireccion, int idTrabajador, String tarea, boolean instalaciones,
                         boolean incidencias, boolean solucion, double costeCliente, String descripcion, LocalDate fechaTarea) {
         super();

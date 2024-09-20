@@ -70,7 +70,7 @@ public class SalidaInfoDAO {
                     
                     SalidaInfo salidaInfo = new SalidaInfo(
                         salida,
-                        trabajador.getPuesto(),
+                        trabajador.getNombre(),
                         direccion.getLocalidad(),
                         cliente.getNombre(),
                         "https://www.google.com/maps/?q=" + direccion.getLatitud() + "," + direccion.getLongitud()
@@ -107,7 +107,7 @@ public class SalidaInfoDAO {
                     if (trabajador != null) {
                         SalidaInfo salidaInfo = new SalidaInfo(
                             salida,
-                            trabajador.getPuesto(),
+                            trabajador.getNombre(),
                             direccion.getLocalidad(),
                             obtenerClientePorId(idCliente).getNombre(),
                             "https://www.google.com/maps/?q=" + direccion.getLatitud() + "," + direccion.getLongitud()

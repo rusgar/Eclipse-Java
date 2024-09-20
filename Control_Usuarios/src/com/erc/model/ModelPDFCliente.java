@@ -7,6 +7,7 @@ import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.pdmodel.PDPage;
 import org.apache.pdfbox.pdmodel.PDPageContentStream;
 import org.apache.pdfbox.pdmodel.font.PDType1Font;
+import org.apache.pdfbox.pdmodel.graphics.image.PDImageXObject;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -81,18 +82,33 @@ public class ModelPDFCliente {
 			PDPage page = new PDPage();
 			document.addPage(page);
 
+			// CARGAMOS LAS IMAGENES
+			PDImageXObject image = PDImageXObject.createFromFile("resources/images/Oxon3.png", document);
+
 			try (PDPageContentStream contentStream = new PDPageContentStream(document, page)) {
+				// TAMAÑO Y POSICION DE LA IMAGEN
+				float imageWidth = 180;  
+				float imageHeight = 70;
+				float pageWidth = page.getMediaBox().getWidth();
+				float pageHeight = page.getMediaBox().getHeight();
+				//  POSICION DE LA IAMGEN EN LA PARTE SUPERIOR DERECHA
+				float imageX = pageWidth - MARGIN - imageWidth;
+				float titleAndImageY = pageHeight - MARGIN - imageHeight / 2;
+				// DIBUJAR LA IMAGEN EN LA ESQUINA SUPERIRO DERECHA
+				contentStream.drawImage(image, imageX, titleAndImageY, imageWidth, imageHeight);
+				//  DIBUJA EL TITULO EN LA PARTE SUPERIOR IZQUIERDA
 				contentStream.setFont(PDType1Font.HELVETICA_BOLD, 18);
 				contentStream.beginText();
-				contentStream.newLineAtOffset(MARGIN, page.getMediaBox().getHeight() - MARGIN );
+				//  CENTRAMOS EL TEXTO VERTICALMENTE CON RESPECTO A LA IMAGEN
+				contentStream.newLineAtOffset(MARGIN, titleAndImageY + (imageHeight / 2) - 9);  
 				contentStream.showText("Reporte del Cliente ID: " + idCliente + " - " + nombreCliente);
 				contentStream.endText();
 
 				//  DIBUJAMOS EL ENCABEZADO DE LA TABLA
-				drawTableHeader(contentStream, HEADER_Y_START);
+				drawTableHeader(contentStream, HEADER_Y_START - imageHeight -20);
 
 				//  DIBUJAMOS LOS DATOS DE SALIDAS DE LOS CLIENTES
-				drawClientData(contentStream, HEADER_Y_START, salidaInfos, bdDAO, connection);
+				drawClientData(contentStream, HEADER_Y_START- imageHeight -20, salidaInfos, bdDAO, connection);
 			}
 
 			document.save(rutaArchivo);

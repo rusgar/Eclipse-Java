@@ -1,7 +1,12 @@
 package com.erc.model;
 
+/**
+ * CON ESTA CLASE RECOGEMOS LA INFORMAICON DE LA TABLA TRABAJDOR, ICLUYENDO LOS ATRIBUTOS DE
+ * NOMBRE, APELLIDOS,TELEFONO , SEGURIDAD SOCIAL Y EL PUESTO QUE DESEMPEÑA
+ */
 public class tablaTrabajadores {
 	
+	// ATRIBUTOS
 	private int id;
 	private int idDireccion;   
     private String nombre;
@@ -67,7 +72,7 @@ public class tablaTrabajadores {
 		this.puesto = puesto;
 	}
 
-	// CONSTRUCTOR POR DEFECTO
+	// CONSTRUCTORES INICIALIZADOS
 	public tablaTrabajadores() {
 		super();
 		this.id = 0;		
@@ -79,7 +84,17 @@ public class tablaTrabajadores {
 		this.puesto = "";
 	}
 	
-	// CONSTRUCTOR PARAMETRIZADO
+	
+	/**
+	 * CONSTRUCTOR PARAMETRIZADO QUE INICIALIZA LOS ATRIBUTOS CON LOS VALROES ESPECIFICOS
+	 * @param id
+	 * @param idDireccion
+	 * @param nombre
+	 * @param apellidos
+	 * @param telefono
+	 * @param ss
+	 * @param puesto
+	 */
 	public tablaTrabajadores(int id, int idDireccion, String nombre, String apellidos, String telefono, String ss, String puesto) {
 		super();
 		this.id = id;

@@ -1,0 +1,1 @@
+packageSearchIndex = [{"l":"All Packages","u":"allpackages-index.html"},{"l":"com.erc.bdhelpers"},{"l":"com.erc.dao"},{"l":"com.erc.helpers"},{"l":"com.erc.main"},{"l":"com.erc.model"}];updateSearchResults();

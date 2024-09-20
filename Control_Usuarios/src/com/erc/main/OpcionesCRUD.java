@@ -63,7 +63,7 @@ public class OpcionesCRUD extends JFrame {
 	 */
 	 private void inicializar() {
 	        setTitle("TABLAS CLIENTES");
-	        setBounds(100, 100, 945, 610);
+	        setBounds(100, 100, 950, 610);
 	        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
 	        // CONFIGURACION DEL COMBOX PARA SELECCIONAR LAS TABLAS QUE DESEAMOS
@@ -80,7 +80,7 @@ public class OpcionesCRUD extends JFrame {
 
 	        // CONFIGURACION DEL PANEL DE SELECCION
 	        JPanel panelSeleccionTabla = new JPanel();
-	        panelSeleccionTabla.setBounds(0, 0, 940, 83);
+	        panelSeleccionTabla.setBounds(0, 0, 935, 83);
 	        panelSeleccionTabla.setLayout(new BorderLayout());
 	        JLabel label = new JLabel("Seleccionar Tabla:");
 	        label.setFont(new Font("Comic Sans MS", Font.BOLD, 16));
@@ -89,6 +89,7 @@ public class OpcionesCRUD extends JFrame {
 
 	        // CONFIGURACION DEL JPANEL DEL ID***************************************************************************
 	        JPanel panelId = new JPanel();
+	        panelId.setBackground(new Color(115, 91, 162));
 	        panelId.setLayout(new FlowLayout());
 	        JLabel lblId = new JLabel("ID");
 	        lblId.setFont(new Font("Comic Sans MS", Font.PLAIN, 12));
@@ -186,11 +187,12 @@ public class OpcionesCRUD extends JFrame {
 
 	        // CREACION DE LOS PANELES CON LOS BOTONES DEL CRUD 
 	        JPanel panelBotones = new JPanel();
+	        panelBotones.setBackground(new Color(0, 150, 64));
 	        panelBotones.setBounds(0, 528, 940, 40);
 	        getContentPane().add(panelBotones);
 	        
 	         // CREACION DE UNA LINEA DE SEPARACION MANTENUENDO DISTANCIA CON EL BTN DE DESCONECTAR
-	        Component horizontalStrut_1 = Box.createHorizontalStrut(150);
+	        Component horizontalStrut_1 = Box.createHorizontalStrut(130);
 	        panelBotones.add(horizontalStrut_1);
             // CREACION DEL BTN LISTAR
 	        JButton btnListar = new JButton("Listar");
@@ -229,7 +231,7 @@ public class OpcionesCRUD extends JFrame {
 	            }
 	        });
 	         // CREACION DE UNA LINEA DE SEPARACION MANTENUENDO DISTANCIA CON EL BTN DE DESCONECTAR
-	        Component horizontalStrut = Box.createHorizontalStrut(250);
+	        Component horizontalStrut = Box.createHorizontalStrut(260);
 	        panelBotones.add(horizontalStrut);
 	        // CREACION DEL BTN DESCONECTAR
 	        JButton btnDesconectar = new JButton("Desconectar");

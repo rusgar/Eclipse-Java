@@ -1,16 +1,22 @@
 package com.erc.model;
 
+
+/**
+ *  CON ESTA CLASE REPRESENTAMOS LA INFORMACIÓN DE UNA SALIDA, INCLUYENDO LOS ATRIBUTOS
+ *   COMO EL nombre, LOCALIDAD, NOMBRE DEL USUARIO Y UN ENLACE A GOOGLE MAPS.
+ */
 public class SalidaInfo {
 
+	// ATRIBUTOS
     private tablaSalidas salida;
-    private String puesto;
+    private String nombre;
     private String localidad;
     private String nombreUsuario;
     private String enlaceGoogleMaps;
 
     
     
- // Getters y setters para los atributos
+ // GETTERS Y SETTERS
 
 
 	 public String getEnlaceGoogleMaps() {
@@ -30,12 +36,12 @@ public class SalidaInfo {
         this.salida = salida;
     }
 
-    public String getPuesto() {
-        return puesto;
+    public String getNombre() {
+        return nombre;
     }
 
-    public void setPuesto(String puesto) {
-        this.puesto = puesto;
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
     }
 
     public String getLocalidad() {
@@ -55,10 +61,17 @@ public class SalidaInfo {
     }
 
    
-  
-    public SalidaInfo(tablaSalidas salida, String puesto, String localidad, String nombreUsuario, String enlaceGoogleMaps) {
+  /**
+   * CONSTRUCTOR PARA CREAR UN INSTANCIA DE LA CLASE
+   * @param salida
+   * @param nombre
+   * @param localidad
+   * @param nombreUsuario
+   * @param enlaceGoogleMaps
+   */
+    public SalidaInfo(tablaSalidas salida, String nombre, String localidad, String nombreUsuario, String enlaceGoogleMaps) {
         this.salida = salida;
-        this.puesto = puesto;
+        this.nombre = nombre;
         this.localidad = localidad;
         this.nombreUsuario = nombreUsuario;
         this.enlaceGoogleMaps = enlaceGoogleMaps;

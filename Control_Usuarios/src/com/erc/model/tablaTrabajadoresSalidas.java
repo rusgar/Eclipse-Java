@@ -1,5 +1,9 @@
 package com.erc.model;
 
+
+/**
+ * CON ESTA CLASE RECOGEMOS Y ENLEZAMOS LAS TABLAS DE TRABAJADORES CON LAS SALIDAS
+ */
 public class tablaTrabajadoresSalidas {
     private int id, idTrabajador, idSalida;
     
@@ -29,6 +33,7 @@ public class tablaTrabajadoresSalidas {
     }
 
     
+ // CONSTRUCTORES INICIALIZADOS
     public tablaTrabajadoresSalidas() {
         super();
         this.id = 0;
@@ -36,7 +41,12 @@ public class tablaTrabajadoresSalidas {
         this.idSalida = 0;
     }
 
-    // CONSTRUCTOR PARAMETRIZADO
+  /**
+   * CONSTRUCTOR PARAMETRIZADO QUE INICIALIZA LOS ATRIBUTOS CON LOS VALROES ESPECIFICOS 
+   * @param id
+   * @param idTrabajador
+   * @param idSalida
+   */
     public tablaTrabajadoresSalidas(int id, int idTrabajador, int idSalida) {
         super();
         this.id = id;

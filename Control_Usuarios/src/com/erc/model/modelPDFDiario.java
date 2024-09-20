@@ -6,10 +6,12 @@ import java.nio.file.Paths;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.sql.Connection;
-import com.erc.bdhelpers.BDDAO; 
+import com.erc.bdhelpers.BDDAO;
+import org.apache.pdfbox.pdmodel.graphics.image.PDImageXObject;
 
 import org.apache.pdfbox.cos.COSDictionary;
 import org.apache.pdfbox.pdmodel.PDDocument;
@@ -17,8 +19,9 @@ import org.apache.pdfbox.pdmodel.PDPage;
 import org.apache.pdfbox.pdmodel.PDPageContentStream;
 import org.apache.pdfbox.pdmodel.interactive.action.PDActionURI;
 import org.apache.pdfbox.pdmodel.interactive.annotation.PDAnnotationLink;
+import org.apache.pdfbox.pdmodel.graphics.image.PDImageXObject;
 
-import com.erc.dao.SalidaInfoDAO;
+
 import com.erc.dao.URLShortener;
 import org.apache.pdfbox.pdmodel.common.PDRectangle;
 import org.apache.pdfbox.pdmodel.font.PDType1Font;
@@ -37,17 +40,19 @@ public class modelPDFDiario {
 	private static final float ROW_HEIGHT = 15;
 	private static final float COLUMN_WIDTH_ID = 50;
 	private static final float COLUMN_WIDTH_FECHA = 100; 
-	private static final float COLUMN_WIDTH_PUESTO = 100;
+	private static final float COLUMN_WIDTH_NOMBRE = 100;
 	private static final float COLUMN_WIDTH_LOCALIDAD = 100;
 	private static final float COLUMN_WIDTH_NOMBRE_USUARIO = 100; 
 	private static final float COLUMN_WIDTH_ENLACE = 130; 
 	private static final float COLUMN_WIDTH_DESCRIPCION = 350; 
 	private static final float COLUMN_WIDTH_INSTALACION = 80;
 	private static final float COLUMN_WIDTH_INCIDENCIA = 80;
-	private static final float TITLE_Y_POSITION = 750; // POSICION INICIAL PARA EL TITULO
-	private static final float TABLE1_Y_START = 680; // POSICIONES DE LAS TABLAS
-	private static final float TABLE2_Y_START = 550; // 
-	private static final float TABLE3_Y_START = 350; //
+	private static final float TITLE_Y_POSITION = 700; // POSICION INICIAL PARA EL TITULO
+	private static final float TABLE1_Y_START = 620; // POSICIONES DE LAS TABLAS
+	private static final float TABLE3_Y_START = 500; 
+	private static final float TABLE2_Y_START = 400; 
+	private static final PDType1Font FONT = PDType1Font.HELVETICA; 
+	private static final float FONT_SIZE = 10; // TAMAÑO INICIAL DE LA FUENTE
 
 	/**
 	 * CON ESTE MODELO GENERAMOS UN ARCHIVO PDF QUE CONTIENE UN INFORME DIARIO CON LOS DETALLES DE LAS SALIDAS
@@ -62,42 +67,49 @@ public class modelPDFDiario {
 			System.out.println("El directorio no existe: " + directorio);
 			return;
 		}
+		// OBTENEMOS LA FECHA Y DIA DE LA SEMANA
 		Date fecha = java.sql.Date.valueOf(fechaSeleccionada);
-		SimpleDateFormat dateFormat = new SimpleDateFormat("EEEE");
-		String diaSemana = dateFormat.format(fecha);
+		SimpleDateFormat dayFormat = new SimpleDateFormat("EEEE");
+		SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy"); 
+		String diaSemana = dayFormat.format(fecha);
+		String fechaCompleta = dateFormat.format(fecha);
 
 		try (PDDocument document = new PDDocument()) {
 			PDPage page = new PDPage(); 
 			document.addPage(page);
+			// AGREGRAMOS LA IMAGEN
+			PDImageXObject pdImage = PDImageXObject.createFromFile("resources/images/Oxon3.png", document);
+			float imageWidth = 180; // AJUSTAMOS EL ANCHO DE LA IMAGEN
+			float imageHeight = 70; // AJUSTAMOS EL ALTO DE LA IMAGEN
+			float imageXPosition = page.getMediaBox().getWidth() - MARGIN - imageWidth; // POSICINAMOS LA IMAGEN A LA DERECGHA
+			float imageYPosition = page.getMediaBox().getHeight() - MARGIN - imageHeight; 
+
 
 			try (PDPageContentStream contentStream = new PDPageContentStream(document, page)) {
-				// AGREGAMOS EL TITULO
+				// AGREGAMOS EL TITULO				
 				contentStream.setFont(PDType1Font.HELVETICA_BOLD, 18);
 				contentStream.beginText();
 				contentStream.newLineAtOffset(MARGIN, page.getMediaBox().getHeight() - MARGIN - 20); //AJUSTAMOS LA POSICION DEL TITULO
-				contentStream.showText("Progamacion: " + diaSemana);
+				contentStream.showText("Programación: " + diaSemana + " - " + fechaCompleta); // Día de la semana + fecha completa
 				contentStream.endText();
+				
+				// DIBUJAMOS LA IMAGEN EN LA PARTE SUPERIOR DERECHA
+				contentStream.drawImage(pdImage, imageXPosition, imageYPosition, imageWidth, imageHeight);
 
-				// DIBUJAMOS LAS TABLAS
+				//DIBUJAMOS LAS TABLAS
 				drawTable1(contentStream, TABLE1_Y_START, salidaInfos);
-				drawTable2(contentStream, TABLE2_Y_START, salidaInfos);
 				drawTable3(contentStream, page, TABLE3_Y_START, salidaInfos);
+				drawTable2(contentStream, TABLE2_Y_START, salidaInfos, document);
 
 			}
 
-			//GUARDAMOS EL DOCUMENTO
-			try {
-				document.save(rutaArchivo);
-				System.out.println("PDF creado exitosamente en: " + rutaArchivo);
-			} catch (IOException e) {
-				System.err.println("Error al guardar el PDF: " + e.getMessage());
-				e.printStackTrace();
-			}
-
+			document.save(rutaArchivo);
+			System.out.println("PDF creado exitosamente en: " + rutaArchivo);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 	}
+
 
 	/**
 	 * CON ESTE METODO TENEMOS Y DIBUJAMOS LA PRIMERA TABLA
@@ -113,7 +125,7 @@ public class modelPDFDiario {
 		// DIBUJAMOS LAS FILAS
 		contentStream.setLineWidth(1f);
 		contentStream.moveTo(MARGIN, yPosition);
-		contentStream.lineTo(MARGIN + COLUMN_WIDTH_ID + COLUMN_WIDTH_FECHA + COLUMN_WIDTH_PUESTO + COLUMN_WIDTH_LOCALIDAD + COLUMN_WIDTH_NOMBRE_USUARIO, yPosition);
+		contentStream.lineTo(MARGIN + COLUMN_WIDTH_ID + COLUMN_WIDTH_FECHA + COLUMN_WIDTH_NOMBRE+ COLUMN_WIDTH_LOCALIDAD + COLUMN_WIDTH_NOMBRE_USUARIO, yPosition);
 		contentStream.stroke();
 
 		// DIBUJAMOS LAS COLUMNAS
@@ -129,7 +141,7 @@ public class modelPDFDiario {
 		contentStream.moveTo(xPosition, yPosition);
 		contentStream.lineTo(xPosition, yPosition - tableHeight);
 		contentStream.stroke();
-		xPosition += COLUMN_WIDTH_PUESTO;
+		xPosition += COLUMN_WIDTH_NOMBRE;
 		contentStream.moveTo(xPosition, yPosition);
 		contentStream.lineTo(xPosition, yPosition - tableHeight);
 		contentStream.stroke();
@@ -144,7 +156,7 @@ public class modelPDFDiario {
 
 
 		contentStream.moveTo(MARGIN, yPosition - tableHeight);
-		contentStream.lineTo(MARGIN + COLUMN_WIDTH_ID + COLUMN_WIDTH_FECHA + COLUMN_WIDTH_PUESTO + COLUMN_WIDTH_LOCALIDAD + COLUMN_WIDTH_NOMBRE_USUARIO, yPosition - tableHeight);
+		contentStream.lineTo(MARGIN + COLUMN_WIDTH_ID + COLUMN_WIDTH_FECHA + COLUMN_WIDTH_NOMBRE+ COLUMN_WIDTH_LOCALIDAD + COLUMN_WIDTH_NOMBRE_USUARIO, yPosition - tableHeight);
 		contentStream.stroke();
 
 		// DIBUJAMOS EL ENCABEZADO DE LA PRIMERA TABLA
@@ -156,8 +168,8 @@ public class modelPDFDiario {
 		contentStream.newLineAtOffset(COLUMN_WIDTH_ID, 0);
 		contentStream.showText("Fecha Tarea");
 		contentStream.newLineAtOffset(COLUMN_WIDTH_FECHA, 0);
-		contentStream.showText("Puesto");
-		contentStream.newLineAtOffset(COLUMN_WIDTH_PUESTO, 0);
+		contentStream.showText("Trabajador");
+		contentStream.newLineAtOffset(COLUMN_WIDTH_NOMBRE, 0);
 		contentStream.showText("Localidad");
 		contentStream.newLineAtOffset(COLUMN_WIDTH_LOCALIDAD, 0);
 		contentStream.showText("Nombre Usuario");
@@ -175,8 +187,8 @@ public class modelPDFDiario {
 			contentStream.newLineAtOffset(COLUMN_WIDTH_ID, 0);
 			contentStream.showText(salida.getFechaTarea().toString());
 			contentStream.newLineAtOffset(COLUMN_WIDTH_FECHA, 0);
-			contentStream.showText(salidaInfo.getPuesto());
-			contentStream.newLineAtOffset(COLUMN_WIDTH_PUESTO, 0);
+			contentStream.showText(salidaInfo.getNombre());
+			contentStream.newLineAtOffset(COLUMN_WIDTH_NOMBRE, 0);
 			contentStream.showText(salidaInfo.getLocalidad());
 			contentStream.newLineAtOffset(COLUMN_WIDTH_LOCALIDAD, 0);
 			contentStream.showText(salidaInfo.getNombreUsuario());
@@ -191,52 +203,77 @@ public class modelPDFDiario {
 	 * @param contentStream
 	 * @param yStart
 	 * @param salidaInfos
+	 * @param document 
 	 * @throws IOException
 	 */
-	private static void drawTable2(PDPageContentStream contentStream, float yStart, List<SalidaInfo> salidaInfos) throws IOException {
-		final float yPosition = yStart;
-		final float tableHeight = ROW_HEIGHT * (3 + salidaInfos.size()); //  AGREGAMOS LAS FILAS NECESARIAS PARA LAS TABLAS
+	private static void drawTable2(PDPageContentStream contentStream, float yStart, List<SalidaInfo> salidaInfos, PDDocument document) throws IOException {
+		float yPosition = yStart;
+		// Ajustamos el ancho de la página
+		float pageWidth = PDRectangle.A4.getWidth() - 2 * MARGIN;
 
-		// DIBUJAMOS LAS FILAS
-		contentStream.setLineWidth(1f);
-		contentStream.moveTo(MARGIN, yPosition );
-		contentStream.lineTo(MARGIN + COLUMN_WIDTH_DESCRIPCION, yPosition);
-		contentStream.stroke();
-
-		// DIBUJAMOS LAS COLUMNAS
-		float xPosition = MARGIN;
-		contentStream.moveTo(xPosition, yPosition);
-		contentStream.lineTo(xPosition, yPosition - tableHeight);
-		contentStream.stroke();
-		xPosition += COLUMN_WIDTH_DESCRIPCION;
-		contentStream.moveTo(xPosition, yPosition);
-		contentStream.lineTo(xPosition, yPosition - tableHeight);
-		contentStream.stroke();
-		contentStream.moveTo(MARGIN, yPosition - tableHeight);
-		contentStream.lineTo(MARGIN + COLUMN_WIDTH_DESCRIPCION, yPosition - tableHeight);
-		contentStream.stroke();
-
-
-		// DIBUJAMOS EL ENCABEZADO DE LA SEGUNDA TABLA
-		contentStream.setFont(PDType1Font.COURIER_BOLD, 10);
-		float headerYPosition = yStart;
+		// Dibujamos el encabezado
+		contentStream.setFont(FONT, 14);
 		contentStream.beginText();
-		contentStream.newLineAtOffset(MARGIN +30 , headerYPosition +10);
+		contentStream.newLineAtOffset(MARGIN, yPosition);
 		contentStream.showText("Descripción");
 		contentStream.endText();
 
-		// DIBUJAMOS LOS DATOS DE LA COLUMNA DE LA SEGUNDA TABLA
-		contentStream.setFont(PDType1Font.COURIER, 10);
-		float rowYPosition = headerYPosition - ROW_HEIGHT;
+		// Ajustamos el contenido
+		yPosition -= ROW_HEIGHT;
+		contentStream.setFont(FONT, FONT_SIZE);
+
 		for (SalidaInfo salidaInfo : salidaInfos) {
 			tablaSalidas salida = salidaInfo.getSalida();
-			contentStream.beginText();
-			contentStream.newLineAtOffset(MARGIN +15, rowYPosition -10);
-			contentStream.showText(salida.getDescripcion());
-			contentStream.endText();
-			rowYPosition -= ROW_HEIGHT;
+			String descripcion = salida.getDescripcion();
+			String[] lines = splitTextToFitWidth(descripcion, pageWidth);
+
+			for (String line : lines) {
+				// Comprobamos si la posición actual es menor que 5 píxeles del final de la página
+				if (yPosition - ROW_HEIGHT < MARGIN + 5) {
+					// Agregamos una nueva página si es necesario
+					PDPage newPage = new PDPage();
+					contentStream = new PDPageContentStream(document, newPage);
+					document.addPage(newPage);
+					yPosition = PDRectangle.A4.getHeight() - MARGIN; // Reiniciamos la posición
+				}
+
+				contentStream.beginText();
+				contentStream.newLineAtOffset(MARGIN, yPosition);
+				contentStream.showText(line);
+				contentStream.endText();
+				yPosition -= ROW_HEIGHT;
+			}
+			yPosition -= ROW_HEIGHT; // Espacio adicional entre descripciones
 		}
 	}
+
+	/**
+	 * MÉTODO PARA DIVIDIR EL TEXTO EN LÍNEAS DE LONGITUD FIJA.
+	 * @param text
+	 * @param maxLength
+	 * @return
+	 */
+	private static String[] splitTextToFitWidth(String text, float width) throws IOException {
+		List<String> lines = new ArrayList<>();
+		String[] words = text.split(" ");
+		StringBuilder currentLine = new StringBuilder();
+
+		for (String word : words) {
+			String testLine = currentLine.toString() + (currentLine.length() > 0 ? " " : "") + word;
+			float testWidth = FONT.getStringWidth(testLine) / 1000 * FONT_SIZE;
+
+			if (testWidth > width) {
+				lines.add(currentLine.toString());
+				currentLine = new StringBuilder(word);
+			} else {
+				currentLine.append((currentLine.length() > 0 ? " " : "")).append(word);
+			}
+		}
+		lines.add(currentLine.toString());
+
+		return lines.toArray(new String[0]);
+	}
+
 
 	/**
 	 * CON ESTE METODO TENEMOS Y DIBUJAMOS LA TERCERA TABLA

@@ -1,7 +1,14 @@
 package com.erc.model;
 
+/**
+ * CON ESTA CLASE RECOGEMOS LA INFORMACIÓN DE UNA DIRECCIÓN, 
+ * INCLUYENDO DETALLES COMO DIRECCIÓN, CÓDIGO POSTAL, LOCALIDAD,
+ * LATITUD, LONGITUD  Y EL ID DEL CLIENTE ASOCIADO.
+ */
 public class tablaDirecciones {
 
+	
+	// ATRIBUTOS
     private int id;
     private String direccion;
     private String codigoPostal;
@@ -67,7 +74,7 @@ public class tablaDirecciones {
         this.idCliente = idCliente;
     }
 
-    // CONSTRUCTORES
+    // CONSTRUCTORES INICIALIZADOS
     public tablaDirecciones() {
         this.id = 0;
         this.direccion = "";
@@ -77,6 +84,17 @@ public class tablaDirecciones {
         this.longitud = 0.0;
         this.idCliente = 0;
     }
+    
+    /**
+     * CONSTRUCTOR QUE INICIALIZA LOS ATRIBUTOS CON LOS VALROES ESPECIFICOS
+     * @param id
+     * @param direccion
+     * @param codigoPostal
+     * @param localidad
+     * @param latitud
+     * @param longitud
+     * @param idCliente
+     */
 
     public tablaDirecciones(int id, String direccion, String codigoPostal, String localidad, double latitud, double longitud, int idCliente) {
         this.id = id;
