@@ -70,6 +70,7 @@ public class SalidaInfoDAO {
                     
                     SalidaInfo salidaInfo = new SalidaInfo(
                         salida,
+                        salida.getTarea(),
                         trabajador.getNombre(),
                         direccion.getLocalidad(),
                         cliente.getNombre(),
@@ -107,6 +108,7 @@ public class SalidaInfoDAO {
                     if (trabajador != null) {
                         SalidaInfo salidaInfo = new SalidaInfo(
                             salida,
+                            salida.getTarea(),
                             trabajador.getNombre(),
                             direccion.getLocalidad(),
                             obtenerClientePorId(idCliente).getNombre(),

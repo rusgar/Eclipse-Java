@@ -64,8 +64,8 @@ public class ConexionBd {
 		this.host = "localhost";
 		this.puerto = "3306";
 		this.baseDatos = "oxon3";
-		this.usuario = "root";
-		this.password = "xana2120";
+		this.usuario = "";
+		this.password = "";
 	}
 
 	//CONSTRUCTOR PARAMETRIZADO

@@ -22,6 +22,7 @@ import org.apache.pdfbox.pdmodel.interactive.annotation.PDAnnotationLink;
 import org.apache.pdfbox.pdmodel.graphics.image.PDImageXObject;
 
 
+
 import com.erc.dao.URLShortener;
 import org.apache.pdfbox.pdmodel.common.PDRectangle;
 import org.apache.pdfbox.pdmodel.font.PDType1Font;
@@ -38,7 +39,7 @@ public class modelPDFDiario {
 	private static final float MARGIN = 50;
 	private static final float TABLE_WIDTH = 500; //  ANCHO TOTAL DE LAS TABLAS
 	private static final float ROW_HEIGHT = 15;
-	private static final float COLUMN_WIDTH_ID = 50;
+	private static final float COLUMN_WIDTH_TAREA = 50;
 	private static final float COLUMN_WIDTH_FECHA = 100; 
 	private static final float COLUMN_WIDTH_NOMBRE = 100;
 	private static final float COLUMN_WIDTH_LOCALIDAD = 100;
@@ -51,14 +52,17 @@ public class modelPDFDiario {
 	private static final float TABLE1_Y_START = 620; // POSICIONES DE LAS TABLAS
 	private static final float TABLE3_Y_START = 500; 
 	private static final float TABLE2_Y_START = 400; 
-	private static final PDType1Font FONT = PDType1Font.HELVETICA; 
-	private static final float FONT_SIZE = 10; // TAMAÑO INICIAL DE LA FUENTE
+	private static final PDType1Font FONT = PDType1Font.HELVETICA;
+	private static final PDType1Font FONT_HEADER = PDType1Font.HELVETICA_BOLD;
+	private static final float FONT_SIZE = 10;// TAMAÑO INICIAL DE LA FUENTE
+	private static final float FONT_SIZE_HEADER = 12;
 
 	/**
 	 * CON ESTE MODELO GENERAMOS UN ARCHIVO PDF QUE CONTIENE UN INFORME DIARIO CON LOS DETALLES DE LAS SALIDAS
 	 * @param salidaInfos
 	 * @param fechaSeleccionada
 	 */
+	@SuppressWarnings("deprecation")
 	public static void generarPDF(List<SalidaInfo> salidaInfos, LocalDate fechaSeleccionada) {
 		String rutaArchivo = "C:\\Users\\Propietario\\Desktop\\Control_OXON_3\\PDF_Salidas\\" + fechaSeleccionada.toString() + "_Diario.pdf";
 		String directorio = "C:\\Users\\Propietario\\Desktop\\Control_OXON_3\\PDF_Salidas\\";
@@ -70,8 +74,9 @@ public class modelPDFDiario {
 		// OBTENEMOS LA FECHA Y DIA DE LA SEMANA
 		Date fecha = java.sql.Date.valueOf(fechaSeleccionada);
 		SimpleDateFormat dayFormat = new SimpleDateFormat("EEEE");
+		String diaSemana = dayFormat.format(fecha).toLowerCase();
 		SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy"); 
-		String diaSemana = dayFormat.format(fecha);
+		String diaSemanaCapitalizado = diaSemana.substring(0, 1).toUpperCase() + diaSemana.substring(1);
 		String fechaCompleta = dateFormat.format(fecha);
 
 		try (PDDocument document = new PDDocument()) {
@@ -86,15 +91,18 @@ public class modelPDFDiario {
 
 
 			try (PDPageContentStream contentStream = new PDPageContentStream(document, page)) {
+				contentStream.setNonStrokingColor(255, 0, 0);
 				// AGREGAMOS EL TITULO				
-				contentStream.setFont(PDType1Font.HELVETICA_BOLD, 18);
+				contentStream.setFont(FONT_HEADER, 18);
 				contentStream.beginText();
-				contentStream.newLineAtOffset(MARGIN, page.getMediaBox().getHeight() - MARGIN - 20); //AJUSTAMOS LA POSICION DEL TITULO
-				contentStream.showText("Programación: " + diaSemana + " - " + fechaCompleta); // Día de la semana + fecha completa
+				contentStream.newLineAtOffset(MARGIN, page.getMediaBox().getHeight() - MARGIN - 30); //AJUSTAMOS LA POSICION DEL TITULO
+				contentStream.showText("Programación: " + diaSemanaCapitalizado + " - " + fechaCompleta); // Día de la semana + fecha completa
 				contentStream.endText();
+				
 				
 				// DIBUJAMOS LA IMAGEN EN LA PARTE SUPERIOR DERECHA
 				contentStream.drawImage(pdImage, imageXPosition, imageYPosition, imageWidth, imageHeight);
+				contentStream.setNonStrokingColor(0, 0, 0);
 
 				//DIBUJAMOS LAS TABLAS
 				drawTable1(contentStream, TABLE1_Y_START, salidaInfos);
@@ -125,7 +133,7 @@ public class modelPDFDiario {
 		// DIBUJAMOS LAS FILAS
 		contentStream.setLineWidth(1f);
 		contentStream.moveTo(MARGIN, yPosition);
-		contentStream.lineTo(MARGIN + COLUMN_WIDTH_ID + COLUMN_WIDTH_FECHA + COLUMN_WIDTH_NOMBRE+ COLUMN_WIDTH_LOCALIDAD + COLUMN_WIDTH_NOMBRE_USUARIO, yPosition);
+		contentStream.lineTo(MARGIN + COLUMN_WIDTH_TAREA + COLUMN_WIDTH_FECHA + COLUMN_WIDTH_NOMBRE+ COLUMN_WIDTH_LOCALIDAD + COLUMN_WIDTH_NOMBRE_USUARIO, yPosition);
 		contentStream.stroke();
 
 		// DIBUJAMOS LAS COLUMNAS
@@ -133,7 +141,7 @@ public class modelPDFDiario {
 		contentStream.moveTo(xPosition, yPosition);
 		contentStream.lineTo(xPosition, yPosition - tableHeight);
 		contentStream.stroke();
-		xPosition += COLUMN_WIDTH_ID;
+		xPosition += COLUMN_WIDTH_TAREA;
 		contentStream.moveTo(xPosition, yPosition);
 		contentStream.lineTo(xPosition, yPosition - tableHeight);
 		contentStream.stroke();
@@ -156,35 +164,35 @@ public class modelPDFDiario {
 
 
 		contentStream.moveTo(MARGIN, yPosition - tableHeight);
-		contentStream.lineTo(MARGIN + COLUMN_WIDTH_ID + COLUMN_WIDTH_FECHA + COLUMN_WIDTH_NOMBRE+ COLUMN_WIDTH_LOCALIDAD + COLUMN_WIDTH_NOMBRE_USUARIO, yPosition - tableHeight);
+		contentStream.lineTo(MARGIN + COLUMN_WIDTH_TAREA + COLUMN_WIDTH_FECHA + COLUMN_WIDTH_NOMBRE+ COLUMN_WIDTH_LOCALIDAD + COLUMN_WIDTH_NOMBRE_USUARIO, yPosition - tableHeight);
 		contentStream.stroke();
 
 		// DIBUJAMOS EL ENCABEZADO DE LA PRIMERA TABLA
-		contentStream.setFont(PDType1Font.COURIER_BOLD, 10);
+		contentStream.setFont(FONT_HEADER,  FONT_SIZE_HEADER);
 		float headerYPosition = yStart;
 		contentStream.beginText();
 		contentStream.newLineAtOffset(MARGIN+10, headerYPosition +10);
-		contentStream.showText("ID");
-		contentStream.newLineAtOffset(COLUMN_WIDTH_ID, 0);
+		contentStream.showText("Tarea");
+		contentStream.newLineAtOffset(COLUMN_WIDTH_TAREA, 0);
 		contentStream.showText("Fecha Tarea");
 		contentStream.newLineAtOffset(COLUMN_WIDTH_FECHA, 0);
 		contentStream.showText("Trabajador");
 		contentStream.newLineAtOffset(COLUMN_WIDTH_NOMBRE, 0);
 		contentStream.showText("Localidad");
 		contentStream.newLineAtOffset(COLUMN_WIDTH_LOCALIDAD, 0);
-		contentStream.showText("Nombre Usuario");
+		contentStream.showText("Cliente");
 		contentStream.newLineAtOffset(COLUMN_WIDTH_NOMBRE_USUARIO, 0);       
 		contentStream.endText();
 
 		// DIBUJAMOS LOS DATOS DE LA COLUMNA DE LA PRIMNERA TABLA
-		contentStream.setFont(PDType1Font.COURIER, 10);
+		contentStream.setFont(FONT, FONT_SIZE);
 		float rowYPosition = headerYPosition - ROW_HEIGHT;
 		for (SalidaInfo salidaInfo : salidaInfos) {
-			tablaSalidas salida = salidaInfo.getSalida();
+			 tablaSalidas salida = salidaInfo.getSalida();
 			contentStream.beginText();
 			contentStream.newLineAtOffset(MARGIN +15, rowYPosition -5);
-			contentStream.showText(String.valueOf(salida.getId()));
-			contentStream.newLineAtOffset(COLUMN_WIDTH_ID, 0);
+			contentStream.showText(String.valueOf(salida.getTarea()));
+			contentStream.newLineAtOffset(COLUMN_WIDTH_TAREA, 0);
 			contentStream.showText(salida.getFechaTarea().toString());
 			contentStream.newLineAtOffset(COLUMN_WIDTH_FECHA, 0);
 			contentStream.showText(salidaInfo.getNombre());
@@ -206,19 +214,21 @@ public class modelPDFDiario {
 	 * @param document 
 	 * @throws IOException
 	 */
+	@SuppressWarnings("deprecation")
 	private static void drawTable2(PDPageContentStream contentStream, float yStart, List<SalidaInfo> salidaInfos, PDDocument document) throws IOException {
-		float yPosition = yStart;
-		// Ajustamos el ancho de la página
+		float yPosition = yStart;		
 		float pageWidth = PDRectangle.A4.getWidth() - 2 * MARGIN;
 
-		// Dibujamos el encabezado
-		contentStream.setFont(FONT, 14);
+		 //DIBUJAMOS LOS ENCABEZADOD
+		contentStream.setNonStrokingColor(115, 91, 162);
+		contentStream.setFont(FONT_HEADER,  FONT_SIZE_HEADER);
 		contentStream.beginText();
 		contentStream.newLineAtOffset(MARGIN, yPosition);
-		contentStream.showText("Descripción");
+		contentStream.showText("DESCRIPCION");		
 		contentStream.endText();
+		contentStream.setNonStrokingColor(0, 0, 0);
 
-		// Ajustamos el contenido
+		// AJUSTAMOS EL CONTENIDO DE LA MISMA
 		yPosition -= ROW_HEIGHT;
 		contentStream.setFont(FONT, FONT_SIZE);
 
@@ -227,23 +237,21 @@ public class modelPDFDiario {
 			String descripcion = salida.getDescripcion();
 			String[] lines = splitTextToFitWidth(descripcion, pageWidth);
 
-			for (String line : lines) {
-				// Comprobamos si la posición actual es menor que 5 píxeles del final de la página
+			for (String line : lines) {				
 				if (yPosition - ROW_HEIGHT < MARGIN + 5) {
-					// Agregamos una nueva página si es necesario
 					PDPage newPage = new PDPage();
 					contentStream = new PDPageContentStream(document, newPage);
 					document.addPage(newPage);
-					yPosition = PDRectangle.A4.getHeight() - MARGIN; // Reiniciamos la posición
+					yPosition = PDRectangle.A4.getHeight() - MARGIN; // REINICIAMOS LA POSICION INICIAL
 				}
-
+				
 				contentStream.beginText();
 				contentStream.newLineAtOffset(MARGIN, yPosition);
 				contentStream.showText(line);
 				contentStream.endText();
 				yPosition -= ROW_HEIGHT;
 			}
-			yPosition -= ROW_HEIGHT; // Espacio adicional entre descripciones
+			yPosition -= ROW_HEIGHT; 
 		}
 	}
 
@@ -283,6 +291,7 @@ public class modelPDFDiario {
 	 * @param salidaInfos
 	 * @throws IOException
 	 */
+	@SuppressWarnings("deprecation")
 	private static void drawTable3(PDPageContentStream contentStream, PDPage page, float yStart, List<SalidaInfo> salidaInfos) throws IOException {
 		final float tableWidth = COLUMN_WIDTH_ENLACE + COLUMN_WIDTH_INSTALACION + COLUMN_WIDTH_INCIDENCIA;
 		final float rowHeight = ROW_HEIGHT;
@@ -317,7 +326,7 @@ public class modelPDFDiario {
 		contentStream.stroke();
 
 		// DIBUJAMOS EL ENCABEZADO DE LA TERCERA TABLA
-		contentStream.setFont(PDType1Font.COURIER_BOLD, 10);
+		contentStream.setFont(FONT_HEADER,  FONT_SIZE_HEADER);
 		float headerYPosition = yStart + 5; 
 
 		contentStream.beginText();
@@ -339,7 +348,7 @@ public class modelPDFDiario {
 		URLShortener shortener = new URLShortener();
 
 		// DIBUJAMOS LOS DATOS DE LA COLUMNA DE LA TERCERA TABLA
-		contentStream.setFont(PDType1Font.COURIER, 10);
+		contentStream.setFont(FONT, FONT_SIZE);
 		float rowYPosition = yStart - rowHeight; 
 		for (SalidaInfo salidaInfo : salidaInfos) {
 			// Shorten the URL
@@ -357,9 +366,13 @@ public class modelPDFDiario {
 
 			// Add text for the link
 			tablaSalidas salida = salidaInfo.getSalida();
+			contentStream.setNonStrokingColor(0, 150, 64);
 			contentStream.beginText();
 			contentStream.newLineAtOffset(MARGIN + 15, rowYPosition + 5); 
 			contentStream.showText("COORDENADAS");
+			contentStream.endText();
+			contentStream.setNonStrokingColor(0, 0, 0);
+		    contentStream.beginText();
 			contentStream.newLineAtOffset(COLUMN_WIDTH_ENLACE +10, 0); 
 			contentStream.showText(salida.isInstalaciones() ? "Sí" : "No");		
 			contentStream.newLineAtOffset(COLUMN_WIDTH_INSTALACION +10, 0); 

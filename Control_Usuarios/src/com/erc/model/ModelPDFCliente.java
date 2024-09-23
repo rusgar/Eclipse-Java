@@ -36,7 +36,7 @@ public class ModelPDFCliente {
 	private static final float COLUMN_WIDTH_TRABAJADOR = 70;
 	private static final float COLUMN_WIDTH_FECHA = 80; //  ANCHO PARA LA COLUMNA DE LA FECHA
 	private static final float COLUMN_WIDTH_DESCRIPCION = 220; //AJUSTAMOS PARA QUE ENTRE TODA LA DESCRIPCION
-	private static final PDType1Font FONT = PDType1Font.COURIER;
+	private static final PDType1Font FONT = PDType1Font.HELVETICA;
 	private static final float FONT_SIZE = 10f;
 	private static final float LEADING = 14f; // ESPACIADO ENTRE LINEAS
 
@@ -46,6 +46,7 @@ public class ModelPDFCliente {
 	 * @param connection
 	 * @param bdDAO
 	 */
+	@SuppressWarnings("deprecation")
 	public void generateClientPDF(int idCliente, Connection connection, BDDAO bdDAO) {
 		SalidaInfoDAO salidaInfoDAO = new SalidaInfoDAO(connection, bdDAO);
 		List<SalidaInfo> salidaInfos;
@@ -86,6 +87,7 @@ public class ModelPDFCliente {
 			PDImageXObject image = PDImageXObject.createFromFile("resources/images/Oxon3.png", document);
 
 			try (PDPageContentStream contentStream = new PDPageContentStream(document, page)) {
+				contentStream.setNonStrokingColor(255, 0, 0);
 				// TAMAÑO Y POSICION DE LA IMAGEN
 				float imageWidth = 180;  
 				float imageHeight = 70;
@@ -97,12 +99,13 @@ public class ModelPDFCliente {
 				// DIBUJAR LA IMAGEN EN LA ESQUINA SUPERIRO DERECHA
 				contentStream.drawImage(image, imageX, titleAndImageY, imageWidth, imageHeight);
 				//  DIBUJA EL TITULO EN LA PARTE SUPERIOR IZQUIERDA
-				contentStream.setFont(PDType1Font.HELVETICA_BOLD, 18);
+				contentStream.setFont(FONT, 18);
 				contentStream.beginText();
 				//  CENTRAMOS EL TEXTO VERTICALMENTE CON RESPECTO A LA IMAGEN
 				contentStream.newLineAtOffset(MARGIN, titleAndImageY + (imageHeight / 2) - 9);  
 				contentStream.showText("Reporte del Cliente ID: " + idCliente + " - " + nombreCliente);
 				contentStream.endText();
+				contentStream.setNonStrokingColor(0, 0, 0);
 
 				//  DIBUJAMOS EL ENCABEZADO DE LA TABLA
 				drawTableHeader(contentStream, HEADER_Y_START - imageHeight -20);
@@ -127,7 +130,7 @@ public class ModelPDFCliente {
 	 * @throws IOException
 	 */
 	private static void drawTableHeader(PDPageContentStream contentStream, float yPosition) throws IOException {
-		contentStream.setFont(PDType1Font.COURIER_BOLD, FONT_SIZE);
+		contentStream.setFont(FONT, FONT_SIZE);
 
 		contentStream.beginText();
 		contentStream.newLineAtOffset(MARGIN + 10, yPosition + 5);
@@ -151,7 +154,7 @@ public class ModelPDFCliente {
 
 		contentStream.beginText();
 		contentStream.newLineAtOffset(MARGIN + COLUMN_WIDTH_ENLACE + COLUMN_WIDTH_TAREA + COLUMN_WIDTH_TRABAJADOR + COLUMN_WIDTH_FECHA + 10, yPosition + 5);
-		contentStream.showText("Descripción");
+		contentStream.showText("DESCRIPCION");
 		contentStream.endText();
 	}
 
@@ -174,7 +177,7 @@ public class ModelPDFCliente {
 
 		for (SalidaInfo salidaInfo : salidaInfos) {
 			String descripcion = salidaInfo.getSalida().getDescripcion();
-			String fecha = salidaInfo.getSalida().getFechaTarea().format(formatter); // Convertir LocalDate a String
+			String fecha = salidaInfo.getSalida().getFechaTarea().format(formatter); 
 
 			float descriptionHeight = calculateTextHeight(COLUMN_WIDTH_DESCRIPCION, descripcion);
 			float rowHeight = Math.max(ROW_HEIGHT, descriptionHeight);
@@ -185,8 +188,9 @@ public class ModelPDFCliente {
 			drawRowData(contentStream, currentYPosition, salidaInfo, bdDAO, connection);
 
 			//  DIBUJAMOS EL TEXTO DE LA DECRIPCION, AJUSTANDO LAS LINEAS SI ES NECESARIO
-			drawWrappedText(contentStream, MARGIN + COLUMN_WIDTH_ENLACE + COLUMN_WIDTH_TAREA + COLUMN_WIDTH_TRABAJADOR + COLUMN_WIDTH_FECHA + 10, currentYPosition + 5, COLUMN_WIDTH_DESCRIPCION, descripcion);
-			currentYPosition -= 10;        
+			drawWrappedText(contentStream, MARGIN + COLUMN_WIDTH_ENLACE + COLUMN_WIDTH_TAREA + COLUMN_WIDTH_TRABAJADOR + COLUMN_WIDTH_FECHA + 10,
+					        currentYPosition +5 , COLUMN_WIDTH_DESCRIPCION, descripcion);
+		    currentYPosition -= 70;        
 		}
 	}
 

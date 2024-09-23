@@ -92,7 +92,7 @@ public class MainInicio {
             	String usuario = textField.getText();
                 String password = new String(passwordField.getPassword());
 
-                ConexionBd conexionBd = new ConexionBd();
+                ConexionBd conexionBd = new ConexionBd("oxon3", "localhost", "3306", usuario, password);
                 Connection conexion = null;
                 try {
                     

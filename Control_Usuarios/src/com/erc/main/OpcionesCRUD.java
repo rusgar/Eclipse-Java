@@ -92,7 +92,8 @@ public class OpcionesCRUD extends JFrame {
 	        panelId.setBackground(new Color(115, 91, 162));
 	        panelId.setLayout(new FlowLayout());
 	        JLabel lblId = new JLabel("ID");
-	        lblId.setFont(new Font("Comic Sans MS", Font.PLAIN, 12));
+	        lblId.setForeground(new Color(255, 255, 255));
+	        lblId.setFont(new Font("Comic Sans MS", Font.BOLD, 14));
 	        panelId.add(lblId);
 
 	        textFieldId = new JTextField();
@@ -125,8 +126,9 @@ public class OpcionesCRUD extends JFrame {
 	        panelId.add(btnVerCalendario); 
 
 	        // CONFIGURACION DEL ENLACE DE GOOGLE
-	        lblEnlaceGoogle = new JLabel("Enlace Maps\r\n\r\n");
-	        lblEnlaceGoogle.setFont(new Font("Comic Sans MS", Font.PLAIN, 12));
+	        lblEnlaceGoogle = new JLabel("ENLACE\r\n");
+	        lblEnlaceGoogle.setForeground(new Color(255, 255, 255));
+	        lblEnlaceGoogle.setFont(new Font("Comic Sans MS", Font.BOLD | Font.ITALIC, 14));
 	        lblEnlaceGoogle.setVisible(false); // OCULTAMOS INICIALMENTE PUES NO LO NECESITAMOS DE INICIO
 	        panelId.add(lblEnlaceGoogle);
 
@@ -196,6 +198,7 @@ public class OpcionesCRUD extends JFrame {
 	        panelBotones.add(horizontalStrut_1);
             // CREACION DEL BTN LISTAR
 	        JButton btnListar = new JButton("Listar");
+	        btnListar.setFont(new Font("Comic Sans MS", Font.PLAIN, 12));
 	        panelBotones.add(btnListar);
 	        btnListar.addActionListener(new ActionListener() {
 	            @Override
@@ -205,6 +208,7 @@ public class OpcionesCRUD extends JFrame {
 	        });
 	        // CREACION DEL BTN INSERTAR
 	        JButton btnInsertar = new JButton("Insertar");
+	        btnInsertar.setFont(new Font("Comic Sans MS", Font.PLAIN, 12));
 	        panelBotones.add(btnInsertar);
 	        btnInsertar.addActionListener(new ActionListener() {
 	            @Override
@@ -214,6 +218,7 @@ public class OpcionesCRUD extends JFrame {
 	        });
 	        // CREACION DEL BTN ACTUALIZAR
 	        JButton btnActualizar = new JButton("Actualizar");
+	        btnActualizar.setFont(new Font("Comic Sans MS", Font.PLAIN, 12));
 	        panelBotones.add(btnActualizar);
 	        btnActualizar.addActionListener(new ActionListener() {
 	            @Override
@@ -223,6 +228,7 @@ public class OpcionesCRUD extends JFrame {
 	        });
 	        // CREACION DEL BTN ELIMINAR
 	        JButton btnEliminar = new JButton("Eliminar");
+	        btnEliminar.setFont(new Font("Comic Sans MS", Font.PLAIN, 12));
 	        panelBotones.add(btnEliminar);
 	        btnEliminar.addActionListener(new ActionListener() {
 	            @Override
@@ -364,6 +370,7 @@ public class OpcionesCRUD extends JFrame {
 					if (trabajador != null && direccion != null && cliente != null) {
 						SalidaInfo salidaInfo = new SalidaInfo(
 								salida,
+								salida.getTarea(),
 								trabajador.getPuesto(),
 								direccion.getLocalidad(),
 								cliente.getNombre(),
